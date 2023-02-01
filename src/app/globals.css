@@ -1,0 +1,76 @@
+@import '~sanitize.css';
+@import '~sanitize.css/forms.css';
+@import '~sanitize.css/typography.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+  line-height: normal;
+}
+
+body {
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
+}
+
+@media (min-width: 768px) {
+  html,
+  body {
+    font-size: 18px;
+  }
+}
+
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+a {
+  color: #7c3e03;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+a:focus,
+a:hover {
+  text-decoration: underline;
+}
+
+textarea {
+  border: none;
+  line-height: 1.6rem;
+}
+
+table {
+  th {
+    position: sticky;
+    top: 0;
+    padding: 1rem;
+    text-align: center;
+    background: #bae6fdee;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
+  }
+  td {
+    padding: 0.5rem;
+  }
+}
