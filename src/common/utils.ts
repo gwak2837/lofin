@@ -7,15 +7,15 @@ export function formatKoreanNumber(inputNumber: number) {
   const resultArray = []
   let resultString = ''
 
-  for (var i = 0; i < splitCount; i++) {
-    var unitResult = (inputNumber % Math.pow(splitUnit, i + 1)) / Math.pow(splitUnit, i)
+  for (let i = 0; i < splitCount; i++) {
+    let unitResult = (inputNumber % Math.pow(splitUnit, i + 1)) / Math.pow(splitUnit, i)
     unitResult = Math.floor(unitResult)
     if (unitResult > 0) {
       resultArray[i] = unitResult
     }
   }
 
-  for (var i = 0; i < resultArray.length; i++) {
+  for (let i = 0; i < resultArray.length; i++) {
     if (!resultArray[i]) continue
     resultString = `${resultArray[i]}${unitWords[i]} ${resultString}`
   }

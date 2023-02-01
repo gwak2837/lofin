@@ -11,9 +11,15 @@ export const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL as st
 
 export const NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY = process.env
   .NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY as string
-export const NEXT_PUBLIC_KAKAO_REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY as string
+
+if (!PROJECT_ENV) throw new Error('`PROJECT_ENV` 환경 변수를 설정해주세요.')
+
+if (!REVALIDATION_KEY) throw new Error('`REVALIDATION_KEY` 환경 변수를 설정해주세요.')
 
 if (!NEXT_PUBLIC_BACKEND_URL) throw new Error('`NEXT_PUBLIC_BACKEND_URL` 환경 변수를 설정해주세요.')
+
+if (!NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY)
+  throw new Error('`NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY` 환경 변수를 설정해주세요.')
 
 // 개별
 export const NEXT_PUBLIC_GA_ID = process.env.NEXT_PUBLIC_GA_ID as string
