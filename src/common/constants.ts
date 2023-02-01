@@ -9,16 +9,6 @@ export const REVALIDATION_KEY = process.env.REVALIDATION_KEY as string
 
 export const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL as string
 
-export const NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY = process.env
-  .NEXT_PUBLIC_CHANNELTALK_PLUGIN_KEY as string
-
-export const NEXT_PUBLIC_FLARE_LANE_PROJECT_ID = process.env
-  .NEXT_PUBLIC_FLARE_LANE_PROJECT_ID as string
-
-export const NEXT_PUBLIC_GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string
-
-export const NEXT_PUBLIC_NAVER_CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID as string
-
 export const NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY = process.env
   .NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY as string
 export const NEXT_PUBLIC_KAKAO_REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY as string
