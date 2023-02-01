@@ -1,13 +1,9 @@
-import { Inter } from '@next/font/google'
-import Image from 'next/image'
 import fetch from 'node-fetch'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../common/constants'
 import { PageProps } from '../common/types'
-import { formatKoreanNumber, formatPrice } from '../common/utils'
+import { formatPrice } from '../common/utils'
 import SearchForm from './SearchForm'
-
-const inter = Inter({ subsets: ['latin'] })
 
 async function getExpenditures(searchParams?: Record<string, any>) {
   if (!searchParams) return null
