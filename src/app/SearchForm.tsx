@@ -16,9 +16,9 @@ export default function SearchForm() {
     register,
   } = useForm<Form>({
     defaultValues: {
-      localCode: '',
-      date: '',
-      projectCodes: '',
+      localCode: '1100000',
+      date: '2022-12-31',
+      projectCodes: [''],
       count: 20,
     },
     delayError: 500,

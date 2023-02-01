@@ -4558,45 +4558,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"localgov@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "localgov@workspace:."
-  dependencies:
-    "@next/font": 13.1.6
-    "@svgr/webpack": ^6.5.1
-    "@tanstack/react-query": ^4.24.4
-    "@types/node": 18.11.18
-    "@types/react": 18.0.27
-    "@types/react-dom": 18.0.10
-    apexcharts: ^3.36.3
-    autoprefixer: ^10.4.13
-    cssnano: ^5.1.14
-    cssnano-preset-advanced: ^5.3.9
-    eslint: 8.32.0
-    eslint-config-next: 13.1.4
-    eslint-config-prettier: ^8.6.0
-    husky: ^8.0.3
-    next: 13.1.6
-    node-fetch: ^3.3.0
-    postcss: ^8.4.21
-    prettier: ^2.8.3
-    react: 18.2.0
-    react-dom: 18.2.0
-    react-hook-form: ^7.43.0
-    react-hot-toast: ^2.4.0
-    recoil: ^0.7.6
-    sanitize.css: ^13.0.0
-    sharp: ^0.31.3
-    tailwindcss: ^3.2.4
-    typescript: ^4.9.4
-  dependenciesMeta:
-    next@13.0.4:
-      unplugged: true
-    next@13.1.6:
-      unplugged: true
-  languageName: unknown
-  linkType: soft
-
 "locate-path@npm:^6.0.0":
   version: 6.0.0
   resolution: "locate-path@npm:6.0.0"
@@ -4633,6 +4594,45 @@ __metadata:
   checksum: a4779b57a8d0f3c441af13d9afe7ecff22dd1b8ce1129849f71d9bbc8e8ee4e46dfb4b7c28f7ad3d67481edd6e51126e4e2a6ee276e25906d10f7140187c392d
   languageName: node
   linkType: hard
+
+"lofin@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "lofin@workspace:."
+  dependencies:
+    "@next/font": 13.1.6
+    "@svgr/webpack": ^6.5.1
+    "@tanstack/react-query": ^4.24.4
+    "@types/node": 18.11.18
+    "@types/react": 18.0.27
+    "@types/react-dom": 18.0.10
+    apexcharts: ^3.36.3
+    autoprefixer: ^10.4.13
+    cssnano: ^5.1.14
+    cssnano-preset-advanced: ^5.3.9
+    eslint: 8.32.0
+    eslint-config-next: 13.1.4
+    eslint-config-prettier: ^8.6.0
+    husky: ^8.0.3
+    next: 13.1.6
+    node-fetch: ^3.3.0
+    postcss: ^8.4.21
+    prettier: ^2.8.3
+    react: 18.2.0
+    react-dom: 18.2.0
+    react-hook-form: ^7.43.0
+    react-hot-toast: ^2.4.0
+    recoil: ^0.7.6
+    sanitize.css: ^13.0.0
+    sharp: ^0.31.3
+    tailwindcss: ^3.2.4
+    typescript: ^4.9.4
+  dependenciesMeta:
+    next@13.0.4:
+      unplugged: true
+    next@13.1.6:
+      unplugged: true
+  languageName: unknown
+  linkType: soft
 
 "loose-envify@npm:^1.1.0, loose-envify@npm:^1.4.0":
   version: 1.4.0

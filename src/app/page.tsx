@@ -3,12 +3,15 @@ import Image from 'next/image'
 import fetch from 'node-fetch'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../common/constants'
+import { PageProps } from '../common/types'
 import { formatKoreanNumber, formatPrice } from '../common/utils'
 import SearchForm from './SearchForm'
 
 const inter = Inter({ subsets: ['latin'] })
 
-async function getExpenditures(searchParams: Record<string, any>) {
+async function getExpenditures(searchParams?: Record<string, any>) {
+  if (!searchParams) return null
+
   const localCode = searchParams.localCode
   const date = searchParams.date
   const projectCodes = searchParams.projectCodes as string[] | undefined
@@ -22,10 +25,10 @@ async function getExpenditures(searchParams: Record<string, any>) {
   const countString = count ? `&count=${count}` : ''
 
   const url = `${NEXT_PUBLIC_BACKEND_URL}/expenditure?localCode=${localCode}&date=${date}&${projectCodesString}${countString}`
-  return await (await fetch(url)).json()
+  return (await (await fetch(url)).json()) as any[]
 }
 
-export default async function HomePage({ searchParams }) {
+export default async function HomePage({ searchParams }: PageProps) {
   const expenditures = await getExpenditures(searchParams)
 
   return (
