@@ -20,15 +20,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.query.key !== REVALIDATION_KEY)
     return res.status(401).json({ error: 'Invalid revalidation key' })
 
-  try {
-    await limiter.check(res, 1, 'CACHE_TOKEN')
-  } catch (error) {
-    return res.status(429).json({ error: 'Rate limit exceeded' })
-  }
+  // try {
+  //   await limiter.check(res, 1, 'CACHE_TOKEN')
+  // } catch (error) {
+  //   return res.status(429).json({ error: 'Rate limit exceeded' })
+  // }
 
-  if (isRunning) return res.status(429).json({ error: 'Rate limit exceeded' })
+  // if (isRunning) return res.status(429).json({ error: 'Rate limit exceeded' })
 
-  isRunning = true
+  // isRunning = true
 
   try {
     await res.revalidate(url)
@@ -37,5 +37,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(500).send('Error revalidating')
   }
 
-  isRunning = false
+  // isRunning = false
 }
