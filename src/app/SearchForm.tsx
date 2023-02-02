@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import dynamic from 'next/dynamic'
+import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import TDatePicker from 'tui-date-picker'
 
-import DatePicker from '../components/DatePicker'
+const DatePicker = dynamic(() => import('../components/DatePicker'), { ssr: false })
 
 type Form = {
   localCode: string
