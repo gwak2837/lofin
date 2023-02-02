@@ -3,7 +3,6 @@ import fetch from 'node-fetch'
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../../../common/constants'
 import { PageProps } from '../../../../../common/types'
 import { formatPrice } from '../../../../../common/utils'
-import SearchForm from '../../../../SearchForm'
 
 async function getExpenditures(params?: Record<string, any>) {
   if (!params) return null
@@ -20,7 +19,12 @@ async function getExpenditures(params?: Record<string, any>) {
     .join('&')
 
   const url = `${NEXT_PUBLIC_BACKEND_URL}/expenditure?localCode=${localCode}&date=${date}&${projectCodesString}&count=${count}`
-  return (await (await fetch(url)).json()) as any[]
+  const response = await fetch(url)
+
+  // not working: if (!response.ok) throw new Error('Failed to fetch data')
+  if (!response.ok) return null
+
+  return (await response.json()) as any[]
 }
 
 export default async function HomePage({ params }: PageProps) {
@@ -28,7 +32,7 @@ export default async function HomePage({ params }: PageProps) {
 
   return (
     <>
-      {expenditures && (
+      {expenditures && expenditures[0] && (
         <>
           <h2 className="text-2xl m-6 text-center">결과</h2>
           <h3 className="text-xl m-4">지역: {expenditures[0].wdr_sfrnd_code_nm}</h3>
