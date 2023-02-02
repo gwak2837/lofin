@@ -1,6 +1,10 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
+import TDatePicker from 'tui-date-picker'
+
+import DatePicker from '../components/DatePicker'
 
 type Form = {
   localCode: string
@@ -26,7 +30,10 @@ export default function SearchForm() {
 
   function search(input: Form) {
     console.log('👀 - input', input)
+    console.log('👀 - instance.getDate()', dateRef.current?.getDate())
   }
+
+  const dateRef = useRef<TDatePicker>(null)
 
   return (
     <form
@@ -38,7 +45,7 @@ export default function SearchForm() {
         <input className="p-2 border w-full" {...register('localCode')} />
 
         <span>집행일자</span>
-        <input className="p-2 border w-full" {...register('date')} />
+        <DatePicker ref={dateRef} />
 
         <span>세부사업</span>
         <input className="p-2 border w-full" {...register('projectCodes')} />

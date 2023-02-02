@@ -2,6 +2,8 @@
 @import '~sanitize.css/forms.css';
 @import '~sanitize.css/typography.css';
 
+@import url('https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.css');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -58,19 +60,4 @@ a:hover {
 textarea {
   border: none;
   line-height: 1.6rem;
-}
-
-table {
-  th {
-    position: sticky;
-    top: 0;
-    padding: 1rem;
-    text-align: center;
-    background: #bae6fdee;
-    font-weight: 600;
-    backdrop-filter: blur(4px);
-  }
-  td {
-    padding: 0.5rem;
-  }
 }

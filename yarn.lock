@@ -4626,6 +4626,7 @@ __metadata:
     sanitize.css: ^13.0.0
     sharp: ^0.31.3
     tailwindcss: ^3.2.4
+    tui-date-picker: ^4.3.3
     typescript: ^4.9.4
   dependenciesMeta:
     next@13.0.4:
@@ -6745,6 +6746,22 @@ __metadata:
   peerDependencies:
     typescript: ">=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta"
   checksum: 1843f4c1b2e0f975e08c4c21caa4af4f7f65a12ac1b81b3b8489366826259323feb3fc7a243123453d2d1a02314205a7634e048d4a8009921da19f99755cdc48
+  languageName: node
+  linkType: hard
+
+"tui-date-picker@npm:^4.3.3":
+  version: 4.3.3
+  resolution: "tui-date-picker@npm:4.3.3"
+  dependencies:
+    tui-time-picker: ^2.1.6
+  checksum: c1761676747b85119cf234802f1ac03e5623d7d31b2459bffcdf59573538a7d6e9fbda74be27e8a7cf0de9e217b0c3f1fa52b454582d0d5b5e27e8083ae0270e
+  languageName: node
+  linkType: hard
+
+"tui-time-picker@npm:^2.1.6":
+  version: 2.1.6
+  resolution: "tui-time-picker@npm:2.1.6"
+  checksum: 7bbda17af158dc56e60cabcd450ea297adc5eda03ba9bd44e61ae41ecbbf27748773ab9bdd3cbf30806a96895affcbce3263f5091f7d462ce9e3fc1893a899b4
   languageName: node
   linkType: hard
 

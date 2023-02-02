@@ -1,0 +1,23 @@
+{
+  "id": "https://lofin.vercel.app",
+  "name": "중앙위원회 정책참여시스템",
+  "short_name": "정책참여시스템",
+  "theme_color": "#bae6fd",
+  "background_color": "#ffffff",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
