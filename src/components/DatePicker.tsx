@@ -2,16 +2,17 @@
 
 import './DatePicker.css'
 
-import { ForwardedRef, forwardRef, useEffect, useRef } from 'react'
+import { RefObject, forwardRef, useEffect, useRef } from 'react'
 import TDatePicker from 'tui-date-picker'
 
 type Props = {
   className?: string
+  forwardedRef: any
 }
 
-export default forwardRef(DatePicker)
+// export default forwardRef(DatePicker)
 
-function DatePicker({ className }: Props, ref: ForwardedRef<TDatePicker>) {
+export default function DatePicker({ className, forwardedRef }: Props) {
   const dateContainerRef = useRef<HTMLDivElement>(null)
   const dateInputRef = useRef<HTMLInputElement>(null)
 
@@ -19,16 +20,19 @@ function DatePicker({ className }: Props, ref: ForwardedRef<TDatePicker>) {
     if (!dateContainerRef.current || !dateInputRef.current) return
 
     const datePicker = new TDatePicker(dateContainerRef.current, {
+      date: new Date('2022-12-31'),
       input: {
         element: dateInputRef.current,
       },
+      language: 'ko',
+      selectableRanges: [[new Date('2022-01-01'), new Date('2022-12-31')]],
       usageStatistics: false,
     })
 
-    if (ref && typeof ref === 'object') {
-      ref.current = datePicker
+    if (forwardedRef && typeof forwardedRef === 'object') {
+      forwardedRef.current = datePicker
     }
-  }, [ref])
+  }, [forwardedRef])
 
   return (
     <div className={className}>

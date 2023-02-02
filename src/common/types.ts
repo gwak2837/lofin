@@ -1,4 +1,4 @@
 export type PageProps = {
-  params: { slug: string }
+  params: Record<string, any>
   searchParams?: { [key: string]: string | string[] | undefined }
 }

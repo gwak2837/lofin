@@ -1,6 +1,7 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import { useRouter } from 'next/navigation'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import TDatePicker from 'tui-date-picker'
@@ -22,16 +23,19 @@ export default function SearchForm() {
   } = useForm<Form>({
     defaultValues: {
       localCode: '1100000',
-      date: '2022-12-31',
-      projectCodes: [''],
+      projectCodes: ['080', '060'],
       count: 20,
     },
     delayError: 500,
   })
 
+  const router = useRouter()
+
   function search(input: Form) {
-    console.log('👀 - input', input)
-    console.log('👀 - instance.getDate()', dateRef.current?.getDate())
+    if (!dateRef.current) return
+
+    const date8 = dateRef.current.getDate().toISOString().slice(0, 10)
+    router.push(`/${input.localCode}/${date8}/${input.count}/080/060`)
   }
 
   const dateRef = useRef<TDatePicker>(null)
@@ -54,7 +58,7 @@ export default function SearchForm() {
         </div>
 
         <span>집행일자</span>
-        <DatePicker ref={dateRef} />
+        <DatePicker forwardedRef={dateRef} />
 
         <span>세부사업</span>
         <input className="p-2 border w-full" {...register('projectCodes')} />
