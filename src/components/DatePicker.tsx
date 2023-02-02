@@ -1,5 +1,7 @@
 'use client'
 
+import './DatePicker.css'
+
 import { ForwardedRef, forwardRef, useEffect, useRef } from 'react'
 import TDatePicker from 'tui-date-picker'
 

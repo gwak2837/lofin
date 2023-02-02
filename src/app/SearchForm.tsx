@@ -44,6 +44,14 @@ export default function SearchForm() {
         <span>지역</span>
         <input className="p-2 border w-full" {...register('localCode')} />
 
+        <span>지역</span>
+        <div>
+          <button>adsf</button>
+          <button>adsf</button>
+          <button>adsf</button>
+          <button>adsf</button>
+        </div>
+
         <span>집행일자</span>
         <DatePicker ref={dateRef} />
 
