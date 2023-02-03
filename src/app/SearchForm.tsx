@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
+import Select from 'react-select'
 import TDatePicker from 'tui-date-picker'
 
 const DatePicker = dynamic(() => import('../components/DatePicker'), { ssr: false })
@@ -17,28 +18,28 @@ type Form = {
 
 export default function SearchForm() {
   const {
-    formState: { errors, isDirty },
+    formState: { errors },
     handleSubmit,
     register,
+    setValue,
   } = useForm<Form>({
     defaultValues: {
-      localCode: '1100000',
-      projectCodes: ['080', '060'],
+      localCode: seoulGov.value,
+      projectCodes: [scienceTech.value],
       count: 20,
     },
     delayError: 500,
   })
 
   const router = useRouter()
+  const dateRef = useRef<TDatePicker>(null)
 
   function search(input: Form) {
     if (!dateRef.current) return
 
     const date8 = dateRef.current.getDate().toISOString().slice(0, 10)
-    router.push(`/${input.localCode}/${date8}/${input.count}/080/060`)
+    router.push(`/${input.localCode}/${date8}/${input.count}/${input.projectCodes.join('/')}`)
   }
-
-  const dateRef = useRef<TDatePicker>(null)
 
   return (
     <form
@@ -47,21 +48,28 @@ export default function SearchForm() {
     >
       <div className="grid grid-cols-[auto_1fr] items-center gap-4">
         <span>지역</span>
-        <input className="p-2 border w-full" {...register('localCode')} />
-
-        <span>지역</span>
-        <div>
-          <button>adsf</button>
-          <button>adsf</button>
-          <button>adsf</button>
-          <button>adsf</button>
-        </div>
+        <Select
+          defaultValue={seoulGov}
+          instanceId="localCode"
+          options={localGovCodes}
+          {...register('localCode', { required: true })}
+          onChange={(a) => setValue('localCode', a?.value ?? seoulGov.value)}
+        />
 
         <span>집행일자</span>
         <DatePicker forwardedRef={dateRef} />
 
-        <span>세부사업</span>
-        <input className="p-2 border w-full" {...register('projectCodes')} />
+        <span>분야</span>
+        <Select
+          defaultValue={scienceTech}
+          instanceId="localCode"
+          isMulti
+          options={projectCodes}
+          {...register('projectCodes', { required: true })}
+          onChange={(projectCodes) =>
+            setValue('projectCodes', projectCodes.map((code) => code.value).sort())
+          }
+        />
 
         <span>개수</span>
         <input
@@ -78,3 +86,43 @@ export default function SearchForm() {
     </form>
   )
 }
+
+const localGovCodes = [
+  { value: '1100000', label: '서울' },
+  { value: '2600000', label: '부산' },
+  { value: '2700000', label: '대구' },
+  { value: '2800000', label: '인천' },
+  { value: '2900000', label: '광주' },
+  { value: '3000000', label: '대전' },
+  { value: '3100000', label: '울산' },
+  { value: '3200000', label: '세종' },
+  { value: '4100000', label: '경기' },
+  { value: '4200000', label: '강원' },
+  { value: '4300000', label: '충북' },
+  { value: '4400000', label: '충남' },
+  { value: '4500000', label: '전북' },
+  { value: '4600000', label: '전남' },
+  { value: '4700000', label: '경북' },
+  { value: '4800000', label: '경남' },
+  { value: '4900000', label: '제주' },
+]
+
+const projectCodes = [
+  { value: '010', label: '일반공공행정' },
+  { value: '020', label: '공공질서 및 안전' },
+  { value: '050', label: '교육' },
+  { value: '060', label: '문화 및 관광' },
+  { value: '070', label: '환경' },
+  { value: '080', label: '사회복지' },
+  { value: '090', label: '보건' },
+  { value: '100', label: '농림해양수산' },
+  { value: '110', label: '산업ㆍ중소기업 및 에너지' },
+  { value: '120', label: '교통 및 물류' },
+  { value: '140', label: '국토 및 지역개발' },
+  { value: '150', label: '과학기술' },
+  { value: '160', label: '예비비' },
+  { value: '900', label: '기타' },
+]
+
+const seoulGov = localGovCodes[0]
+const scienceTech = projectCodes[11]
