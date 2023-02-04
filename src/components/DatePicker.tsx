@@ -2,17 +2,15 @@
 
 import './DatePicker.css'
 
-import { RefObject, forwardRef, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import TDatePicker from 'tui-date-picker'
 
 type Props = {
-  className?: string
+  defaultValue: string
   forwardedRef: any
 }
 
-// export default forwardRef(DatePicker)
-
-export default function DatePicker({ className, forwardedRef }: Props) {
+export default function DatePicker({ defaultValue, forwardedRef }: Props) {
   const dateContainerRef = useRef<HTMLDivElement>(null)
   const dateInputRef = useRef<HTMLInputElement>(null)
 
@@ -20,7 +18,7 @@ export default function DatePicker({ className, forwardedRef }: Props) {
     if (!dateContainerRef.current || !dateInputRef.current) return
 
     const datePicker = new TDatePicker(dateContainerRef.current, {
-      date: new Date('2022-12-31'),
+      date: new Date(defaultValue),
       input: {
         element: dateInputRef.current,
       },
@@ -32,10 +30,10 @@ export default function DatePicker({ className, forwardedRef }: Props) {
     if (forwardedRef && typeof forwardedRef === 'object') {
       forwardedRef.current = datePicker
     }
-  }, [forwardedRef])
+  }, [defaultValue, forwardedRef])
 
   return (
-    <div className={className}>
+    <div>
       <div className="tui-datepicker-input tui-datetime-input tui-has-focus">
         <input aria-label="Date-Time" ref={dateInputRef} type="text" />
         <span className="tui-ico-date"></span>

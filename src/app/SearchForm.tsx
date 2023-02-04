@@ -1,7 +1,7 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import Select from 'react-select'
@@ -17,6 +17,12 @@ type Form = {
 }
 
 export default function SearchForm() {
+  const params = usePathname()?.split('/')
+  const localCode = params?.[2] ?? seoulGov.value
+  const date = params?.[3] ?? '2022-12-31'
+  const count = +(params?.[4] ?? 20)
+  const projectCodes = hasElement(params?.slice(5)) ?? [scienceTech.value]
+
   const {
     formState: { errors },
     handleSubmit,
@@ -24,9 +30,9 @@ export default function SearchForm() {
     setValue,
   } = useForm<Form>({
     defaultValues: {
-      localCode: seoulGov.value,
-      projectCodes: [scienceTech.value],
-      count: 20,
+      localCode,
+      projectCodes,
+      count,
     },
     delayError: 500,
   })
@@ -38,7 +44,9 @@ export default function SearchForm() {
     if (!dateRef.current) return
 
     const date8 = dateRef.current.getDate().toISOString().slice(0, 10)
-    router.push(`/${input.localCode}/${date8}/${input.count}/${input.projectCodes.join('/')}`)
+    router.push(
+      `/search/${input.localCode}/${date8}/${input.count}/${input.projectCodes.join('/')}`
+    )
   }
 
   return (
@@ -48,26 +56,30 @@ export default function SearchForm() {
     >
       <div className="grid grid-cols-[auto_1fr] items-center gap-4">
         <span>지역</span>
-        <Select
-          defaultValue={seoulGov}
-          instanceId="localCode"
-          options={localGovCodes}
-          {...register('localCode', { required: true })}
-          onChange={(a) => setValue('localCode', a?.value ?? seoulGov.value)}
-        />
+        <div className="z-20">
+          <Select
+            defaultValue={localGovs.find((localGov) => localGov.value === localCode)}
+            instanceId="localCode"
+            options={localGovs}
+            {...register('localCode', { required: true })}
+            onChange={(a) => setValue('localCode', a?.value ?? seoulGov.value)}
+          />
+        </div>
 
         <span>집행일자</span>
-        <DatePicker forwardedRef={dateRef} />
+        <div className="z-10">
+          <DatePicker defaultValue={date} forwardedRef={dateRef} />
+        </div>
 
         <span>분야</span>
         <Select
-          defaultValue={scienceTech}
-          instanceId="localCode"
+          defaultValue={projects.filter((project) => projectCodes.includes(project.value))}
+          instanceId="projectCodes"
           isMulti
-          options={projectCodes}
+          options={projects}
           {...register('projectCodes', { required: true })}
-          onChange={(projectCodes) =>
-            setValue('projectCodes', projectCodes.map((code) => code.value).sort())
+          onChange={(projects) =>
+            setValue('projectCodes', projects.map((project) => project.value).sort())
           }
         />
 
@@ -78,7 +90,7 @@ export default function SearchForm() {
           max="100"
           placeholder="20"
           type="number"
-          {...register('count')}
+          {...register('count', { required: true })}
         />
       </div>
 
@@ -87,7 +99,7 @@ export default function SearchForm() {
   )
 }
 
-const localGovCodes = [
+const localGovs = [
   { value: '1100000', label: '서울' },
   { value: '2600000', label: '부산' },
   { value: '2700000', label: '대구' },
@@ -107,7 +119,7 @@ const localGovCodes = [
   { value: '4900000', label: '제주' },
 ]
 
-const projectCodes = [
+const projects = [
   { value: '010', label: '일반공공행정' },
   { value: '020', label: '공공질서 및 안전' },
   { value: '050', label: '교육' },
@@ -124,5 +136,9 @@ const projectCodes = [
   { value: '900', label: '기타' },
 ]
 
-const seoulGov = localGovCodes[0]
-const scienceTech = projectCodes[11]
+const seoulGov = localGovs[0]
+const scienceTech = projects[11]
+
+function hasElement(a: any[] | undefined) {
+  return Array.isArray(a) && a.length > 0 ? a : null
+}
