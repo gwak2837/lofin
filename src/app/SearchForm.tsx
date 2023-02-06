@@ -7,7 +7,10 @@ import { useForm } from 'react-hook-form'
 import Select from 'react-select'
 import TDatePicker from 'tui-date-picker'
 
-import { localGovernments, locals, realms } from '../common/lofin'
+import { localGovOptions, realms } from '../common/lofin'
+import { hasElement } from '../common/utils'
+
+const projects = realms
 
 const DatePicker = dynamic(() => import('../components/DatePicker'), {
   ssr: false,
@@ -118,52 +121,13 @@ type Option = {
   value: string
 }
 
-type LocalGovs = {
-  label: string
-  options: Option[]
-}[] &
-  Option[]
-
-const localGovOptions = Object.entries(localGovernments)
-  .map((localGov) => ({
-    value: localGov[0],
-    label: localGov[1],
-  }))
-  .reduce(
-    (acc, curr) => {
-      const localPrefix = Math.floor(+curr.value / 100_000)
-      const localName = locals[localPrefix * 100_000]
-
-      const group = acc.find((element) => element.label === localName)
-      if (group) {
-        group.options?.push(curr)
-      } else {
-        acc.push({
-          label: localName,
-          options: [{ label: `${localName}전체`, value: String(localPrefix) }, curr],
-        })
-      }
-      return acc
-    },
-    [{ label: '전국', value: 'null' }] as LocalGovs
-  )
-
-const projects = Object.entries(realms).map((realm) => ({
-  value: realm[0],
-  label: realm[1],
-}))
-
-const seoulGov = localGovOptions[1].options[0]
+const seoulGov = localGovOptions[1].options![0]
 const scienceTech = projects[11]
 
-function hasElement(a: any[] | undefined) {
-  return Array.isArray(a) && a.length > 0 ? a : null
-}
-
-function getLocalGov(groupedLocalGovs: LocalGovs, localGovCode: string) {
+function getLocalGov(groupedLocalGovs: Record<string, any>[], localGovCode?: string) {
   for (const local of groupedLocalGovs) {
     if (local.value === localGovCode) return local
-    const a = local.options?.find((localGov) => localGov.value === localGovCode)
+    const a = local.options?.find((localGov: Option) => localGov.value === localGovCode)
     if (a) return a
   }
 }

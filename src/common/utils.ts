@@ -24,3 +24,7 @@ export function formatKoreanNumber(inputNumber: number) {
 }
 
 export const formatPrice = new Intl.NumberFormat('ko-KR').format
+
+export function hasElement(a: any[] | undefined) {
+  return Array.isArray(a) && a.length > 0 ? a : null
+}
