@@ -132,8 +132,7 @@ const localGovOptions = Object.entries(localGovernments)
   .reduce(
     (acc, curr) => {
       const localPrefix = Math.floor(+curr.value / 100_000)
-      const localCode = String(localPrefix * 100_000)
-      const localName = (locals as any)[localCode]
+      const localName = locals[localPrefix * 100_000]
 
       const group = acc.find((element) => element.label === localName)
       if (group) {

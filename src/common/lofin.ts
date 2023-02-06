@@ -16,7 +16,7 @@ export const locals = {
   4700000: '경북',
   4800000: '경남',
   4900000: '제주',
-}
+} as Record<number, string>
 
 export const localGovernments = {
   1100000: '서울본청',
@@ -262,7 +262,7 @@ export const localGovernments = {
   4879000: '경남거창군',
   4880000: '경남합천군',
   4900000: '제주본청',
-}
+} as Record<number, string>
 
 export const realms = {
   '010': '일반공공행정',
@@ -279,15 +279,4 @@ export const realms = {
   '150': '과학기술',
   '160': '예비비',
   '900': '기타',
-}
-
-export const sectors = {
-  '011': '입법및선거관리',
-  '013': '지방행정ㆍ재정지원',
-  '014': '재정ㆍ금융',
-  '016': '일반행정',
-  '023': '경찰',
-  '025': '재난방재ㆍ민방위',
-  '026': '소방',
-  '051': '유아및초중등교육',
-}
+} as Record<string, string>
