@@ -7,21 +7,31 @@ import { useForm } from 'react-hook-form'
 import Select from 'react-select'
 import TDatePicker from 'tui-date-picker'
 
-const DatePicker = dynamic(() => import('../components/DatePicker'), { ssr: false })
+import { localGovernments, locals, realms } from '../common/lofin'
+
+const DatePicker = dynamic(() => import('../components/DatePicker'), {
+  ssr: false,
+  loading: () => <input className="w-full p-2 border disabled:cursor-not-allowed" disabled />,
+})
 
 type Form = {
-  localCode: string
+  localGovCode: string
   date: string
   projectCodes: string[]
   count: number
 }
 
 export default function SearchForm() {
-  const params = usePathname()?.split('/')
-  const localCode = params?.[2] ?? seoulGov.value
-  const date = params?.[3] ?? '2022-12-31'
-  const count = +(params?.[4] ?? 20)
-  const projectCodes = hasElement(params?.slice(5)) ?? [scienceTech.value]
+  const params = usePathname()?.split('/') ?? []
+  const date = params[2] ?? '2022-12-31'
+  const localGovCode =
+    params[3] === 'null'
+      ? localGovOptions[0].value
+      : params[4] === 'true'
+      ? params[3].slice(0, 2)
+      : params[3] ?? seoulGov.value
+  const count = +(params[5] ?? 20)
+  const projectCodes = hasElement(params.slice(6)) ?? [scienceTech.value]
 
   const {
     formState: { errors },
@@ -30,7 +40,7 @@ export default function SearchForm() {
     setValue,
   } = useForm<Form>({
     defaultValues: {
-      localCode,
+      localGovCode,
       projectCodes,
       count,
     },
@@ -43,10 +53,14 @@ export default function SearchForm() {
   function search(input: Form) {
     if (!dateRef.current) return
 
+    const localGov = input.localGovCode
     const date8 = dateRef.current.getDate().toISOString().slice(0, 10)
-    router.push(
-      `/search/${input.localCode}/${date8}/${input.count}/${input.projectCodes.join('/')}`
-    )
+    const localGovCode = localGov === 'null' ? localGov : localGov.padEnd(7, '0')
+    const selectAllLocalGov = localGov.length === 2
+    const projectCodes = input.projectCodes.join('/')
+    const { count } = input
+
+    router.push(`/search/${date8}/${localGovCode}/${selectAllLocalGov}/${count}/${projectCodes}`)
   }
 
   return (
@@ -55,20 +69,20 @@ export default function SearchForm() {
       onSubmit={handleSubmit(search)}
     >
       <div className="grid grid-cols-[auto_1fr] items-center gap-4">
-        <span>지역</span>
+        <span>집행일자</span>
         <div className="z-20">
-          <Select
-            defaultValue={localGovs.find((localGov) => localGov.value === localCode)}
-            instanceId="localCode"
-            options={localGovs}
-            {...register('localCode', { required: true })}
-            onChange={(a) => setValue('localCode', a?.value ?? seoulGov.value)}
-          />
+          <DatePicker defaultValue={date} forwardedRef={dateRef} />
         </div>
 
-        <span>집행일자</span>
+        <span>지자체</span>
         <div className="z-10">
-          <DatePicker defaultValue={date} forwardedRef={dateRef} />
+          <Select
+            defaultValue={getLocalGov(localGovOptions, localGovCode)}
+            instanceId="localGovOptions"
+            options={localGovOptions}
+            {...register('localGovCode', { required: true })}
+            onChange={(newLocalGov) => newLocalGov && setValue('localGovCode', newLocalGov.value)}
+          />
         </div>
 
         <span>분야</span>
@@ -90,7 +104,7 @@ export default function SearchForm() {
           max="100"
           placeholder="20"
           type="number"
-          {...register('count', { required: true })}
+          {...register('count', { required: true, min: 1, max: 100 })}
         />
       </div>
 
@@ -99,46 +113,58 @@ export default function SearchForm() {
   )
 }
 
-const localGovs = [
-  { value: '1100000', label: '서울' },
-  { value: '2600000', label: '부산' },
-  { value: '2700000', label: '대구' },
-  { value: '2800000', label: '인천' },
-  { value: '2900000', label: '광주' },
-  { value: '3000000', label: '대전' },
-  { value: '3100000', label: '울산' },
-  { value: '3200000', label: '세종' },
-  { value: '4100000', label: '경기' },
-  { value: '4200000', label: '강원' },
-  { value: '4300000', label: '충북' },
-  { value: '4400000', label: '충남' },
-  { value: '4500000', label: '전북' },
-  { value: '4600000', label: '전남' },
-  { value: '4700000', label: '경북' },
-  { value: '4800000', label: '경남' },
-  { value: '4900000', label: '제주' },
-]
+type Option = {
+  label: string
+  value: string
+}
 
-const projects = [
-  { value: '010', label: '일반공공행정' },
-  { value: '020', label: '공공질서 및 안전' },
-  { value: '050', label: '교육' },
-  { value: '060', label: '문화 및 관광' },
-  { value: '070', label: '환경' },
-  { value: '080', label: '사회복지' },
-  { value: '090', label: '보건' },
-  { value: '100', label: '농림해양수산' },
-  { value: '110', label: '산업ㆍ중소기업 및 에너지' },
-  { value: '120', label: '교통 및 물류' },
-  { value: '140', label: '국토 및 지역개발' },
-  { value: '150', label: '과학기술' },
-  { value: '160', label: '예비비' },
-  { value: '900', label: '기타' },
-]
+type LocalGovs = {
+  label: string
+  options: Option[]
+}[] &
+  Option[]
 
-const seoulGov = localGovs[0]
+const localGovOptions = Object.entries(localGovernments)
+  .map((localGov) => ({
+    value: localGov[0],
+    label: localGov[1],
+  }))
+  .reduce(
+    (acc, curr) => {
+      const localPrefix = Math.floor(+curr.value / 100_000)
+      const localCode = String(localPrefix * 100_000)
+      const localName = (locals as any)[localCode]
+
+      const group = acc.find((element) => element.label === localName)
+      if (group) {
+        group.options?.push(curr)
+      } else {
+        acc.push({
+          label: localName,
+          options: [{ label: `${localName}전체`, value: String(localPrefix) }, curr],
+        })
+      }
+      return acc
+    },
+    [{ label: '전국', value: 'null' }] as LocalGovs
+  )
+
+const projects = Object.entries(realms).map((realm) => ({
+  value: realm[0],
+  label: realm[1],
+}))
+
+const seoulGov = localGovOptions[1].options[0]
 const scienceTech = projects[11]
 
 function hasElement(a: any[] | undefined) {
   return Array.isArray(a) && a.length > 0 ? a : null
+}
+
+function getLocalGov(groupedLocalGovs: LocalGovs, localGovCode: string) {
+  for (const local of groupedLocalGovs) {
+    if (local.value === localGovCode) return local
+    const a = local.options?.find((localGov) => localGov.value === localGovCode)
+    if (a) return a
+  }
 }

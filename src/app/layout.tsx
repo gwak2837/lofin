@@ -53,7 +53,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
       <link rel="manifest" href="/site.webmanifest" />
       <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#bae6fd" />
-      <meta name="msapplication-TileColor" content="#da532c" />
+      <meta name="msapplication-TileColor" content="#0ea5e9" />
       <meta name="theme-color" content="#bae6fd" />
 
       <link rel="shortcut icon" href="/images/shortcut-icon.png" />

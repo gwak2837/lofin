@@ -1,25 +1,33 @@
 import fetch from 'node-fetch'
 
-import { NEXT_PUBLIC_BACKEND_URL } from '../../../../../../common/constants'
-import { PageProps } from '../../../../../../common/types'
-import { formatPrice } from '../../../../../../common/utils'
+import { NEXT_PUBLIC_BACKEND_URL } from '../../../../../../../common/constants'
+import { PageProps } from '../../../../../../../common/types'
+import { formatPrice } from '../../../../../../../common/utils'
 
-async function getExpenditures(params?: Record<string, any>) {
-  if (!params) return null
+async function getExpenditures(params: Record<string, string & string[]>) {
+  const { date, localGovCode, selectAllLocalGov, count, projectCodes } = params
 
-  const localCode = params.localCode
-  const date = params.date
-  const count = params.count
-  const projectCodes = params.projectCodes as string[]
+  const searchParams = new URLSearchParams(`date=${date}`)
 
-  if (!localCode || !count || !date || !projectCodes || projectCodes.length === 0) return null
+  if (localGovCode !== 'null') {
+    searchParams.append('localGovCode', localGovCode)
 
-  const projectCodesString = projectCodes
-    .map((projectCode) => `projectCodes=${projectCode}`)
-    .join('&')
+    if (selectAllLocalGov === 'true') {
+      searchParams.append('selectAllLocalGov', selectAllLocalGov)
+    }
+  }
 
-  const url = `${NEXT_PUBLIC_BACKEND_URL}/expenditure?localCode=${localCode}&date=${date}&${projectCodesString}&count=${count}`
-  const response = await fetch(url)
+  if (count !== '20') {
+    searchParams.append('count', count)
+  }
+
+  if (projectCodes) {
+    for (const projectCode of projectCodes) {
+      searchParams.append('projectCodes', projectCode)
+    }
+  }
+
+  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/expenditure?${searchParams}`)
 
   // if (!response.ok) throw new Error('Failed to fetch data') // `yarn build` not works
   if (!response.ok) return JSON.parse(await response.text()).message as string
@@ -27,7 +35,7 @@ async function getExpenditures(params?: Record<string, any>) {
   return (await response.json()) as any[]
 }
 
-export default async function HomePage({ params }: PageProps) {
+export default async function SearchPage({ params }: PageProps) {
   const expenditures = await getExpenditures(params)
 
   return (
