@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import { usePathname, useRouter } from 'next/navigation'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Select from 'react-select'
 import TDatePicker from 'tui-date-picker'
@@ -14,7 +14,13 @@ const projects = realms
 
 const DatePicker = dynamic(() => import('../components/DatePicker'), {
   ssr: false,
-  loading: () => <input className="w-full p-2 border disabled:cursor-not-allowed" disabled />,
+  loading: () => (
+    <input
+      className="w-full p-2 border disabled:cursor-not-allowed"
+      disabled
+      placeholder="YYYY-MM-DD"
+    />
+  ),
 })
 
 type Form = {
@@ -34,7 +40,11 @@ export default function SearchForm() {
       ? params[3].slice(0, 2)
       : params[3] ?? seoulGov.value
   const count = +(params[5] ?? 20)
-  const projectCodes = hasElement(params.slice(6)) ?? [scienceTech.value]
+  const projectCodesParam = params.slice(6)
+  const projectCodes =
+    projectCodesParam[0] === '000' || projectCodesParam[0] === undefined
+      ? [scienceTech.value]
+      : projectCodesParam
 
   const {
     formState: { errors },
@@ -60,11 +70,13 @@ export default function SearchForm() {
     const date8 = dateRef.current.getDate().toISOString().slice(0, 10)
     const localGovCode = localGov === 'null' ? localGov : localGov.padEnd(7, '0')
     const selectAllLocalGov = localGov.length === 2
-    const projectCodes = input.projectCodes.join('/')
+    const projectCodes = selectAllProject ? '000' : input.projectCodes.join('/')
     const { count } = input
 
     router.push(`/search/${date8}/${localGovCode}/${selectAllLocalGov}/${count}/${projectCodes}`)
   }
+
+  const [selectAllProject, setSelectAllProject] = useState(projectCodesParam[0] === '000')
 
   return (
     <form
@@ -89,16 +101,28 @@ export default function SearchForm() {
         </div>
 
         <span>분야</span>
-        <Select
-          defaultValue={projects.filter((project) => projectCodes.includes(project.value))}
-          instanceId="projectCodes"
-          isMulti
-          options={projects}
-          {...register('projectCodes', { required: true })}
-          onChange={(projects) =>
-            setValue('projectCodes', projects.map((project) => project.value).sort())
-          }
-        />
+        <div className="grid grid-cols-[1fr_auto] gap-2 items-center">
+          <Select
+            defaultValue={projects.filter((project) => projectCodes.includes(project.value))}
+            isDisabled={selectAllProject}
+            instanceId="projectCodes"
+            isMulti
+            options={projects}
+            placeholder="분야를 선택해주세요"
+            {...register('projectCodes')}
+            onChange={(projects) =>
+              setValue('projectCodes', projects.map((project) => project.value).sort())
+            }
+          />
+          <div className="flex gap-2 items-center">
+            전체 선택
+            <input
+              checked={selectAllProject}
+              onChange={(e) => setSelectAllProject(e.target.checked)}
+              type="checkbox"
+            />
+          </div>
+        </div>
 
         <span>개수</span>
         <input

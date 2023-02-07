@@ -26,7 +26,7 @@ async function getExpenditures(params: Record<string, string & string[]>) {
     searchParams.append('count', count)
   }
 
-  if (projectCodes) {
+  if (projectCodes[0] !== '000') {
     for (const projectCode of projectCodes) {
       searchParams.append('projectCodes', projectCode)
     }
