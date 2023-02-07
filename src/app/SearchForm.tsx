@@ -114,14 +114,14 @@ export default function SearchForm() {
               setValue('projectCodes', projects.map((project) => project.value).sort())
             }
           />
-          <div className="flex gap-2 items-center">
+          <label className="flex gap-2 items-center">
             전체 선택
             <input
               checked={selectAllProject}
               onChange={(e) => setSelectAllProject(e.target.checked)}
               type="checkbox"
             />
-          </div>
+          </label>
         </div>
 
         <span>개수</span>
