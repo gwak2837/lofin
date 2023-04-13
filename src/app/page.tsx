@@ -1,4 +1,4 @@
-import SearchForm from './SearchForm'
+import SearchForm from './local/LocalExpenditureForm'
 
 export default async function HomePage() {
   return (

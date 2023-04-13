@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-import SearchForm from '../SearchForm'
+import SearchForm from './LocalExpenditureForm'
 
 type Props = {
   children: ReactNode

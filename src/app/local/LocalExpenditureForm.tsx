@@ -7,12 +7,12 @@ import { useForm } from 'react-hook-form'
 import Select from 'react-select'
 import TDatePicker from 'tui-date-picker'
 
-import { localGovOptions, realms } from '../common/lofin'
-import { hasElement } from '../common/utils'
+import { localGovOptions, realms } from '../../common/lofin'
+import { hasElement } from '../../common/utils'
 
 const projects = realms
 
-const DatePicker = dynamic(() => import('../components/DatePicker'), {
+const DatePicker = dynamic(() => import('../../components/DatePicker'), {
   ssr: false,
   loading: () => (
     <input
@@ -30,7 +30,7 @@ type Form = {
   count: number
 }
 
-export default function SearchForm() {
+export default function LocalExpenditureForm() {
   const params = usePathname()?.split('/') ?? []
   const date = params[2] ?? '2022-12-31'
   const localGovCode =
