@@ -73,7 +73,7 @@ export default function LocalExpenditureForm() {
     const projectCodes = selectAllProject ? '000' : input.projectCodes.join('/')
     const { count } = input
 
-    router.push(`/search/${date8}/${localGovCode}/${selectAllLocalGov}/${count}/${projectCodes}`)
+    router.push(`/local/${date8}/${localGovCode}/${selectAllLocalGov}/${count}/${projectCodes}`)
   }
 
   const [selectAllProject, setSelectAllProject] = useState(projectCodesParam[0] === '000')

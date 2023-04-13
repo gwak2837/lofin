@@ -80,77 +80,7 @@ export default async function SearchPage({ params }: PageProps) {
 
   return (
     <>
-      <h2 className="text-2xl m-6 text-center">SMART 평가</h2>
-      <EvaluationForm />
-
-      <h2 className="text-2xl m-6 text-center">공약</h2>
-
       {(localGov || centerGov) && <h2 className="text-2xl m-6 text-center">재정 결과</h2>}
-
-      {centerGov && typeof centerGov === 'object' ? (
-        <>
-          <h3 className="text-xl m-4">중앙행정기관 재정</h3>
-          <div className="overflow-x-auto">
-            <table className="w-full my-2 whitespace-nowrap">
-              <thead>
-                <tr>
-                  <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                    순위
-                  </th>
-                  <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                    소관
-                  </th>
-                  <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                    회계
-                  </th>
-                  <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                    계정
-                  </th>
-                  <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                    분야
-                  </th>
-                  <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                    부문
-                  </th>
-                  <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                    프로그램
-                  </th>
-                  <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                    단위사업
-                  </th>
-                  <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                    세부사업
-                  </th>
-                  <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                    경비구분
-                  </th>
-                  <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                    지출구분
-                  </th>
-                  <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                    조회기준
-                  </th>
-                  <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                    전년도국회확정금액
-                  </th>
-                  <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                    전년도최종금액
-                  </th>
-                  <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                    정부안금액
-                  </th>
-                  <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                    국회확정금액
-                  </th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </>
-      ) : (
-        <div>{centerGov}</div>
-      )}
 
       {localGov && typeof localGov === 'object' ? (
         <>
@@ -164,9 +94,6 @@ export default async function SearchPage({ params }: PageProps) {
                   </th>
                   <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
                     자치단체
-                  </th>
-                  <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                    회계구분
                   </th>
                   <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
                     세부사업
@@ -193,9 +120,6 @@ export default async function SearchPage({ params }: PageProps) {
                     편성액
                   </th>
                   <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                    분야
-                  </th>
-                  <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
                     부문
                   </th>
                 </tr>
@@ -205,7 +129,6 @@ export default async function SearchPage({ params }: PageProps) {
                   <tr key={expenditure.id}>
                     <td className="p-2 text-center">{i + 1}</td>
                     <td className="p-2 text-center">{expenditure.sfrnd_name}</td>
-                    <td className="p-2 text-center">{expenditure.accnut_se_nm}</td>
                     <td className="p-2 text-center">{expenditure.detail_bsns_nm}</td>
                     <td className="p-2 text-right">{formatPrice(expenditure.budget_crntam)}원</td>
                     <td className="p-2 text-right">{formatPrice(expenditure.nxndr)}원</td>
@@ -214,7 +137,6 @@ export default async function SearchPage({ params }: PageProps) {
                     <td className="p-2 text-right">{formatPrice(expenditure.etc_crntam)}원</td>
                     <td className="p-2 text-right">{formatPrice(expenditure.expndtram)}원</td>
                     <td className="p-2 text-right">{formatPrice(expenditure.orgnztnam)}원</td>
-                    <td className="p-2 text-center">{expenditure.realm_name}</td>
                     <td className="p-2 text-center">{expenditure.sect_name}</td>
                   </tr>
                 ))}
