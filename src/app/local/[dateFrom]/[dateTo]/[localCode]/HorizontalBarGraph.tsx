@@ -13,7 +13,7 @@ export default function HorizontalBarGraph({ data }: Props) {
   useEffect(() => {
     async function drawChart() {
       // set the dimensions and margins of the graph
-      const margin = { top: 30, right: 30, bottom: 90, left: 120 }
+      const margin = { top: 30, right: 20, bottom: 90, left: 120 }
       const width = 1000 - margin.left - margin.right
       const height = 500 - margin.top - margin.bottom
 
@@ -67,5 +67,9 @@ export default function HorizontalBarGraph({ data }: Props) {
     drawChart()
   }, [data])
 
-  return <svg className="mx-auto" style={{ width: '1000px', height: '500px' }} ref={svgRef} />
+  return (
+    <div className="overflow-x-auto">
+      <svg className="mx-auto" style={{ width: '1000px', height: '500px' }} ref={svgRef} />
+    </div>
+  )
 }

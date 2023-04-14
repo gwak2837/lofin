@@ -33,7 +33,7 @@ export default async function LocalExpendituresPage({ params }: PageProps) {
 
   return (
     <>
-      {localExpenditures && <h2 className="text-2xl m-6 text-center">결과</h2>}
+      {localExpenditures && <h2 className="text-2xl m-6 text-center">지역예산진단</h2>}
 
       {localExpenditures && typeof localExpenditures === 'object' ? (
         <>

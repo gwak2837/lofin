@@ -37,7 +37,7 @@ export default async function LocalExpendituresByProjectPage({ params }: PagePro
 
   return (
     <>
-      {localExpenditures && <h2 className="text-2xl m-6 text-center">결과</h2>}
+      {localExpenditures && <h2 className="text-2xl m-6 text-center">세부분야별 예산액</h2>}
 
       {localExpenditures && typeof localExpenditures === 'object' ? (
         <pre>{JSON.stringify(localExpenditures, null, 2)}</pre>

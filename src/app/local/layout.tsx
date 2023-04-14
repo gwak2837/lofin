@@ -11,7 +11,7 @@ type Props = {
 export default function SearchLayout({ children }: Props) {
   return (
     <main>
-      <div className="max-w-screen-md mx-auto my-2 flex justify-center items-center">
+      <div className="max-w-screen-md mx-auto my-2 flex flex-wrap justify-center items-center">
         <Link href="/">
           <Image
             src="/images/pickup-logo.png"
@@ -21,7 +21,7 @@ export default function SearchLayout({ children }: Props) {
             height="798"
           />
         </Link>
-        <h2 className="text-2xl my-6">예산 진단 지표 분석</h2>
+        <h2 className="text-2xl whitespace-nowrap">예산 진단 지표 분석</h2>
       </div>
       <LocalExpenditureForm />
 
