@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import Select from 'react-select'
 import { DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
-import { localGovOptions as localOptions, realms } from '../../common/lofin'
+import { localGovOptions as localOptions } from '../../common/lofin'
 
 const DateRangePicker = dynamic(() => import('../../components/DateRangePicker'), {
   ssr: false,
@@ -42,7 +42,6 @@ type Form = {
 
 export default function LocalExpenditureForm() {
   const params = usePathname()?.split('/') ?? []
-  console.log('👀 - params:', params)
 
   // Required
   const dateFrom = params[2] ?? '2022-12-01'
