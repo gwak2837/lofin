@@ -4,6 +4,7 @@ import fetch from 'node-fetch'
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../../../common/constants'
 import { PageProps } from '../../../../../common/types'
 import { formatPrice } from '../../../../../common/utils'
+import ExpenditureRowLink from './ExpenditureRowLink'
 import HorizontalBarGraph from './HorizontalBarGraph'
 
 type Response = {
@@ -72,19 +73,7 @@ export default async function LocalExpendituresPage({ params }: PageProps) {
               </thead>
               <tbody>
                 {localExpenditures.expenditures.map((expenditure, i) => (
-                  <tr key={i} className="cursor-pointer hover:bg-slate-100">
-                    <td className="p-2 text-center">{i + 1}</td>
-                    <td className="p-2 text-center">{expenditure.realm}</td>
-                    <td className="p-2 text-right">
-                      {formatPrice(expenditure.budget_crntam_sum)}원
-                    </td>
-                    <td className="p-2 text-right">{formatPrice(expenditure.nxndr_sum)}원</td>
-                    <td className="p-2 text-right">{formatPrice(expenditure.cty_sum)}원</td>
-                    <td className="p-2 text-right">{formatPrice(expenditure.signgunon_sum)}원</td>
-                    <td className="p-2 text-right">{formatPrice(expenditure.etc_crntam_sum)}원</td>
-                    <td className="p-2 text-right">{formatPrice(expenditure.expndtram_sum)}원</td>
-                    <td className="p-2 text-right">{formatPrice(expenditure.orgnztnam_sum)}원</td>
-                  </tr>
+                  <ExpenditureRowLink key={i} expenditure={expenditure} i={i} />
                 ))}
               </tbody>
             </table>

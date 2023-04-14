@@ -2,12 +2,12 @@
 
 import dynamic from 'next/dynamic'
 import { usePathname, useRouter } from 'next/navigation'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Select from 'react-select'
 import { DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
-import { localGovOptions as localOptions } from '../../common/lofin'
+import { localGovOptions as localOptions, realms } from '../../common/lofin'
 
 const DateRangePicker = dynamic(() => import('../../components/DateRangePicker'), {
   ssr: false,
@@ -49,10 +49,8 @@ export default function LocalExpenditureForm() {
   const localCode = +(params[4] ?? 11) // 11: 서울전체
 
   // Optional
-  const showProjectCode = params[6] !== undefined
-  const projectCode = showProjectCode ? +params[6] : undefined
-  const showCount = params[7] !== undefined
-  const count = showCount ? +params[7] : undefined
+  const projectCode = params[5] ? +params[5] : undefined
+  const count = params[6] ? +params[6] : undefined
 
   const {
     formState: { errors },
@@ -67,6 +65,11 @@ export default function LocalExpenditureForm() {
     },
     delayError: 500,
   })
+
+  useEffect(() => {
+    setValue('projectCode', projectCode)
+    setValue('count', count)
+  }, [count, projectCode, setValue])
 
   const router = useRouter()
   const dateRangePickerRef = useRef<TDateRangePicker>(null)
@@ -117,7 +120,7 @@ export default function LocalExpenditureForm() {
         <span>지자체</span>
         <div className="z-10">
           <Select
-            defaultValue={getLocal(localOptions, localCode)}
+            defaultValue={getLocalOption(localOptions, localCode)}
             instanceId="localGovOptions"
             options={localOptions}
             {...register('localCode', { required: true })}
@@ -125,7 +128,24 @@ export default function LocalExpenditureForm() {
           />
         </div>
 
-        {showCount && (
+        {projectCode && (
+          <>
+            <span>세부사업</span>
+            <div>
+              <Select
+                defaultValue={getProjectOption(realms, projectCode)}
+                instanceId="projectCode"
+                options={realms}
+                {...register('projectCode')}
+                onChange={(newProjectCode) =>
+                  newProjectCode && setValue('projectCode', newProjectCode.value)
+                }
+              />
+            </div>
+          </>
+        )}
+
+        {count && (
           <>
             <span>개수</span>
             <input
@@ -134,7 +154,7 @@ export default function LocalExpenditureForm() {
               max="100"
               placeholder="20"
               type="number"
-              {...register('count', { required: true, min: 1, max: 100 })}
+              {...register('count', { min: 1, max: 100 })}
             />
           </>
         )}
@@ -156,13 +176,19 @@ type Option = {
   value: number
 }
 
-function getLocal(groupedLocalGovs: Record<string, any>[], localCode: number) {
+function getLocalOption(groupedLocalGovs: Record<string, any>[], localCode: number) {
   for (const localOption of groupedLocalGovs) {
     // 전국
     if (localOption.value === localCode) return localOption
 
     // 그외
-    const a = localOption.options?.find((localGov: Option) => localGov.value === localCode)
-    if (a) return a
+    const found = localOption.options?.find((localGov: Option) => localGov.value === localCode)
+    if (found) return found
+  }
+}
+
+function getProjectOption(projectOptions: any, projectCode: number) {
+  for (const projectOption of projectOptions) {
+    if (projectOption.value === projectCode) return projectOption
   }
 }
