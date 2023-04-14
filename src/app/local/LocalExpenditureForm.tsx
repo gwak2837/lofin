@@ -1,5 +1,6 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { usePathname, useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -7,35 +8,52 @@ import Select from 'react-select'
 import { DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
 import { localGovOptions as localOptions, realms } from '../../common/lofin'
-import DateRangePicker from '../../components/DateRangePicker'
+
+const DateRangePicker = dynamic(() => import('../../components/DateRangePicker'), {
+  ssr: false,
+  loading: () => (
+    <div className="grid grid-cols-[1fr_auto_1fr] gap-4 items-center">
+      <input
+        aria-label="Date"
+        className="p-2 border disabled:cursor-not-allowed"
+        disabled
+        placeholder="YYYY-MM-DD"
+        type="text"
+      />
+      <span>to</span>
+      <input
+        aria-label="Date"
+        className="p-2 border disabled:cursor-not-allowed"
+        disabled
+        placeholder="YYYY-MM-DD"
+        type="text"
+      />
+    </div>
+  ),
+})
 
 type Form = {
   dateFrom: string
   dateTo: string
-  localCode: string
-  projectCode: number
-  count: number
+  localCode: number
+  projectCode?: number
+  count?: number
 }
 
 export default function LocalExpenditureForm() {
   const params = usePathname()?.split('/') ?? []
+  console.log('👀 - params:', params)
+
+  // Required
   const dateFrom = params[2] ?? '2022-12-01'
   const dateTo = params[3] ?? '2022-12-31'
-  const localCode =
-    params[4] === '0' // 전국
-      ? localOptions[0].value
-      : params[5] === 'true'
-      ? params[4].slice(0, 2)
-      : params[4] ?? seoulGov.value
-  const showCount = Boolean(params[7])
-  const count = +(params[7] ?? 20)
+  const localCode = +(params[4] ?? 11) // 11: 서울전체
 
-  const projectCode = +(params[7] ?? 20)
-  const projectCodesParam = params.slice(6)
-  const projectCodes =
-    projectCodesParam[0] === '000' || projectCodesParam[0] === undefined
-      ? [scienceTech.value]
-      : projectCodesParam
+  // Optional
+  const showProjectCode = params[6] !== undefined
+  const projectCode = showProjectCode ? +params[6] : undefined
+  const showCount = params[7] !== undefined
+  const count = showCount ? +params[7] : undefined
 
   const {
     formState: { errors },
@@ -57,14 +75,16 @@ export default function LocalExpenditureForm() {
   function search(input: Form) {
     if (!dateRangePickerRef.current) return
 
-    const { localCode } = input
-
     const dateFrom = dateRangePickerRef.current.getStartDate().toISOString().slice(0, 10)
     const dateTo = dateRangePickerRef.current.getEndDate().toISOString().slice(0, 10)
-    const newLocalCode = localCode === '0' ? localCode : localCode.padEnd(7, '0')
-    const isWholeProvince = localCode.length === 2
 
-    router.push(`/local/${dateFrom}/${dateTo}/${newLocalCode}/${isWholeProvince}`)
+    const { localCode, projectCode, count } = input
+
+    let searchResultPage = `/local/${dateFrom}/${dateTo}/${localCode}`
+
+    if (projectCode && count) searchResultPage += `/${projectCode}/${count}`
+
+    router.push(searchResultPage)
   }
 
   const [datePickerType, setDatePickerType] = useState('date')
@@ -98,28 +118,28 @@ export default function LocalExpenditureForm() {
         <span>지자체</span>
         <div className="z-10">
           <Select
-            defaultValue={getLocalGov(localOptions, localCode)}
+            defaultValue={getLocal(localOptions, localCode)}
             instanceId="localGovOptions"
             options={localOptions}
             {...register('localCode', { required: true })}
             onChange={(newLocalGov) => newLocalGov && setValue('localCode', newLocalGov.value)}
           />
         </div>
-      </div>
 
-      {showCount && (
-        <>
-          <span>개수</span>
-          <input
-            className="p-2 border w-full"
-            min="1"
-            max="100"
-            placeholder="20"
-            type="number"
-            {...register('count', { required: true, min: 1, max: 100 })}
-          />
-        </>
-      )}
+        {showCount && (
+          <>
+            <span>개수</span>
+            <input
+              className="p-2 border w-full"
+              min="1"
+              max="100"
+              placeholder="20"
+              type="number"
+              {...register('count', { required: true, min: 1, max: 100 })}
+            />
+          </>
+        )}
+      </div>
 
       <button className="w-full p-4 my-4 rounded bg-sky-200 font-semibold">검색하기</button>
     </form>
@@ -134,17 +154,16 @@ const datePickerTypeSelect = [
 
 type Option = {
   label: string
-  value: string
+  value: number
 }
 
-const projects = realms
-const seoulGov = localOptions[1].options![0]
-const scienceTech = projects[11]
+function getLocal(groupedLocalGovs: Record<string, any>[], localCode: number) {
+  for (const localOption of groupedLocalGovs) {
+    // 전국
+    if (localOption.value === localCode) return localOption
 
-function getLocalGov(groupedLocalGovs: Record<string, any>[], localCode?: string) {
-  for (const local of groupedLocalGovs) {
-    if (local.value === localCode) return local
-    const a = local.options?.find((localGov: Option) => localGov.value === localCode)
+    // 그외
+    const a = localOption.options?.find((localGov: Option) => localGov.value === localCode)
     if (a) return a
   }
 }
