@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation'
 
-import { realms } from '../../../../../common/lofin'
+import { projectOptions } from '../../../../../common/lofin'
 import { formatPrice } from '../../../../../common/utils'
 
 type Props = {
@@ -15,7 +15,7 @@ export default function ExpenditureRowLink({ expenditure, i }: Props) {
   const pathname = usePathname()
 
   function goToLocalExpendituresByRealmPage() {
-    router.push(`${pathname}/${getRealmCode(expenditure.realm)}/${20}`)
+    router.push(`${pathname}/${getProjectCode(expenditure.realm)}/${20}`)
   }
 
   return (
@@ -33,8 +33,8 @@ export default function ExpenditureRowLink({ expenditure, i }: Props) {
   )
 }
 
-function getRealmCode(realmLabel: string) {
-  for (const realm of realms) {
-    if (realm.label === realmLabel) return realm.value
+function getProjectCode(projectLabel: string) {
+  for (const projectOption of projectOptions) {
+    if (projectOption.label === projectLabel) return projectOption.value
   }
 }

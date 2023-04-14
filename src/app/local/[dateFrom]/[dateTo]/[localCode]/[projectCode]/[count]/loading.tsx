@@ -1,3 +1,3 @@
 export default function Loading() {
-  return 'Loading...'
+  return <div className="text-center">Loading local expenditures by projects...</div>
 }

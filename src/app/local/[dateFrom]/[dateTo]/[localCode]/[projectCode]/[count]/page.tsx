@@ -2,7 +2,6 @@ import fetch from 'node-fetch'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../../../../../common/constants'
 import { PageProps } from '../../../../../../../common/types'
-import { formatPrice } from '../../../../../../../common/utils'
 
 type Response = {
   expenditures: any[]

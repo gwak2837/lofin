@@ -37,7 +37,10 @@ export default async function LocalExpendituresPage({ params }: PageProps) {
 
       {localExpenditures && typeof localExpenditures === 'object' ? (
         <>
+          <h3 className="text-xl m-6 text-center">세부사업별 예산현액 합계</h3>
           <HorizontalBarGraph data={localExpenditures.expenditures} />
+
+          <h3 className="text-xl m-6 text-center">세부사업별 상세 세출현황</h3>
           <div className="overflow-x-auto">
             <table className="w-full my-2 whitespace-nowrap">
               <thead>

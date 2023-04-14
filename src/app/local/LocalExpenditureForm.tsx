@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import Select from 'react-select'
 import { DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
-import { localGovOptions as localOptions, realms } from '../../common/lofin'
+import { localOptions, projectOptions } from '../../common/lofin'
 
 const DateRangePicker = dynamic(() => import('../../components/DateRangePicker'), {
   ssr: false,
@@ -133,9 +133,9 @@ export default function LocalExpenditureForm() {
             <span>세부사업</span>
             <div>
               <Select
-                defaultValue={getProjectOption(realms, projectCode)}
+                defaultValue={getProjectOption(projectOptions, projectCode)}
                 instanceId="projectCode"
-                options={realms}
+                options={projectOptions}
                 {...register('projectCode')}
                 onChange={(newProjectCode) =>
                   newProjectCode && setValue('projectCode', newProjectCode.value)

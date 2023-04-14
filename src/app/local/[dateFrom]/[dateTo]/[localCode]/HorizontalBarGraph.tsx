@@ -13,8 +13,8 @@ export default function HorizontalBarGraph({ data }: Props) {
   useEffect(() => {
     async function drawChart() {
       // set the dimensions and margins of the graph
-      const margin = { top: 20, right: 30, bottom: 90, left: 90 }
-      const width = 500 - margin.left - margin.right
+      const margin = { top: 30, right: 30, bottom: 90, left: 120 }
+      const width = 1000 - margin.left - margin.right
       const height = 500 - margin.top - margin.bottom
 
       // append the svg object to the body of the page
@@ -31,7 +31,7 @@ export default function HorizontalBarGraph({ data }: Props) {
         .attr('text-anchor', 'end')
         .attr('x', width)
         .attr('y', 0)
-        .text('기준: 예산현액, 단위: 백만')
+        .text('단위: 백만')
 
       // X axis
       const x = scaleLinear()
@@ -67,5 +67,5 @@ export default function HorizontalBarGraph({ data }: Props) {
     drawChart()
   }, [data])
 
-  return <svg className="mx-auto" style={{ width: '500px', height: '500px' }} ref={svgRef} />
+  return <svg className="mx-auto" style={{ width: '1000px', height: '500px' }} ref={svgRef} />
 }

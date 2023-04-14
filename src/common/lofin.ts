@@ -24,7 +24,7 @@ export const evaluations = {
   ],
 }
 
-export const localGovOptions = [
+export const localOptions = [
   { value: 0, label: '전국' },
   {
     label: '서울',
@@ -367,7 +367,7 @@ export const localGovOptions = [
   },
 ]
 
-export const realms = [
+export const projectOptions = [
   { value: 10, label: '일반공공행정' },
   { value: 20, label: '공공질서 및 안전' },
   { value: 50, label: '교육' },
