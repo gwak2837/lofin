@@ -25,7 +25,7 @@ export const evaluations = {
 }
 
 export const localGovOptions = [
-  { label: '전국', value: 'null' },
+  { value: '0', label: '전국' },
   {
     label: '서울',
     options: [

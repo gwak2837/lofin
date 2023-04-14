@@ -1,9 +1,8 @@
 import fetch from 'node-fetch'
 
-import { NEXT_PUBLIC_BACKEND_URL } from '../../../../../../../common/constants'
-import { PageProps } from '../../../../../../../common/types'
-import { formatPrice } from '../../../../../../../common/utils'
-import EvaluationForm from '../../../../../EvaluationForm'
+import { NEXT_PUBLIC_BACKEND_URL } from '../../../../../../../../common/constants'
+import { PageProps } from '../../../../../../../../common/types'
+import { formatPrice } from '../../../../../../../../common/utils'
 
 type LocalGovResponse = {
   date: string
@@ -15,38 +14,7 @@ async function getLocalGov(params: Record<string, string & string[]>) {
 
   const searchParams = new URLSearchParams(`date=${date}`)
 
-  if (localGovCode !== 'null') {
-    searchParams.append('localGovCode', localGovCode)
-
-    if (selectAllLocalGov === 'true') {
-      searchParams.append('selectAllLocalGov', selectAllLocalGov)
-    }
-  }
-
-  if (count !== '20') {
-    searchParams.append('count', count)
-  }
-
-  if (projectCodes[0] !== '000') {
-    for (const projectCode of projectCodes) {
-      searchParams.append('projectCodes', projectCode)
-    }
-  }
-
-  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/expenditure?${searchParams}`)
-
-  // if (!response.ok) throw new Error('Failed to fetch data') // `yarn build` not works
-  if (!response.ok) return JSON.parse(await response.text()).message as string
-
-  return (await response.json()) as LocalGovResponse | null
-}
-
-async function getCenterGov(params: Record<string, string & string[]>) {
-  const { date, localGovCode, selectAllLocalGov, count, projectCodes } = params
-
-  const searchParams = new URLSearchParams(`date=${date}`)
-
-  if (localGovCode !== 'null') {
+  if (localGovCode !== '0') {
     searchParams.append('localGovCode', localGovCode)
 
     if (selectAllLocalGov === 'true') {
@@ -73,16 +41,13 @@ async function getCenterGov(params: Record<string, string & string[]>) {
 }
 
 export default async function SearchPage({ params }: PageProps) {
-  const localResponse = getLocalGov(params)
-  const centerResponse = getCenterGov(params)
-
-  const [localGov, centerGov] = await Promise.all([localResponse, centerResponse])
+  const localResponse = await getLocalGov(params)
 
   return (
     <>
-      {(localGov || centerGov) && <h2 className="text-2xl m-6 text-center">재정 결과</h2>}
+      {localResponse && <h2 className="text-2xl m-6 text-center">재정 결과</h2>}
 
-      {localGov && typeof localGov === 'object' ? (
+      {localResponse && typeof localResponse === 'object' ? (
         <>
           <h3 className="text-xl m-4">지방자치단체 재정</h3>
           <div className="overflow-x-auto h-screen">
