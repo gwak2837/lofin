@@ -1,8 +1,5 @@
 import './globals.css'
 
-import localFont from '@next/font/local'
-import { ReactNode } from 'react'
-
 import {
   APPLICATION_NAME,
   APPLICATION_SHORT_NAME,
@@ -11,11 +8,14 @@ import {
   KEYWORDS,
   SUBJECT,
 } from '../common/constants'
+
 import GoogleAnalytics from '../components/GoogleAnalytics'
 import KakaoScript from '../components/KakaoScript'
 import ReactHotToast from '../components/ReactHotToast'
+import { ReactNode } from 'react'
 import ReactQuery from '../components/ReactQuery'
 import Recoil from '../components/Recoil'
+import localFont from 'next/font/local'
 
 const myFont = localFont({
   src: './PretendardVariable.woff2',

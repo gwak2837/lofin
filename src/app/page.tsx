@@ -25,7 +25,6 @@ export default async function HomePage() {
         <Link href="/center">중앙부처 사업 도출</Link>
         <Link href="/">전문가 정성 평가</Link>
         <Link href="/">전문가 정량 평가</Link>
-        <Link href="/">전문가 정량 평가</Link>
       </div>
 
       <h2 className="text-2xl m-6 text-center">데이터</h2>
