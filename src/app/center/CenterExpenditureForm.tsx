@@ -1,10 +1,11 @@
 'use client'
 
 import { localOptions, projectOptions } from '../../common/lofin'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import { DateRangePicker } from 'tui-date-picker'
 import Select from 'react-select'
+import { centerOfficeOptions } from '../../common/cefin'
 import { count } from 'd3'
 import { useForm } from 'react-hook-form'
 import { useRef } from 'react'
@@ -12,21 +13,17 @@ import { useRef } from 'react'
 type Form = {
   dateFrom: string
   dateTo: string
-  localCode: number
-  projectCode?: number
+  officeName?: string
   count?: number
 }
 
 export default function CenterExpenditureForm() {
-  const params = usePathname()?.split('/') ?? []
+  const searchParams = useSearchParams()
 
-  // Required
-  const dateFrom = params[2] ?? '2022-12-01'
-  const dateTo = params[3] ?? '2022-12-31'
-
-  // Optional
-  const projectCode = params[5] ? +params[5] : undefined
-  const count = params[6] ? +params[6] : undefined
+  const dateFrom = searchParams?.get('dateFrom') ?? ''
+  const dateTo = searchParams?.get('dateTo') ?? ''
+  const officeName = searchParams?.get('officeName') ?? undefined
+  const count = searchParams?.get('count')
 
   const {
     formState: { errors },
@@ -35,8 +32,10 @@ export default function CenterExpenditureForm() {
     setValue,
   } = useForm<Form>({
     defaultValues: {
-      projectCode,
-      count,
+      dateFrom,
+      dateTo,
+      officeName,
+      // count,
     },
     delayError: 500,
   })
@@ -44,11 +43,11 @@ export default function CenterExpenditureForm() {
   const router = useRouter()
 
   function search(input: Form) {
-    const { localCode, projectCode, count } = input
+    const { officeName, count } = input
 
-    let searchResultPage = `/local/${dateFrom}/${dateTo}/${localCode}`
+    let searchResultPage = `/center/${dateFrom}/${dateTo}`
 
-    if (projectCode && count) searchResultPage += `/${projectCode}/${count}`
+    if (officeName && count) searchResultPage += `/${officeName}/${count}`
 
     router.push(searchResultPage)
   }
@@ -59,30 +58,38 @@ export default function CenterExpenditureForm() {
       onSubmit={handleSubmit(search)}
     >
       <div className="grid grid-cols-[auto_1fr] items-center gap-4">
-        <span>구분</span>
-        <div className="z-30">
-          {/* <Select
-            defaultValue={datePickerTypeSelect[2]}
-            instanceId="datePickerType"
-            options={datePickerTypeSelect}
-            onChange={(newType) => setDatePickerType(newType?.value ?? 'date')}
-          /> */}
+        <span>기간</span>
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4">
+          <input
+            className="p-2 border w-full"
+            min="2007"
+            max="2023"
+            placeholder="2023"
+            type="number"
+            {...register('dateFrom', { min: 2007, max: 2023 })}
+          />
+          <span>~</span>
+          <input
+            className="p-2 border w-full"
+            min="2007"
+            max="2023"
+            placeholder="2023"
+            type="number"
+            {...register('dateTo', { min: 2007, max: 2023 })}
+          />
         </div>
 
-        <span>기간</span>
-        <div className="z-20"></div>
-
-        {projectCode && (
+        {officeName && (
           <>
             <span>세부사업</span>
             <div>
               <Select
-                // defaultValue={getProjectOption(projectOptions, projectCode)}
-                instanceId="projectCode"
-                options={projectOptions}
-                {...register('projectCode')}
-                onChange={(newProjectCode) =>
-                  newProjectCode && setValue('projectCode', newProjectCode.value)
+                defaultValue={getOption(centerOfficeOptions, officeName)}
+                instanceId="officeName"
+                options={centerOfficeOptions}
+                {...register('officeName')}
+                onChange={(newOfficeName) =>
+                  newOfficeName && setValue('officeName', newOfficeName.value)
                 }
               />
             </div>
@@ -107,4 +114,10 @@ export default function CenterExpenditureForm() {
       <button className="w-full p-4 my-4 rounded bg-sky-200 font-semibold">검색하기</button>
     </form>
   )
+}
+
+function getOption(options: any[], value: any) {
+  for (const option of options) {
+    if (option.value === value) return option
+  }
 }
