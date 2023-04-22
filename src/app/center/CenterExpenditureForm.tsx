@@ -1,14 +1,14 @@
 'use client'
 
-import { localOptions, projectOptions } from '../../common/lofin'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-
-import { DateRangePicker } from 'tui-date-picker'
-import Select from 'react-select'
-import { centerOfficeOptions } from '../../common/cefin'
 import { count } from 'd3'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
-import { useRef } from 'react'
+import Select from 'react-select'
+import { DateRangePicker } from 'tui-date-picker'
+
+import { centerOfficeOptions } from '../../common/cefin'
+import { localOptions, projectOptions } from '../../common/lofin'
 
 type Form = {
   dateFrom: string
@@ -18,12 +18,15 @@ type Form = {
 }
 
 export default function CenterExpenditureForm() {
-  const searchParams = useSearchParams()
+  const params = usePathname()?.split('/') ?? []
 
-  const dateFrom = searchParams?.get('dateFrom') ?? ''
-  const dateTo = searchParams?.get('dateTo') ?? ''
-  const officeName = searchParams?.get('officeName') ?? undefined
-  const count = searchParams?.get('count')
+  // Required
+  const dateFrom = params[2] ?? '2022'
+  const dateTo = params[3] ?? '2022'
+
+  // Optional
+  const officeName = params[4]
+  const count = params[5] ? +params[5] : undefined
 
   const {
     formState: { errors },
@@ -35,10 +38,15 @@ export default function CenterExpenditureForm() {
       dateFrom,
       dateTo,
       officeName,
-      // count,
+      count,
     },
     delayError: 500,
   })
+
+  useEffect(() => {
+    setValue('officeName', officeName)
+    setValue('count', count)
+  }, [count, officeName, setValue])
 
   const router = useRouter()
 
@@ -81,7 +89,7 @@ export default function CenterExpenditureForm() {
 
         {officeName && (
           <>
-            <span>세부사업</span>
+            <span>소관명</span>
             <div>
               <Select
                 defaultValue={getOption(centerOfficeOptions, officeName)}
