@@ -5,7 +5,7 @@ import { NEXT_PUBLIC_BACKEND_URL } from '../../../../../common/constants'
 import { PageProps } from '../../../../../common/types'
 import { formatPrice } from '../../../../../common/utils'
 import ExpenditureRowLink from './ExpenditureRowLink'
-import HorizontalBarGraph from './HorizontalBarGraph'
+import HorizontalBarGraph from './SortedBarChart'
 
 type Response = {
   expenditures: any[]

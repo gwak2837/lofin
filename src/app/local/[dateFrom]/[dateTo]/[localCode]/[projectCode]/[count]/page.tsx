@@ -2,6 +2,7 @@ import fetch from 'node-fetch'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../../../../../common/constants'
 import { PageProps } from '../../../../../../../common/types'
+import StackedBarChart from './StackedBarChart'
 
 type Response = {
   expenditures: any[]
@@ -37,10 +38,15 @@ export default async function LocalExpendituresByProjectPage({ params }: PagePro
 
   return (
     <>
-      {localExpenditures && <h2 className="text-2xl m-6 text-center">세부분야별 예산액</h2>}
+      {localExpenditures && (
+        <>
+          <h2 className="text-2xl mt-6 text-center">세부사업별 예산현액</h2>
+          <h5 className="text-sm mt-2 text-center">단위: 백만</h5>
+        </>
+      )}
 
       {localExpenditures && typeof localExpenditures === 'object' ? (
-        <pre>{JSON.stringify(localExpenditures, null, 2)}</pre>
+        <StackedBarChart data={localExpenditures.expenditures} />
       ) : (
         <div className="text-center">{localExpenditures}</div>
       )}
