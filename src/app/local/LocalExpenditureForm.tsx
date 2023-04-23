@@ -87,6 +87,7 @@ export default function LocalExpenditureForm() {
             instanceId="localGovOptions"
             onChange={(newLocalGov) => newLocalGov && setLocalCode(newLocalGov.value)}
             options={localOptions}
+            required
             value={getLocalOption(localOptions, localCode)}
           />
         </div>
@@ -97,6 +98,7 @@ export default function LocalExpenditureForm() {
             instanceId="projectCode"
             onChange={(newProjectCode) => newProjectCode && setProjectCode(newProjectCode.value)}
             options={projectOptions}
+            required
             value={getProjectOption(projectOptions, projectCode)}
           />
         </div>
@@ -110,6 +112,7 @@ export default function LocalExpenditureForm() {
               max="100"
               onChange={(e) => setCount(+e.target.value)}
               placeholder="20"
+              required
               type="number"
               value={count}
             />

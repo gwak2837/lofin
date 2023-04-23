@@ -29,8 +29,6 @@ export default function StackedBarChart({ data }: Props) {
     // https://www.amcharts.com/docs/v5/charts/xy-chart/
     const chart = root.container.children.push(
       am5xy.XYChart.new(root, {
-        // panX: true,
-        // panY: true,
         wheelX: 'zoomY',
         wheelY: 'panY',
         layout: root.verticalLayout,
@@ -74,18 +72,16 @@ export default function StackedBarChart({ data }: Props) {
       tooltipText: '{category}',
     })
 
-    yRenderer.labels.template.setup = (target) => {
-      target.set(
-        'background',
-        am5.Rectangle.new(root, {
-          fill: am5.color(0x000000),
-          fillOpacity: 0,
-        })
-      )
-    }
-
     yRenderer.grid.template.setAll({
       location: 1,
+    })
+
+    const tooltip = am5.Tooltip.new(root, { pointerOrientation: 'down' })
+
+    tooltip.label.setAll({
+      oversizedBehavior: 'wrap',
+      maxWidth: 180,
+      textAlign: 'center',
     })
 
     const yAxis = chart.yAxes.push(
@@ -93,18 +89,11 @@ export default function StackedBarChart({ data }: Props) {
         categoryField: 'detailBusinessName',
         maxDeviation: 0,
         renderer: yRenderer,
-        tooltip: am5.Tooltip.new(root, {}),
+        tooltip: tooltip,
       })
     )
 
     yAxis.data.setAll(data2)
-
-    yAxis.labelsContainer.set(
-      'tooltip',
-      am5.Tooltip.new(root, {
-        pointerOrientation: 'down',
-      })
-    )
 
     const xAxis = chart.xAxes.push(
       am5xy.ValueAxis.new(root, {
@@ -114,6 +103,15 @@ export default function StackedBarChart({ data }: Props) {
           strokeOpacity: 0.1,
         }),
         strictMinMaxSelection: true,
+      })
+    )
+
+    chart.set(
+      'cursor',
+      am5xy.XYCursor.new(root, {
+        behavior: 'none',
+        xAxis: xAxis,
+        yAxis: yAxis,
       })
     )
 
