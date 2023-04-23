@@ -57,25 +57,22 @@ export default function SortedBarChart({ data }: Props) {
       oversizedBehavior: 'truncate', // You can replace it with "truncate".
       maxWidth: 200,
       textAlign: 'right',
-      tooltipText: '{category}',
     })
 
-    yRenderer.labels.template.setup = (target) => {
-      target.set(
-        'background',
-        am5.Rectangle.new(root, {
-          fill: am5.color(0x000000),
-          fillOpacity: 0,
-        })
-      )
-    }
+    const tooltip = am5.Tooltip.new(root, { pointerOrientation: 'down' })
+
+    tooltip.label.setAll({
+      oversizedBehavior: 'wrap',
+      maxWidth: 180,
+      textAlign: 'center',
+    })
 
     const yAxis = chart.yAxes.push(
       am5xy.CategoryAxis.new(root, {
         categoryField: 'network',
         maxDeviation: 0,
         renderer: yRenderer,
-        tooltip: am5.Tooltip.new(root, { themeTags: ['axis'] }),
+        tooltip: tooltip,
       })
     )
 

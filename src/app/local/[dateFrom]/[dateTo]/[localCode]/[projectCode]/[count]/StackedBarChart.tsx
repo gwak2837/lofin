@@ -65,15 +65,14 @@ export default function StackedBarChart({ data }: Props) {
       minGridDistance: 20,
     })
 
+    yRenderer.grid.template.setAll({
+      location: 1,
+    })
+
     yRenderer.labels.template.setAll({
       oversizedBehavior: 'truncate', // You can replace it with "truncate".
       maxWidth: 200,
       textAlign: 'right',
-      tooltipText: '{category}',
-    })
-
-    yRenderer.grid.template.setAll({
-      location: 1,
     })
 
     const tooltip = am5.Tooltip.new(root, { pointerOrientation: 'down' })
@@ -181,7 +180,7 @@ export default function StackedBarChart({ data }: Props) {
     makeSeries('기타', 'etcSum')
 
     // // Set it on chart's container
-    chart.root.dom.style.height = `${data.length * 50 + 150}px`
+    chart.root.dom.style.height = `${data.length * 60 + 150}px`
 
     // Make stuff animate on load
     // https://www.amcharts.com/docs/v5/concepts/animations/
