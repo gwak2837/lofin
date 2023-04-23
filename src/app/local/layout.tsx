@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import LocalExpenditureForm from './LocalExpenditureForm'
 import { ReactNode } from 'react'
+
+import LocalExpenditureForm from './LocalExpenditureForm'
 
 type Props = {
   children: ReactNode
@@ -20,7 +21,9 @@ export default function LocalExpenditureLayout({ children }: Props) {
             height="798"
           />
         </Link>
-        <h2 className="text-2xl whitespace-nowrap">예산 진단 지표 분석</h2>
+        <Link href="/local" className="hover:no-underline focus:no-underline">
+          <h2 className="text-2xl whitespace-nowrap text-black ">예산 진단 지표 분석</h2>
+        </Link>
       </div>
       <LocalExpenditureForm />
 

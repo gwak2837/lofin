@@ -37,7 +37,8 @@ export default async function LocalExpendituresPage({ params }: PageProps) {
 
       {localExpenditures && typeof localExpenditures === 'object' ? (
         <>
-          <h3 className="text-xl m-6 text-center">세부사업별 예산현액 합계</h3>
+          <h3 className="text-xl mt-6 text-center">세부사업별 예산현액 합계</h3>
+          <h5 className="text-sm mt-2 text-center">단위: 백만</h5>
           <HorizontalBarGraph data={localExpenditures.expenditures} />
 
           <h3 className="text-xl m-6 text-center">세부사업별 상세 세출현황</h3>

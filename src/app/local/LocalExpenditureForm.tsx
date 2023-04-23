@@ -2,8 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import { usePathname, useRouter } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { FormEvent, useEffect, useRef, useState } from 'react'
 import Select from 'react-select'
 import { DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
@@ -32,129 +31,87 @@ const DateRangePicker = dynamic(() => import('../../components/DateRangePicker')
   ),
 })
 
-type Form = {
-  dateFrom: string
-  dateTo: string
-  localCode: number
-  projectCode?: number
-  count?: number
-}
-
 export default function LocalExpenditureForm() {
+  // Pathname
   const params = usePathname()?.split('/') ?? []
-
-  // Required
   const dateFrom = params[2] ?? '2022-12-01'
   const dateTo = params[3] ?? '2022-12-31'
-  const localCode = +(params[4] ?? 11) // 11: 서울전체
+  const localCodeParam = params[4] ? +params[4] : undefined
+  const projectCodeParam = params[5] ? +params[5] : undefined
+  const countParam = params[6] ? +params[6] : undefined
 
-  // Optional
-  const projectCode = params[5] ? +params[5] : undefined
-  const count = params[6] ? +params[6] : undefined
-
-  const {
-    formState: { errors },
-    handleSubmit,
-    register,
-    setValue,
-  } = useForm<Form>({
-    defaultValues: {
-      localCode,
-      projectCode,
-      count,
-    },
-    delayError: 500,
-  })
+  // Form
+  const dateRangePickerRef = useRef<TDateRangePicker>(null)
+  const [localCode, setLocalCode] = useState(localCodeParam ?? 11)
+  const [projectCode, setProjectCode] = useState(projectCodeParam ?? 0)
+  const [count, setCount] = useState(countParam ?? 20)
 
   useEffect(() => {
-    setValue('projectCode', projectCode)
-    setValue('count', count)
-  }, [count, projectCode, setValue])
+    setLocalCode(localCodeParam ?? 11)
+    setProjectCode(projectCodeParam ?? 0)
+    setCount(countParam ?? 20)
+  }, [localCodeParam, projectCodeParam, countParam])
 
   const router = useRouter()
-  const dateRangePickerRef = useRef<TDateRangePicker>(null)
 
-  function search(input: Form) {
+  function search(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+
     if (!dateRangePickerRef.current) return
 
     const dateFrom = dateRangePickerRef.current.getStartDate().toISOString().slice(0, 10)
     const dateTo = dateRangePickerRef.current.getEndDate().toISOString().slice(0, 10)
 
-    const { localCode, projectCode, count } = input
-
     let searchResultPage = `/local/${dateFrom}/${dateTo}/${localCode}`
 
-    if (projectCode && count) searchResultPage += `/${projectCode}/${count}`
+    if (projectCode !== 0) searchResultPage += `/${projectCode}/${count}`
 
     router.push(searchResultPage)
   }
 
-  const [datePickerType, setDatePickerType] = useState('date')
-
   return (
-    <form
-      className="m-2 p-2 whitespace-nowrap max-w-screen-md mx-auto"
-      onSubmit={handleSubmit(search)}
-    >
+    <form className="m-2 p-2 whitespace-nowrap max-w-screen-md mx-auto" onSubmit={search}>
       <div className="grid grid-cols-[auto_1fr] items-center gap-4">
-        <span>구분</span>
-        <div className="z-30">
-          <Select
-            defaultValue={datePickerTypeSelect[2]}
-            instanceId="datePickerType"
-            options={datePickerTypeSelect}
-            onChange={(newType) => setDatePickerType(newType?.value ?? 'date')}
-          />
-        </div>
-
         <span>기간</span>
         <div className="z-20">
           <DateRangePicker
             defaultDateFrom={dateFrom}
             defaultDateTo={dateTo}
             forwardedRef={dateRangePickerRef}
-            type={datePickerType}
           />
         </div>
 
         <span>지자체</span>
         <div className="z-10">
           <Select
-            defaultValue={getLocalOption(localOptions, localCode)}
             instanceId="localGovOptions"
+            onChange={(newLocalGov) => newLocalGov && setLocalCode(newLocalGov.value)}
             options={localOptions}
-            {...register('localCode', { required: true })}
-            onChange={(newLocalGov) => newLocalGov && setValue('localCode', newLocalGov.value)}
+            value={getLocalOption(localOptions, localCode)}
           />
         </div>
 
-        {projectCode && (
-          <>
-            <span>세부사업</span>
-            <div>
-              <Select
-                defaultValue={getProjectOption(projectOptions, projectCode)}
-                instanceId="projectCode"
-                options={projectOptions}
-                {...register('projectCode')}
-                onChange={(newProjectCode) =>
-                  newProjectCode && setValue('projectCode', newProjectCode.value)
-                }
-              />
-            </div>
-          </>
-        )}
+        <span>세부사업</span>
+        <div>
+          <Select
+            instanceId="projectCode"
+            onChange={(newProjectCode) => newProjectCode && setProjectCode(newProjectCode.value)}
+            options={projectOptions}
+            value={getProjectOption(projectOptions, projectCode)}
+          />
+        </div>
 
-        {count && (
+        {projectCode !== 0 && (
           <>
             <span>개수</span>
             <input
               className="p-2 border w-full"
               min="1"
               max="100"
+              onChange={(e) => setCount(+e.target.value)}
               placeholder="20"
               type="number"
-              {...register('count', { min: 1, max: 100 })}
+              value={count}
             />
           </>
         )}
@@ -165,12 +122,6 @@ export default function LocalExpenditureForm() {
   )
 }
 
-const datePickerTypeSelect = [
-  { label: '연간', value: 'year' },
-  { label: '월간', value: 'month' },
-  { label: '일간', value: 'date' },
-]
-
 type Option = {
   label: string
   value: number
@@ -178,16 +129,12 @@ type Option = {
 
 function getLocalOption(groupedLocalGovs: Record<string, any>[], localCode: number) {
   for (const localOption of groupedLocalGovs) {
-    // 전국
-    if (localOption.value === localCode) return localOption
-
-    // 그외
     const found = localOption.options?.find((localGov: Option) => localGov.value === localCode)
     if (found) return found
   }
 }
 
-function getProjectOption(projectOptions: any, projectCode: number) {
+function getProjectOption(projectOptions: Option[], projectCode: number) {
   for (const projectOption of projectOptions) {
     if (projectOption.value === projectCode) return projectOption
   }

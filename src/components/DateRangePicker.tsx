@@ -8,15 +8,9 @@ type Props = {
   defaultDateFrom?: string
   defaultDateTo?: string
   forwardedRef: any
-  type: string
 }
 
-export default function DateRangePicker({
-  defaultDateFrom,
-  defaultDateTo,
-  forwardedRef,
-  type,
-}: Props) {
+export default function DateRangePicker({ defaultDateFrom, defaultDateTo, forwardedRef }: Props) {
   const dateRangePickerRef = useRef<TDateRangePicker>()
   const dateFromContainerRef = useRef<HTMLDivElement>(null)
   const dateFromInputRef = useRef<HTMLInputElement>(null)
@@ -54,10 +48,6 @@ export default function DateRangePicker({
       forwardedRef.current = dateRangePicker
     }
   }, [defaultDateFrom, defaultDateTo, forwardedRef])
-
-  useEffect(() => {
-    // dateRangePickerRef.current?.setType(type)
-  }, [type])
 
   return (
     <div className="grid grid-cols-[1fr_auto_1fr] gap-4 items-center">
