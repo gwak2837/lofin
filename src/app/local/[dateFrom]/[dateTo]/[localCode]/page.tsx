@@ -5,6 +5,7 @@ import { NEXT_PUBLIC_BACKEND_URL } from '../../../../../common/constants'
 import { PageProps } from '../../../../../common/types'
 import { formatPrice } from '../../../../../common/utils'
 import ExpenditureRowLink from './ExpenditureRowLink'
+import SemiCirclePieChart from './SemiCirclePieChart'
 import HorizontalBarGraph from './SortedBarChart'
 
 type Response = {
@@ -40,6 +41,7 @@ export default async function LocalExpendituresPage({ params }: PageProps) {
           <h3 className="text-xl mt-6 text-center">분야별 예산현액 합계</h3>
           <h5 className="text-sm mt-2 text-center">단위: 백만</h5>
           <HorizontalBarGraph data={localExpenditures.expenditures} />
+          <SemiCirclePieChart id="local-expenditure" data={localExpenditures.expenditures} />
 
           <h3 className="text-xl m-6 text-center">분야별 상세 세출현황</h3>
           <div className="overflow-x-auto">
