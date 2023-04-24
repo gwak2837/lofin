@@ -35,15 +35,32 @@ export default function SemiCirclePieChart({ id, data }: Props) {
     // Create series
     // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
     // start and end angle must be set both for chart and series
+
+    const tooltip = am5.Tooltip.new(root, { pointerOrientation: 'down' })
+
+    tooltip.label.setAll({
+      oversizedBehavior: 'wrap',
+      maxWidth: 180,
+      textAlign: 'center',
+    })
+
     let series = chart.series.push(
       am5percent.PieSeries.new(root, {
+        name: '예산현액 비율',
         startAngle: 180,
         endAngle: 360,
         valueField: 'budget_crntam_sum',
         categoryField: 'realm',
         alignLabels: false,
+        tooltip,
       })
     )
+
+    series.labels.template.setAll({
+      text: '{category}',
+      maxWidth: 150,
+      oversizedBehavior: 'truncate',
+    })
 
     series.states.create('hidden', {
       startAngle: 180,
@@ -52,10 +69,6 @@ export default function SemiCirclePieChart({ id, data }: Props) {
 
     series.slices.template.setAll({
       cornerRadius: 5,
-    })
-
-    series.ticks.template.setAll({
-      forceHidden: true,
     })
 
     // Set data
