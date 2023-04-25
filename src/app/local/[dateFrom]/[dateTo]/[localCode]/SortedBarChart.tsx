@@ -223,7 +223,7 @@ export default function SortedBarChart({ id, data }: Props) {
     return () => {
       root.dispose()
     }
-  }, [data])
+  }, [data, id])
 
   return <div id={id} />
 }

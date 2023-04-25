@@ -87,10 +87,10 @@ export default function SemiCirclePieChart({ id, data }: Props) {
     // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Setting_data
     series.data.setAll(data)
 
-    // chart.root.dom.style.width = `${1000}px`
     chart.root.dom.style.height = `${data.length * 40}px`
 
-    series.appear(1000, 100)
+    series.appear(1000)
+    chart.appear(1000, 100)
 
     return () => {
       root.dispose()
