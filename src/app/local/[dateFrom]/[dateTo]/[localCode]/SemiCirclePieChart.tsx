@@ -56,6 +56,18 @@ export default function SemiCirclePieChart({ id, data }: Props) {
       })
     )
 
+    series.bullets.push(() =>
+      am5.Bullet.new(root, {
+        sprite: am5.Label.new(root, {
+          text: "{valuePercentTotal.formatNumber('0.00')}%",
+          fill: root.interfaceColors.get('alternativeText'),
+          centerY: am5.p50,
+          centerX: am5.p50,
+          populateText: true,
+        }),
+      })
+    )
+
     series.labels.template.setAll({
       text: '{category}',
       maxWidth: 150,

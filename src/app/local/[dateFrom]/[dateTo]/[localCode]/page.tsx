@@ -1,13 +1,15 @@
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import fetch from 'node-fetch'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../../../common/constants'
 import { PageProps } from '../../../../../common/types'
 import { formatPrice } from '../../../../../common/utils'
-import Charts from './Charts'
 import ExpenditureRowLink from './ExpenditureRowLink'
 import SemiCirclePieChart from './SemiCirclePieChart'
 import HorizontalBarGraph from './SortedBarChart'
+
+const Charts = dynamic(() => import('./Charts'), { ssr: false })
 
 type Response = {
   expenditures: any[]
