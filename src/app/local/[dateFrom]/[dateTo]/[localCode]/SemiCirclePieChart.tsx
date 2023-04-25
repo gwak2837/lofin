@@ -14,7 +14,7 @@ export default function SemiCirclePieChart({ id, data }: Props) {
   useEffect(() => {
     // Create root element
     // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-    let root = am5.Root.new(id)
+    const root = am5.Root.new(id)
 
     // Set themes
     // https://www.amcharts.com/docs/v5/concepts/themes/
@@ -23,7 +23,7 @@ export default function SemiCirclePieChart({ id, data }: Props) {
     // Create chart
     // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/
     // start and end angle must be set both for chart and series
-    let chart = root.container.children.push(
+    const chart = root.container.children.push(
       am5percent.PieChart.new(root, {
         startAngle: 180,
         endAngle: 360,
@@ -44,7 +44,7 @@ export default function SemiCirclePieChart({ id, data }: Props) {
     //   textAlign: 'center',
     // })
 
-    let series = chart.series.push(
+    const series = chart.series.push(
       am5percent.PieSeries.new(root, {
         name: '예산현액 비율',
         startAngle: 180,
@@ -59,7 +59,7 @@ export default function SemiCirclePieChart({ id, data }: Props) {
     series.bullets.push(() =>
       am5.Bullet.new(root, {
         sprite: am5.Label.new(root, {
-          text: "{valuePercentTotal.formatNumber('0.00')}%",
+          text: "{valuePercentTotal.formatNumber('0.0')}%",
           fill: root.interfaceColors.get('alternativeText'),
           centerY: am5.p50,
           centerX: am5.p50,
