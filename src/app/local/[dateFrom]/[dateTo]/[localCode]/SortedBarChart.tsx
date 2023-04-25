@@ -3,13 +3,17 @@
 import * as am5 from '@amcharts/amcharts5'
 import am5themes_Animated from '@amcharts/amcharts5/themes/Animated'
 import * as am5xy from '@amcharts/amcharts5/xy'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
+
+import { vw } from '../../../../../common/utils'
 
 type Props = {
   data: any
 }
 
 export default function SortedBarChart({ data }: Props) {
+  const chartRef = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
     // Create root element
     // https://www.amcharts.com/docs/v5/getting-started/#Root_element
@@ -54,8 +58,8 @@ export default function SortedBarChart({ data }: Props) {
     yRenderer.grid.template.set('location', 1)
 
     yRenderer.labels.template.setAll({
-      oversizedBehavior: 'truncate', // You can replace it with "truncate".
-      maxWidth: 200,
+      oversizedBehavior: 'truncate',
+      maxWidth: vw(25),
       textAlign: 'right',
     })
 
@@ -63,7 +67,7 @@ export default function SortedBarChart({ data }: Props) {
 
     tooltip.label.setAll({
       oversizedBehavior: 'wrap',
-      maxWidth: 180,
+      maxWidth: vw(25) - 10,
       textAlign: 'center',
     })
 
@@ -118,6 +122,28 @@ export default function SortedBarChart({ data }: Props) {
         }),
       })
     )
+
+    series.bullets.push(() =>
+      am5.Bullet.new(root, {
+        sprite: am5.Label.new(root, {
+          text: '{valueX}',
+          fill: root.interfaceColors.get('alternativeText'),
+          centerY: am5.p50,
+          centerX: am5.p50,
+          populateText: true,
+        }),
+      })
+    )
+
+    series.columns.template.onPrivate('width', function (width, target) {
+      am5.array.each(target?.dataItem?.bullets ?? [], (bullet) => {
+        if ((width ?? 0) > bullet.get('sprite').width() + 1) {
+          bullet.get('sprite').show()
+        } else {
+          bullet.get('sprite').hide()
+        }
+      })
+    })
 
     series.columns.template.setAll({
       cornerRadiusTR: 5,
@@ -200,5 +226,5 @@ export default function SortedBarChart({ data }: Props) {
     }
   }, [data])
 
-  return <div id="sorted-bar-chart" />
+  return <div id="sorted-bar-chart" ref={chartRef} />
 }

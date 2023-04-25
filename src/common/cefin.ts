@@ -1,4 +1,5 @@
 export const centerOfficeOptions = [
+  { value: '전체', label: '전체' },
   { value: '국가청렴위원회', label: '국가청렴위원회' },
   { value: '국정홍보처', label: '국정홍보처' },
   { value: '대통령비서실', label: '대통령비서실' },

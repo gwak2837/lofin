@@ -28,3 +28,8 @@ export const formatPrice = new Intl.NumberFormat('ko-KR').format
 export function hasElement(a: any[] | undefined) {
   return Array.isArray(a) && a.length > 0 ? a : null
 }
+
+export function vw(percent = 100) {
+  var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+  return (percent * w) / 100
+}
