@@ -36,13 +36,13 @@ export default function SemiCirclePieChart({ id, data }: Props) {
     // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
     // start and end angle must be set both for chart and series
 
-    const tooltip = am5.Tooltip.new(root, { pointerOrientation: 'down' })
+    // const tooltip = am5.Tooltip.new(root, { pointerOrientation: 'down' })
 
-    tooltip.label.setAll({
-      oversizedBehavior: 'wrap',
-      maxWidth: 180,
-      textAlign: 'center',
-    })
+    // tooltip.label.setAll({
+    //   oversizedBehavior: 'wrap',
+    //   maxWidth: 180,
+    //   textAlign: 'center',
+    // })
 
     let series = chart.series.push(
       am5percent.PieSeries.new(root, {
@@ -52,7 +52,7 @@ export default function SemiCirclePieChart({ id, data }: Props) {
         valueField: 'budget_crntam_sum',
         categoryField: 'realm',
         alignLabels: false,
-        tooltip,
+        // tooltip,
       })
     )
 
@@ -76,7 +76,7 @@ export default function SemiCirclePieChart({ id, data }: Props) {
     series.data.setAll(data)
 
     // chart.root.dom.style.width = `${1000}px`
-    chart.root.dom.style.height = `${400}px`
+    chart.root.dom.style.height = `${data.length * 40}px`
 
     series.appear(1000, 100)
 

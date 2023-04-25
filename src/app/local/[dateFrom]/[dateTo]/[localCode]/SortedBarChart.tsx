@@ -8,16 +8,15 @@ import { useEffect, useRef } from 'react'
 import { vw } from '../../../../../common/utils'
 
 type Props = {
+  id: string
   data: any
 }
 
-export default function SortedBarChart({ data }: Props) {
-  const chartRef = useRef<HTMLDivElement>(null)
-
+export default function SortedBarChart({ id, data }: Props) {
   useEffect(() => {
     // Create root element
     // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-    const root = am5.Root.new('sorted-bar-chart')
+    const root = am5.Root.new(id)
 
     // Set themes
     // https://www.amcharts.com/docs/v5/concepts/themes/
@@ -226,5 +225,5 @@ export default function SortedBarChart({ data }: Props) {
     }
   }, [data])
 
-  return <div id="sorted-bar-chart" ref={chartRef} />
+  return <div id={id} />
 }

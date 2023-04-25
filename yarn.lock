@@ -6070,6 +6070,8 @@ __metadata:
       unplugged: true
     next@13.1.6:
       unplugged: true
+    next@13.3.0:
+      unplugged: true
   languageName: unknown
   linkType: soft
 

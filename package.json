@@ -57,10 +57,7 @@
     "typescript": "^4.9.4"
   },
   "dependenciesMeta": {
-    "next@13.0.4": {
-      "unplugged": true
-    },
-    "next@13.1.6": {
+    "next@13.3.0": {
       "unplugged": true
     }
   },
