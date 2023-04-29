@@ -26,9 +26,7 @@ async function getLocalExpendituresByProject(params: Record<string, string & str
   }
 
   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/expenditure/local/realm?${searchParams}`)
-
-  // if (!response.ok) throw new Error('Failed to fetch data') // `yarn build` not works
-  if (!response.ok) return JSON.parse(await response.text()).message as string
+  if (!response.ok) throw new Error(await response.text())
 
   return (await response.json()) as Response | null
 }

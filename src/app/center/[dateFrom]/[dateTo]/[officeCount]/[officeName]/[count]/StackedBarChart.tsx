@@ -5,7 +5,7 @@ import am5themes_Animated from '@amcharts/amcharts5/themes/Animated'
 import * as am5xy from '@amcharts/amcharts5/xy'
 import { useEffect } from 'react'
 
-import { vw } from '../../../../../../common/utils'
+import { vw } from '../../../../../../../common/utils'
 
 type Props = {
   data: any

@@ -1,15 +1,9 @@
-import dynamic from 'next/dynamic'
-import Link from 'next/link'
 import fetch from 'node-fetch'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../../../common/constants'
 import { PageProps } from '../../../../../common/types'
-import { formatPrice } from '../../../../../common/utils'
+import Charts from './Charts'
 import ExpenditureRowLink from './ExpenditureRowLink'
-import SemiCirclePieChart from './SemiCirclePieChart'
-import HorizontalBarGraph from './SortedBarChart'
-
-const Charts = dynamic(() => import('./Charts'), { ssr: false })
 
 type Response = {
   expenditures: any[]
@@ -25,9 +19,7 @@ async function getLocalExpenditures(params: Record<string, string & string[]>) {
   }
 
   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/expenditure/local?${searchParams}`)
-
-  // if (!response.ok) throw new Error('Failed to fetch data') // `yarn build` not works
-  if (!response.ok) return JSON.parse(await response.text()).message as string
+  if (!response.ok) throw new Error(await response.text())
 
   return (await response.json()) as Response | null
 }
