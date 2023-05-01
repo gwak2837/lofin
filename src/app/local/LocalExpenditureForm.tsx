@@ -36,22 +36,22 @@ export default function LocalExpenditureForm() {
   const params = usePathname()?.split('/') ?? []
   const dateFrom = params[2] ?? '2022-12-01'
   const dateTo = params[3] ?? '2022-12-31'
-  const localCodeParam = params[4] ? +params[4] : undefined
-  const projectCodeParam = params[5] ? +params[5] : undefined
-  const countParam = params[6] ? +params[6] : undefined
+  const localCodeParam = params[4] ? +params[4] : 11
+  const projectCodeParam = params[5] ? +params[5] : 0
+  const countParam = params[6] ? +params[6] : 20
 
   // Form
   const [calendarType, setCalendarType] = useState<CalendarType>('date')
   const dateRangePickerRef = useRef<TDateRangePicker>(null)
-  const [localCode, setLocalCode] = useState(localCodeParam ?? 11)
-  const [projectCode, setProjectCode] = useState(projectCodeParam ?? 0)
-  const [count, setCount] = useState(countParam ?? 20)
+  const [localCode, setLocalCode] = useState(localCodeParam)
+  const [projectCode, setProjectCode] = useState(projectCodeParam)
+  const [count, setCount] = useState(countParam)
 
   useEffect(() => {
-    setLocalCode(localCodeParam ?? 11)
-    setProjectCode(projectCodeParam ?? 0)
-    setCount(countParam ?? 20)
-  }, [localCodeParam, projectCodeParam, countParam])
+    setLocalCode(localCodeParam)
+    setProjectCode(projectCodeParam)
+    setCount(countParam)
+  }, [countParam, localCodeParam, projectCodeParam])
 
   const router = useRouter()
 
@@ -160,7 +160,7 @@ type Option = {
   value: any
 }
 
-const calendarTypeOptions: Option[] = [
+export const calendarTypeOptions: Option[] = [
   {
     label: '일별',
     value: 'date',

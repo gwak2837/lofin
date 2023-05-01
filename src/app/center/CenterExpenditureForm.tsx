@@ -1,41 +1,58 @@
 'use client'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import dynamic from 'next/dynamic'
+import { usePathname, useRouter } from 'next/navigation'
 import { FormEvent, useEffect, useRef, useState } from 'react'
-import { useForm } from 'react-hook-form'
 import Select from 'react-select'
 import { CalendarType, DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
 import { centerOfficeOptions } from '../../common/cefin'
-import { localOptions, projectOptions } from '../../common/lofin'
+import { calendarTypeOptions } from '../local/LocalExpenditureForm'
 
-type Form = {
-  dateFrom: string
-  dateTo: string
-  officeName?: string
-  count?: number
-}
+const DateRangePicker = dynamic(() => import('../../components/DateRangePicker'), {
+  ssr: false,
+  loading: () => (
+    <div className="grid grid-cols-[1fr_auto_1fr] gap-4 items-center">
+      <input
+        aria-label="Date"
+        className="p-2 border disabled:cursor-not-allowed"
+        disabled
+        placeholder="YYYY-MM-DD"
+        type="text"
+      />
+      <span>to</span>
+      <input
+        aria-label="Date"
+        className="p-2 border disabled:cursor-not-allowed"
+        disabled
+        placeholder="YYYY-MM-DD"
+        type="text"
+      />
+    </div>
+  ),
+})
 
 export default function CenterExpenditureForm() {
   // Pathname
   const params = usePathname()?.split('/') ?? []
-  const dateFromParam = params[2] ?? '2023'
-  const dateToParam = params[3] ?? '2023'
-  const officeCountParam = params[4] ? +params[4] : undefined
-  const officeNameParam = params[5]
-  const countParam = params[6] ? +params[6] : undefined
+  const dateFrom = params[2] ?? '2023'
+  const dateTo = params[3] ?? '2023'
+  const officeCountParam = params[4] ? +params[4] : 30
+  const officeNameParam = params[5] || '전체'
+  const countParam = params[6] ? +params[6] : 30
 
   // Form
+  const [calendarType, setCalendarType] = useState<CalendarType>('date')
   const dateRangePickerRef = useRef<TDateRangePicker>(null)
-  const [localCode, setLocalCode] = useState(11)
-  const [projectCode, setProjectCode] = useState(officeNameParam ?? 0)
-  const [count, setCount] = useState(countParam ?? 20)
+  const [officeCount, setOfficeCount] = useState(officeCountParam)
+  const [officeName, setOfficeName] = useState(officeNameParam)
+  const [count, setCount] = useState(countParam)
 
-  // useEffect(() => {
-  //   setLocalCode(localCodeParam ?? 11)
-  //   setProjectCode(projectCodeParam ?? 0)
-  //   setCount(countParam ?? 20)
-  // }, [localCodeParam, projectCodeParam, countParam])
+  useEffect(() => {
+    setOfficeCount(officeCountParam)
+    setOfficeName(officeNameParam)
+    setCount(countParam)
+  }, [countParam, officeCountParam, officeNameParam])
 
   const router = useRouter()
 
@@ -44,10 +61,12 @@ export default function CenterExpenditureForm() {
 
     if (!dateRangePickerRef.current) return
 
-    const dateFrom = dateRangePickerRef.current.getStartDate().toISOString().slice(0, 10)
-    const dateTo = dateRangePickerRef.current.getEndDate().toISOString().slice(0, 10)
+    const dateFrom = dateRangePickerRef.current.getStartDate().getFullYear()
+    const dateTo = dateRangePickerRef.current.getEndDate().getFullYear()
 
-    let searchResultPage = `/center/${dateFrom}/${dateTo}/${localCode}`
+    let searchResultPage = `/center/${dateFrom}/${dateTo}/${officeCount}`
+
+    if (officeName !== '전체') searchResultPage += `/${officeName}/${count}`
 
     router.push(searchResultPage)
   }
@@ -55,45 +74,50 @@ export default function CenterExpenditureForm() {
   return (
     <form className="m-2 p-2 whitespace-nowrap max-w-screen-md mx-auto" onSubmit={search}>
       <div className="grid grid-cols-[auto_1fr] items-center gap-4">
-        <span>기간</span>
-
-        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4">
-          <input
-            className="p-2 border w-full"
-            min="2007"
-            max="2023"
-            placeholder="2023"
-            type="number"
-          />
-          <span>~</span>
-          <input
-            className="p-2 border w-full"
-            min="2007"
-            max="2023"
-            placeholder="2023"
-            type="number"
+        <span>구분</span>
+        <div className="z-30">
+          <Select
+            instanceId="type"
+            onChange={(newType) => newType && setCalendarType(newType.value)}
+            options={calendarTypeOptions}
+            required
+            value={getOption(calendarTypeOptions, calendarType)}
           />
         </div>
 
-        {/* {officeName && (
-          <>
-            <span>소관명</span>
-            <div>
-              <Select
-                defaultValue={getOption(centerOfficeOptions, officeName)}
-                instanceId="officeName"
-                options={centerOfficeOptions}
-              />
-            </div>
-          </>
-        )} */}
+        <span>기간</span>
+        <div className="z-20">
+          <DateRangePicker
+            calendarType="year"
+            defaultDateFrom={dateFrom}
+            defaultDateTo={dateTo}
+            forwardedRef={dateRangePickerRef}
+          />
+        </div>
 
-        {count && (
-          <>
-            <span>개수</span>
-            <input className="p-2 border w-full" min="1" max="100" placeholder="20" type="number" />
-          </>
-        )}
+        <span>소관</span>
+        <div>
+          <Select
+            instanceId="officeName"
+            onChange={(newOfficeName) => newOfficeName && setOfficeName(newOfficeName.value)}
+            options={centerOfficeOptions}
+            required
+            value={getOption(centerOfficeOptions, officeName)}
+          />
+        </div>
+
+        <span>개수</span>
+        <input
+          className="p-2 border w-full"
+          min="1"
+          max="100"
+          onChange={(e) =>
+            officeName === '전체' ? setOfficeCount(+e.target.value) : setCount(+e.target.value)
+          }
+          placeholder="30"
+          type="number"
+          value={officeName === '전체' ? officeCount : count}
+        />
       </div>
 
       <button className="w-full p-4 my-4 rounded bg-sky-200 font-semibold">검색하기</button>
