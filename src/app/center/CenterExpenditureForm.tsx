@@ -38,7 +38,7 @@ export default function CenterExpenditureForm() {
   const dateFrom = params[2] ?? '2023'
   const dateTo = params[3] ?? '2023'
   const officeCountParam = params[4] ? +params[4] : 30
-  const officeNameParam = params[5] || '전체'
+  const officeNameParam = params[5] ? decodeURIComponent(params[5]) : '전체'
   const countParam = params[6] ? +params[6] : 30
 
   // Form

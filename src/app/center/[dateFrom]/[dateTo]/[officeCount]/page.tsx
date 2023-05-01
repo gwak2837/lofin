@@ -30,7 +30,7 @@ export default async function CenterExpenditurePage({ params }: PageProps) {
 
       {centerExpenditures ? (
         <>
-          <h3 className="text-xl m-6 text-center">부처별 상세 세출현황</h3>
+          <h3 className="text-xl m-6 text-center">소관별 상세 세출현황</h3>
           <div className="overflow-x-auto">
             <table className="w-full my-2 whitespace-nowrap">
               <thead>
