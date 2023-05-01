@@ -97,7 +97,7 @@ export default function SemiCirclePieChart({ id, data, keyField, valueField }: P
     return () => {
       root.dispose()
     }
-  }, [data, id])
+  }, [data, id, keyField, valueField])
 
   return <div id={id} />
 }

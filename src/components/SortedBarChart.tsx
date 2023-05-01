@@ -3,7 +3,7 @@
 import * as am5 from '@amcharts/amcharts5'
 import am5themes_Animated from '@amcharts/amcharts5/themes/Animated'
 import * as am5xy from '@amcharts/amcharts5/xy'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 
 import { vw } from '../common/utils'
 
@@ -219,7 +219,7 @@ export default function SortedBarChart({ id, data, keyField, valueField }: Props
     return () => {
       root.dispose()
     }
-  }, [data, id])
+  }, [data, id, keyField, valueField])
 
   return <div id={id} />
 }

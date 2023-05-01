@@ -1,7 +1,5 @@
 'use client'
 
-import { useEffect } from 'react'
-
 import { ErrorProps } from '../../../../../common/types'
 
 export default function CenterExpenditureError({ error, reset }: ErrorProps) {
