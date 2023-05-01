@@ -1,16 +1,22 @@
 import './DatePicker.css'
 
 import { useEffect, useRef } from 'react'
-import TDatePicker from 'tui-date-picker'
+import TDatePicker, { CalendarType } from 'tui-date-picker'
 import { DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
 type Props = {
+  calendarType?: CalendarType
   defaultDateFrom?: string
   defaultDateTo?: string
   forwardedRef: any
 }
 
-export default function DateRangePicker({ defaultDateFrom, defaultDateTo, forwardedRef }: Props) {
+export default function DateRangePicker({
+  calendarType,
+  defaultDateFrom,
+  defaultDateTo,
+  forwardedRef,
+}: Props) {
   const dateRangePickerRef = useRef<TDateRangePicker>()
   const dateFromContainerRef = useRef<HTMLDivElement>(null)
   const dateFromInputRef = useRef<HTMLInputElement>(null)
@@ -37,9 +43,16 @@ export default function DateRangePicker({ defaultDateFrom, defaultDateTo, forwar
         input: dateToInputRef.current,
         container: dateToContainerRef.current,
       },
+      format:
+        calendarType === 'date'
+          ? 'yyyy년 M월 d일'
+          : calendarType === 'month'
+          ? 'yyyy년 M월'
+          : 'yyyy년',
       language: 'ko',
-      selectableRanges: [[new Date('2022-01-01'), new Date('2022-12-31')]],
+      selectableRanges: [[new Date('2013-01-01'), new Date('2023-12-31')]],
       usageStatistics: false,
+      type: calendarType,
     })
 
     dateRangePickerRef.current = dateRangePicker
@@ -47,7 +60,7 @@ export default function DateRangePicker({ defaultDateFrom, defaultDateTo, forwar
     if (forwardedRef && typeof forwardedRef === 'object') {
       forwardedRef.current = dateRangePicker
     }
-  }, [defaultDateFrom, defaultDateTo, forwardedRef])
+  }, [defaultDateFrom, defaultDateTo, forwardedRef, calendarType])
 
   return (
     <div className="grid grid-cols-[1fr_auto_1fr] gap-4 items-center">

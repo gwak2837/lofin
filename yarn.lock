@@ -2347,7 +2347,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/d3@npm:^7.0.0, @types/d3@npm:^7.4.0":
+"@types/d3@npm:^7.0.0":
   version: 7.4.0
   resolution: "@types/d3@npm:7.4.0"
   dependencies:
@@ -2690,20 +2690,6 @@ __metadata:
     normalize-path: ^3.0.0
     picomatch: ^2.0.4
   checksum: 3e044fd6d1d26545f235a9fe4d7a534e2029d8e59fa7fd9f2a6eb21230f6b5380ea1eaf55136e60cbf8e613544b3b766e7a6fa2102e2a3a117505466e3025dc2
-  languageName: node
-  linkType: hard
-
-"apexcharts@npm:^3.39.0":
-  version: 3.39.0
-  resolution: "apexcharts@npm:3.39.0"
-  dependencies:
-    svg.draggable.js: ^2.2.2
-    svg.easing.js: ^2.0.0
-    svg.filter.js: ^2.0.2
-    svg.pathmorphing.js: ^0.1.3
-    svg.resize.js: ^1.4.3
-    svg.select.js: ^3.0.1
-  checksum: 2ffc7b2a581cf16726175d64f356e23db4da3636b4f4fa68616e7bc92bc5cb255218e4fa3e0be0c0de29fb041be67f17cbcfb1aa236e091bf645d3146d6b4ca6
   languageName: node
   linkType: hard
 
@@ -3349,13 +3335,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commander@npm:2":
-  version: 2.20.3
-  resolution: "commander@npm:2.20.3"
-  checksum: ab8c07884e42c3a8dbc5dd9592c606176c7eb5c1ca5ff274bcf907039b2c41de3626f684ea75ccf4d361ba004bbaff1f577d5384c155f3871e456bdf27becf9e
-  languageName: node
-  linkType: hard
-
 "commander@npm:7, commander@npm:^7.2.0":
   version: 7.2.0
   resolution: "commander@npm:7.2.0"
@@ -3915,7 +3894,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3@npm:^7.0.0, d3@npm:^7.8.4":
+"d3@npm:^7.0.0":
   version: 7.8.4
   resolution: "d3@npm:7.8.4"
   dependencies:
@@ -6049,15 +6028,12 @@ __metadata:
     "@amcharts/amcharts5": ^5.3.11
     "@svgr/webpack": ^6.5.1
     "@tanstack/react-query": ^4.29.5
-    "@types/d3": ^7.4.0
     "@types/node": 18.16.3
     "@types/react": 18.2.0
     "@types/react-dom": 18.2.1
-    apexcharts: ^3.39.0
     autoprefixer: ^10.4.14
     cssnano: ^5.1.15
     cssnano-preset-advanced: ^5.3.10
-    d3: ^7.8.4
     eslint: 8.38.0
     eslint-config-next: ^13.3.1
     eslint-config-prettier: ^8.8.0
@@ -6076,12 +6052,9 @@ __metadata:
     sanitize.css: ^13.0.0
     sharp: ^0.32.1
     tailwindcss: ^3.3.2
-    topojson: ^3.0.2
     tui-date-picker: ^4.3.3
     typescript: ^4.9.5
   dependenciesMeta:
-    next@13.3.0:
-      unplugged: true
     next@13.3.1:
       unplugged: true
   languageName: unknown
@@ -8353,77 +8326,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svg.draggable.js@npm:^2.2.2":
-  version: 2.2.2
-  resolution: "svg.draggable.js@npm:2.2.2"
-  dependencies:
-    svg.js: ^2.0.1
-  checksum: b9068975d743be664695e7d4323624bba8ff2795b855a46a2f15c842827022684501d63239c99723238d39c9f991940dc04639b8f43ac124fd9ca44a34e6aab2
-  languageName: node
-  linkType: hard
-
-"svg.easing.js@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "svg.easing.js@npm:2.0.0"
-  dependencies:
-    svg.js: ">=2.3.x"
-  checksum: 0f7df78333d879dc00200ddbb4e9d7d745307c002b5dd242ddaf276e8d907067ab75383869ef1940975be1765d595d379ced491ff4bdf78d867bff8225544e92
-  languageName: node
-  linkType: hard
-
-"svg.filter.js@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "svg.filter.js@npm:2.0.2"
-  dependencies:
-    svg.js: ^2.2.5
-  checksum: f0e780bfe385336a7c9d1d8a3ebba1ca9712f6bf0917769fd30c9fd4e3559186ec18d4d6520d9841a9cceba2ac8ff1eacc76b98f7e8b15d5f4a58975a8ecdc64
-  languageName: node
-  linkType: hard
-
-"svg.js@npm:>=2.3.x, svg.js@npm:^2.0.1, svg.js@npm:^2.2.5, svg.js@npm:^2.4.0, svg.js@npm:^2.6.5":
-  version: 2.7.1
-  resolution: "svg.js@npm:2.7.1"
-  checksum: 945bfc9623985fefb4c7275a1b98b5168e5857291f46cbd299bd2e14ce7f4428fea6569c7446d37b75694c43dea01a5f179fbce4f770e7dcd136117bb8f1a3f3
-  languageName: node
-  linkType: hard
-
-"svg.pathmorphing.js@npm:^0.1.3":
-  version: 0.1.3
-  resolution: "svg.pathmorphing.js@npm:0.1.3"
-  dependencies:
-    svg.js: ^2.4.0
-  checksum: bcbe1ccea95c980fa127cb6ad955f1970d763143ab11576cca2fd8d13616deedf933bc17a6310754cd0cb404ac501d627afb5805c578878e4c8f24e1818a7de6
-  languageName: node
-  linkType: hard
-
-"svg.resize.js@npm:^1.4.3":
-  version: 1.4.3
-  resolution: "svg.resize.js@npm:1.4.3"
-  dependencies:
-    svg.js: ^2.6.5
-    svg.select.js: ^2.1.2
-  checksum: 8f4116f4422b72c66bb1110dca2d77ab2cc0665db1e0cd1c0020e06fe9684f53d9bc7aca3b90ce82ce35103ff8ea83a93df1db5d88c889e511d7622c9b000884
-  languageName: node
-  linkType: hard
-
-"svg.select.js@npm:^2.1.2":
-  version: 2.1.2
-  resolution: "svg.select.js@npm:2.1.2"
-  dependencies:
-    svg.js: ^2.2.5
-  checksum: 1dbbb44d16170aad1372e0f8f0d109a21e4216e1e4e28a566738c6cb6b4519b37e44cd1f7de06f3c8eec5e588845d8cbb0e37efc89b8d27401e4c6a0a13564a4
-  languageName: node
-  linkType: hard
-
-"svg.select.js@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "svg.select.js@npm:3.0.1"
-  dependencies:
-    svg.js: ^2.6.5
-  checksum: 0ce3bda86f4b527ce1add02d0ac61ac26678db24c0e4126c584b752e65a1c3458bbe958e29eb4604b3157ef1fdace37b727eccbc2ccdb4fce0015e0ad196fc1c
-  languageName: node
-  linkType: hard
-
 "svgo@npm:^2.7.0, svgo@npm:^2.8.0":
   version: 2.8.0
   resolution: "svgo@npm:2.8.0"
@@ -8610,72 +8512,6 @@ __metadata:
   dependencies:
     is-number: ^7.0.0
   checksum: f76fa01b3d5be85db6a2a143e24df9f60dd047d151062d0ba3df62953f2f697b16fe5dad9b0ac6191c7efc7b1d9dcaa4b768174b7b29da89d4428e64bc0a20ed
-  languageName: node
-  linkType: hard
-
-"topojson-client@npm:3":
-  version: 3.1.0
-  resolution: "topojson-client@npm:3.1.0"
-  dependencies:
-    commander: 2
-  bin:
-    topo2geo: bin/topo2geo
-    topomerge: bin/topomerge
-    topoquantize: bin/topoquantize
-  checksum: 8c029a4f18324ace0b8b55dd90edbd40c9e3c6de18bafbb5da37ca20ebf20e26fbd4420891acb3c2c264e214185f7557871f5651a9eee517028663be98d836de
-  languageName: node
-  linkType: hard
-
-"topojson-client@npm:3.0.0":
-  version: 3.0.0
-  resolution: "topojson-client@npm:3.0.0"
-  dependencies:
-    commander: 2
-  bin:
-    topo2geo: bin/topo2geo
-    topomerge: bin/topomerge
-    topoquantize: bin/topoquantize
-  checksum: 3f9ee073e11136656951cb27e82e8904e875e75a70657a994e5b6057fb6d088e9941d435772ba1ccb611819856adad34987e7cdcd1e3e1d2b0437ff62f72fa80
-  languageName: node
-  linkType: hard
-
-"topojson-server@npm:3.0.0":
-  version: 3.0.0
-  resolution: "topojson-server@npm:3.0.0"
-  dependencies:
-    commander: 2
-  bin:
-    geo2topo: bin/geo2topo
-  checksum: 590921ec6d536de9ddb565b598d0fa7dfa26eb4bdb3de9b7bb3d7ae6cf33ae54d0e98baadbbcd80acb72beea0ca20130c20c2bdd177baba387ddf47468ee76ee
-  languageName: node
-  linkType: hard
-
-"topojson-simplify@npm:3.0.2":
-  version: 3.0.2
-  resolution: "topojson-simplify@npm:3.0.2"
-  dependencies:
-    commander: 2
-    topojson-client: 3
-  bin:
-    toposimplify: bin/toposimplify
-  checksum: d80ffe90571c15acff847baa9b35da224765db46aa6e60252a9f78d39097b3432677c81eaa9635e7251fcd1ce1b098f6bbe94b4407ee180cabe60c6850184cda
-  languageName: node
-  linkType: hard
-
-"topojson@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "topojson@npm:3.0.2"
-  dependencies:
-    topojson-client: 3.0.0
-    topojson-server: 3.0.0
-    topojson-simplify: 3.0.2
-  bin:
-    geo2topo: node_modules/topojson-server/bin/geo2topo
-    topo2geo: node_modules/topojson-client/bin/topo2geo
-    topomerge: node_modules/topojson-client/bin/topomerge
-    topoquantize: node_modules/topojson-client/bin/topoquantize
-    toposimplify: node_modules/topojson-simplify/bin/toposimplify
-  checksum: 8c1b6f3f184e033539063a65be72c361ab68eb1d92b26b885c65fe551cee874018c70c8db1c54bcb9cd5990140610cf6479cbc6b7f6d2a2e2d1ad5fa2251d98e
   languageName: node
   linkType: hard
 

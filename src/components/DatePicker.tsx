@@ -3,14 +3,15 @@
 import './DatePicker.css'
 
 import { useEffect, useRef } from 'react'
-import TDatePicker from 'tui-date-picker'
+import TDatePicker, { CalendarType } from 'tui-date-picker'
 
 type Props = {
   defaultValue: string
   forwardedRef: any
+  type?: CalendarType
 }
 
-export default function DatePicker({ defaultValue, forwardedRef }: Props) {
+export default function DatePicker({ defaultValue, forwardedRef, type }: Props) {
   const dateContainerRef = useRef<HTMLDivElement>(null)
   const dateInputRef = useRef<HTMLInputElement>(null)
 
@@ -25,12 +26,13 @@ export default function DatePicker({ defaultValue, forwardedRef }: Props) {
       language: 'ko',
       selectableRanges: [[new Date('2022-01-01'), new Date('2022-12-31')]],
       usageStatistics: false,
+      type,
     })
 
     if (forwardedRef && typeof forwardedRef === 'object') {
       forwardedRef.current = datePicker
     }
-  }, [defaultValue, forwardedRef])
+  }, [defaultValue, forwardedRef, type])
 
   return (
     <div>

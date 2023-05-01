@@ -23,8 +23,6 @@
     "@amcharts/amcharts5": "^5.3.11",
     "@svgr/webpack": "^6.5.1",
     "@tanstack/react-query": "^4.29.5",
-    "apexcharts": "^3.39.0",
-    "d3": "^7.8.4",
     "lru-cache": "^7.18.3",
     "next": "^13.3.1",
     "node-fetch": "^3.3.1",
@@ -36,11 +34,9 @@
     "recoil": "^0.7.7",
     "sanitize.css": "^13.0.0",
     "sharp": "^0.32.1",
-    "topojson": "^3.0.2",
     "tui-date-picker": "^4.3.3"
   },
   "devDependencies": {
-    "@types/d3": "^7.4.0",
     "@types/node": "18.16.3",
     "@types/react": "18.2.0",
     "@types/react-dom": "18.2.1",

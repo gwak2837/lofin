@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 import { usePathname, useRouter } from 'next/navigation'
 import { FormEvent, useEffect, useRef, useState } from 'react'
 import Select from 'react-select'
-import { DateRangePicker as TDateRangePicker } from 'tui-date-picker'
+import { CalendarType, DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
 import { localOptions, projectOptions } from '../../common/lofin'
 
@@ -41,6 +41,7 @@ export default function LocalExpenditureForm() {
   const countParam = params[6] ? +params[6] : undefined
 
   // Form
+  const [calendarType, setCalendarType] = useState<CalendarType>('date')
   const dateRangePickerRef = useRef<TDateRangePicker>(null)
   const [localCode, setLocalCode] = useState(localCodeParam ?? 11)
   const [projectCode, setProjectCode] = useState(projectCodeParam ?? 0)
@@ -60,7 +61,13 @@ export default function LocalExpenditureForm() {
     if (!dateRangePickerRef.current) return
 
     const dateFrom = dateRangePickerRef.current.getStartDate().toISOString().slice(0, 10)
-    const dateTo = dateRangePickerRef.current.getEndDate().toISOString().slice(0, 10)
+
+    const dateTo = (() => {
+      const endDate = dateRangePickerRef.current.getEndDate()
+      endDate.setMonth(endDate.getMonth() + 1)
+      endDate.setDate(0)
+      return endDate.toISOString().slice(0, 10)
+    })()
 
     let searchResultPage = `/local/${dateFrom}/${dateTo}/${localCode}`
 
@@ -72,9 +79,21 @@ export default function LocalExpenditureForm() {
   return (
     <form className="m-2 p-2 whitespace-nowrap max-w-screen-md mx-auto" onSubmit={search}>
       <div className="grid grid-cols-[auto_1fr] items-center gap-4">
+        <span>구분</span>
+        <div className="z-30">
+          <Select
+            instanceId="type"
+            onChange={(newType) => newType && setCalendarType(newType.value)}
+            options={calendarTypeOptions}
+            required
+            value={getOption(calendarTypeOptions, calendarType)}
+          />
+        </div>
+
         <span>기간</span>
         <div className="z-20">
           <DateRangePicker
+            calendarType={calendarType}
             defaultDateFrom={dateFrom}
             defaultDateTo={dateTo}
             forwardedRef={dateRangePickerRef}
@@ -99,7 +118,7 @@ export default function LocalExpenditureForm() {
             onChange={(newProjectCode) => newProjectCode && setProjectCode(newProjectCode.value)}
             options={projectOptions}
             required
-            value={getProjectOption(projectOptions, projectCode)}
+            value={getOption(projectOptions, projectCode)}
           />
         </div>
 
@@ -127,8 +146,23 @@ export default function LocalExpenditureForm() {
 
 type Option = {
   label: string
-  value: number
+  value: any
 }
+
+const calendarTypeOptions: Option[] = [
+  {
+    label: '일별',
+    value: 'date',
+  },
+  {
+    label: '월별',
+    value: 'month',
+  },
+  {
+    label: '연도별',
+    value: 'year',
+  },
+]
 
 function getLocalOption(groupedLocalGovs: Record<string, any>[], localCode: number) {
   for (const localOption of groupedLocalGovs) {
@@ -137,8 +171,8 @@ function getLocalOption(groupedLocalGovs: Record<string, any>[], localCode: numb
   }
 }
 
-function getProjectOption(projectOptions: Option[], projectCode: number) {
-  for (const projectOption of projectOptions) {
-    if (projectOption.value === projectCode) return projectOption
+function getOption(options: Option[], value: any) {
+  for (const option of options) {
+    if (option.value === value) return option
   }
 }

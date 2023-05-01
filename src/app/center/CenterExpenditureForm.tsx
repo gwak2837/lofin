@@ -1,11 +1,10 @@
 'use client'
 
-import { count } from 'd3'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useRef } from 'react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Select from 'react-select'
-import { DateRangePicker } from 'tui-date-picker'
+import { CalendarType, DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
 import { centerOfficeOptions } from '../../common/cefin'
 import { localOptions, projectOptions } from '../../common/lofin'
@@ -18,55 +17,46 @@ type Form = {
 }
 
 export default function CenterExpenditureForm() {
+  // Pathname
   const params = usePathname()?.split('/') ?? []
+  const dateFromParam = params[2] ?? '2023'
+  const dateToParam = params[3] ?? '2023'
+  const officeCountParam = params[4] ? +params[4] : undefined
+  const officeNameParam = params[5]
+  const countParam = params[6] ? +params[6] : undefined
 
-  // Required
-  const dateFrom = params[2] ?? '2022'
-  const dateTo = params[3] ?? '2022'
+  // Form
+  const dateRangePickerRef = useRef<TDateRangePicker>(null)
+  const [localCode, setLocalCode] = useState(11)
+  const [projectCode, setProjectCode] = useState(officeNameParam ?? 0)
+  const [count, setCount] = useState(countParam ?? 20)
 
-  // Optional
-  const officeName = params[4]
-  const count = params[5] ? +params[5] : undefined
-
-  const {
-    formState: { errors },
-    handleSubmit,
-    register,
-    setValue,
-  } = useForm<Form>({
-    defaultValues: {
-      dateFrom,
-      dateTo,
-      officeName,
-      count,
-    },
-    delayError: 500,
-  })
-
-  useEffect(() => {
-    setValue('officeName', officeName)
-    setValue('count', count)
-  }, [count, officeName, setValue])
+  // useEffect(() => {
+  //   setLocalCode(localCodeParam ?? 11)
+  //   setProjectCode(projectCodeParam ?? 0)
+  //   setCount(countParam ?? 20)
+  // }, [localCodeParam, projectCodeParam, countParam])
 
   const router = useRouter()
 
-  function search(input: Form) {
-    const { officeName, count } = input
+  function search(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
 
-    let searchResultPage = `/center/${dateFrom}/${dateTo}`
+    if (!dateRangePickerRef.current) return
 
-    if (officeName && count) searchResultPage += `/${officeName}/${count}`
+    const dateFrom = dateRangePickerRef.current.getStartDate().toISOString().slice(0, 10)
+    const dateTo = dateRangePickerRef.current.getEndDate().toISOString().slice(0, 10)
+
+    let searchResultPage = `/center/${dateFrom}/${dateTo}/${localCode}`
 
     router.push(searchResultPage)
   }
 
   return (
-    <form
-      className="m-2 p-2 whitespace-nowrap max-w-screen-md mx-auto"
-      onSubmit={handleSubmit(search)}
-    >
+    <form className="m-2 p-2 whitespace-nowrap max-w-screen-md mx-auto" onSubmit={search}>
       <div className="grid grid-cols-[auto_1fr] items-center gap-4">
         <span>기간</span>
+
         <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4">
           <input
             className="p-2 border w-full"
@@ -74,7 +64,6 @@ export default function CenterExpenditureForm() {
             max="2023"
             placeholder="2023"
             type="number"
-            {...register('dateFrom', { min: 2007, max: 2023 })}
           />
           <span>~</span>
           <input
@@ -83,11 +72,10 @@ export default function CenterExpenditureForm() {
             max="2023"
             placeholder="2023"
             type="number"
-            {...register('dateTo', { min: 2007, max: 2023 })}
           />
         </div>
 
-        {officeName && (
+        {/* {officeName && (
           <>
             <span>소관명</span>
             <div>
@@ -95,26 +83,15 @@ export default function CenterExpenditureForm() {
                 defaultValue={getOption(centerOfficeOptions, officeName)}
                 instanceId="officeName"
                 options={centerOfficeOptions}
-                {...register('officeName')}
-                onChange={(newOfficeName) =>
-                  newOfficeName && setValue('officeName', newOfficeName.value)
-                }
               />
             </div>
           </>
-        )}
+        )} */}
 
         {count && (
           <>
             <span>개수</span>
-            <input
-              className="p-2 border w-full"
-              min="1"
-              max="100"
-              placeholder="20"
-              type="number"
-              {...register('count', { min: 1, max: 100 })}
-            />
+            <input className="p-2 border w-full" min="1" max="100" placeholder="20" type="number" />
           </>
         )}
       </div>
