@@ -26,11 +26,12 @@ export default async function CenterExpenditurePage({ params }: PageProps) {
 
   return (
     <>
-      {centerExpenditures && <h2 className="text-2xl m-6 text-center">중앙부처예산진단</h2>}
-
       {centerExpenditures ? (
         <>
-          <h3 className="text-xl m-6 text-center">소관별 상세 세출현황</h3>
+          <h2 className="text-2xl m-6 text-center">중앙부처예산진단</h2>
+
+          <h3 className="text-xl mt-6 text-center">소관별 상세 예산편성현황</h3>
+          <h5 className="text-sm mt-2 text-center">단위: 백만</h5>
           <div className="overflow-x-auto">
             <table className="w-full my-2 whitespace-nowrap">
               <thead>

@@ -29,10 +29,9 @@ export default async function LocalExpendituresPage({ params }: PageProps) {
 
   return (
     <>
-      {localExpenditures && <h2 className="text-2xl m-6 text-center">지역예산진단</h2>}
-
-      {localExpenditures && typeof localExpenditures === 'object' ? (
+      {localExpenditures && (
         <>
+          <h2 className="text-2xl m-6 text-center">지역예산진단</h2>
           <Charts expenditures={localExpenditures.expenditures} />
 
           <h3 className="text-xl m-6 text-center">분야별 상세 세출현황</h3>
@@ -77,8 +76,6 @@ export default async function LocalExpendituresPage({ params }: PageProps) {
             </table>
           </div>
         </>
-      ) : (
-        <div className="text-center">{localExpenditures}</div>
       )}
     </>
   )

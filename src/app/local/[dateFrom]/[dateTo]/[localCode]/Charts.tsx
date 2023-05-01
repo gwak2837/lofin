@@ -2,15 +2,20 @@
 
 import { useState } from 'react'
 
-import SemiCirclePieChart from './SemiCirclePieChart'
-import SortedBarChart from './SortedBarChart'
+import SemiCirclePieChart from '../../../../../components/SemiCirclePieChart'
+import SortedBarChart from '../../../../../components/SortedBarChart'
 
 type Props = {
-  expenditures: any
+  expenditures: Record<string, any>[]
 }
 
 export default function Charts({ expenditures }: Props) {
   const [i, setI] = useState(0)
+
+  const data = expenditures.map((expenditure) => ({
+    realm: expenditure.realm,
+    budget_crntam_sum: Math.floor(+expenditure.budget_crntam_sum / 1_000_000),
+  }))
 
   return (
     <>
@@ -30,8 +35,22 @@ export default function Charts({ expenditures }: Props) {
           {'>'}
         </button>
       </div>
-      {i === 0 && <SortedBarChart id="local-expenditure-bar" data={expenditures} />}
-      {i === 1 && <SemiCirclePieChart id="local-expenditure-circle" data={expenditures} />}
+      {i === 0 && (
+        <SortedBarChart
+          id="local-expenditure-bar"
+          data={data}
+          keyField="realm"
+          valueField="budget_crntam_sum"
+        />
+      )}
+      {i === 1 && (
+        <SemiCirclePieChart
+          id="local-expenditure-circle"
+          data={data}
+          keyField="realm"
+          valueField="budget_crntam_sum"
+        />
+      )}
     </>
   )
 }

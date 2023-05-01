@@ -35,19 +35,13 @@ export default async function LocalExpendituresByProjectPage({ params }: PagePro
   const localExpenditures = await getLocalExpendituresByProject(params)
 
   return (
-    <>
-      {localExpenditures && (
-        <>
-          <h2 className="text-2xl mt-6 text-center">세부사업별 예산현액</h2>
-          <h5 className="text-sm mt-2 text-center">단위: 백만</h5>
-        </>
-      )}
+    localExpenditures && (
+      <>
+        <h2 className="text-2xl mt-6 text-center">세부사업별 예산현액</h2>
+        <h5 className="text-sm mt-2 text-center">단위: 백만</h5>
 
-      {localExpenditures && typeof localExpenditures === 'object' ? (
         <StackedBarChart data={localExpenditures.expenditures} />
-      ) : (
-        <div className="text-center">{localExpenditures}</div>
-      )}
-    </>
+      </>
+    )
   )
 }

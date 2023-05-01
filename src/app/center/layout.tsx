@@ -1,7 +1,8 @@
-import CenterExpenditureForm from './CenterExpenditureForm'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ReactNode } from 'react'
+
+import CenterExpenditureForm from './CenterExpenditureForm'
 
 type Props = {
   children: ReactNode
@@ -20,8 +21,11 @@ export default function CenterExpenditureLayout({ children }: Props) {
             height="798"
           />
         </Link>
-        <h2 className="text-2xl whitespace-nowrap">중앙 부처 사업 도출</h2>
+        <Link href="/center" className="hover:no-underline focus:no-underline">
+          <h2 className="text-2xl whitespace-nowrap text-black ">중앙 부처 사업 도출</h2>
+        </Link>
       </div>
+
       <CenterExpenditureForm />
 
       {children}

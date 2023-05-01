@@ -5,14 +5,16 @@ import am5themes_Animated from '@amcharts/amcharts5/themes/Animated'
 import * as am5xy from '@amcharts/amcharts5/xy'
 import { useEffect, useRef } from 'react'
 
-import { vw } from '../../../../../../../common/utils'
+import { vw } from '../common/utils'
 
 type Props = {
   id: string
-  data: any
+  data: Record<string, any>[]
+  keyField: string
+  valueField: string
 }
 
-export default function SortedBarChart({ id, data }: Props) {
+export default function SortedBarChart({ id, data, keyField, valueField }: Props) {
   useEffect(() => {
     // Create root element
     // https://www.amcharts.com/docs/v5/getting-started/#Root_element
@@ -40,12 +42,6 @@ export default function SortedBarChart({ id, data }: Props) {
       })
     )
 
-    // Data
-    const data2 = data.map((d: any) => ({
-      network: d.sactv_nm,
-      value: Math.floor(+d.y_yy_dfn_medi_kcur_amt_sum / 1_000_000),
-    }))
-
     // Create axes
     // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
     const yRenderer = am5xy.AxisRendererY.new(root, {
@@ -72,7 +68,7 @@ export default function SortedBarChart({ id, data }: Props) {
 
     const yAxis = chart.yAxes.push(
       am5xy.CategoryAxis.new(root, {
-        categoryField: 'network',
+        categoryField: keyField,
         maxDeviation: 0,
         renderer: yRenderer,
         tooltip: tooltip,
@@ -113,8 +109,8 @@ export default function SortedBarChart({ id, data }: Props) {
         name: '예산현액',
         xAxis: xAxis,
         yAxis: yAxis,
-        valueXField: 'value',
-        categoryYField: 'network',
+        valueXField: valueField,
+        categoryYField: keyField,
         tooltip: am5.Tooltip.new(root, {
           pointerOrientation: 'left',
           labelText: '{valueX}',
@@ -158,8 +154,8 @@ export default function SortedBarChart({ id, data }: Props) {
       chart.get('colors')?.getIndex(series.columns.indexOf(target))
     )
 
-    yAxis.data.setAll(data2)
-    series.data.setAll(data2)
+    yAxis.data.setAll(data)
+    series.data.setAll(data)
     sortCategoryAxis()
 
     // Get series item by category

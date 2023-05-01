@@ -2,7 +2,7 @@ import fetch from 'node-fetch'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../../../../../common/constants'
 import { PageProps } from '../../../../../../../common/types'
-import SortedBarChart from './SortedBarChart'
+import SortedBarChart from '../../../../../../../components/SortedBarChart'
 
 type Response = {
   expenditures: any[]
@@ -29,7 +29,11 @@ async function getCenterExpendituresByOffice(params: Record<string, string & str
 
 export default async function CenterExpendituresByOfficePage({ params }: PageProps) {
   const centerExpenditures = await getCenterExpendituresByOffice(params)
-  console.log('👀 ~ centerExpenditures:', centerExpenditures)
+
+  const data = centerExpenditures?.expenditures.map((expenditure) => ({
+    sactv_nm: expenditure.sactv_nm,
+    y_yy_dfn_medi_kcur_amt_sum: Math.floor(+expenditure.y_yy_dfn_medi_kcur_amt_sum / 1_000),
+  }))
 
   return (
     <>
@@ -40,10 +44,13 @@ export default async function CenterExpendituresByOfficePage({ params }: PagePro
         </>
       )}
 
-      {centerExpenditures && typeof centerExpenditures === 'object' ? (
-        <SortedBarChart id="123" data={centerExpenditures.expenditures} />
-      ) : (
-        <div className="text-center">{centerExpenditures}</div>
+      {data && (
+        <SortedBarChart
+          id="123"
+          data={data}
+          keyField="sactv_nm"
+          valueField="y_yy_dfn_medi_kcur_amt_sum"
+        />
       )}
     </>
   )

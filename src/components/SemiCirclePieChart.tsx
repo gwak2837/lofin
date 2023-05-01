@@ -7,10 +7,12 @@ import { useEffect } from 'react'
 
 type Props = {
   id: string
-  data: any
+  data: Record<string, any>[]
+  keyField: string
+  valueField: string
 }
 
-export default function SemiCirclePieChart({ id, data }: Props) {
+export default function SemiCirclePieChart({ id, data, keyField, valueField }: Props) {
   useEffect(() => {
     // Create root element
     // https://www.amcharts.com/docs/v5/getting-started/#Root_element
@@ -49,8 +51,8 @@ export default function SemiCirclePieChart({ id, data }: Props) {
         name: '예산현액 비율',
         startAngle: 180,
         endAngle: 360,
-        valueField: 'budget_crntam_sum',
-        categoryField: 'realm',
+        valueField: valueField,
+        categoryField: keyField,
         alignLabels: false,
         // tooltip,
       })

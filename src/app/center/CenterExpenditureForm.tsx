@@ -4,10 +4,9 @@ import dynamic from 'next/dynamic'
 import { usePathname, useRouter } from 'next/navigation'
 import { FormEvent, useEffect, useRef, useState } from 'react'
 import Select from 'react-select'
-import { CalendarType, DateRangePicker as TDateRangePicker } from 'tui-date-picker'
+import { DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
 import { centerOfficeOptions } from '../../common/cefin'
-import { calendarTypeOptions } from '../local/LocalExpenditureForm'
 
 const DateRangePicker = dynamic(() => import('../../components/DateRangePicker'), {
   ssr: false,
@@ -42,7 +41,6 @@ export default function CenterExpenditureForm() {
   const countParam = params[6] ? +params[6] : 30
 
   // Form
-  const [calendarType, setCalendarType] = useState<CalendarType>('date')
   const dateRangePickerRef = useRef<TDateRangePicker>(null)
   const [officeCount, setOfficeCount] = useState(officeCountParam)
   const [officeName, setOfficeName] = useState(officeNameParam)
@@ -74,17 +72,6 @@ export default function CenterExpenditureForm() {
   return (
     <form className="m-2 p-2 whitespace-nowrap max-w-screen-md mx-auto" onSubmit={search}>
       <div className="grid grid-cols-[auto_1fr] items-center gap-4">
-        <span>구분</span>
-        <div className="z-30">
-          <Select
-            instanceId="type"
-            onChange={(newType) => newType && setCalendarType(newType.value)}
-            options={calendarTypeOptions}
-            required
-            value={getOption(calendarTypeOptions, calendarType)}
-          />
-        </div>
-
         <span>기간</span>
         <div className="z-20">
           <DateRangePicker

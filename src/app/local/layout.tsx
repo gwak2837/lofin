@@ -25,6 +25,7 @@ export default function LocalExpenditureLayout({ children }: Props) {
           <h2 className="text-2xl whitespace-nowrap text-black ">예산 진단 지표 분석</h2>
         </Link>
       </div>
+
       <LocalExpenditureForm />
 
       {children}
