@@ -64,9 +64,20 @@ export default function LocalExpenditureForm() {
 
     const dateTo = (() => {
       const endDate = dateRangePickerRef.current.getEndDate()
-      endDate.setMonth(endDate.getMonth() + 1)
-      endDate.setDate(0)
-      return endDate.toISOString().slice(0, 10)
+
+      if (calendarType === 'date') {
+        const month = String(endDate.getMonth() + 1).padStart(2, '0')
+        const date = String(endDate.getDate()).padStart(2, '0')
+        return `${endDate.getFullYear()}-${month}-${date}`
+      } else if (calendarType === 'month') {
+        endDate.setMonth(endDate.getMonth() + 1)
+        endDate.setDate(0)
+        const month = String(endDate.getMonth() + 1).padStart(2, '0')
+        const date = String(endDate.getDate()).padStart(2, '0')
+        return `${endDate.getFullYear()}-${month}-${date}`
+      } else {
+        return `${endDate.getFullYear()}-${12}-${31}`
+      }
     })()
 
     let searchResultPage = `/local/${dateFrom}/${dateTo}/${localCode}`

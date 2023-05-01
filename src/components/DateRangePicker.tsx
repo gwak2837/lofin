@@ -43,6 +43,9 @@ export default function DateRangePicker({
         input: dateToInputRef.current,
         container: dateToContainerRef.current,
       },
+      calendar: {
+        usageStatistics: false,
+      },
       format:
         calendarType === 'date'
           ? 'yyyy년 M월 d일'
@@ -50,7 +53,7 @@ export default function DateRangePicker({
           ? 'yyyy년 M월'
           : 'yyyy년',
       language: 'ko',
-      selectableRanges: [[new Date('2013-01-01'), new Date('2023-12-31')]],
+      selectableRanges: [[new Date(2013, 0, 1), new Date(2023, 11, 31)]],
       usageStatistics: false,
       type: calendarType,
     })
