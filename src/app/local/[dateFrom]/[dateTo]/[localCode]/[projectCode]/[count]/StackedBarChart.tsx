@@ -70,7 +70,7 @@ export default function StackedBarChart({ data }: Props) {
     })
 
     yRenderer.labels.template.setAll({
-      oversizedBehavior: 'truncate', // You can replace it with "truncate".
+      oversizedBehavior: 'truncate',
       maxWidth: 200,
       textAlign: 'right',
     })

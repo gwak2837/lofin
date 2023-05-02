@@ -5,6 +5,8 @@ import am5themes_Animated from '@amcharts/amcharts5/themes/Animated'
 import * as am5xy from '@amcharts/amcharts5/xy'
 import { useEffect } from 'react'
 
+import { vw } from '../common/utils'
+
 type Props = {
   id: string
   data: Record<string, any>[]
@@ -41,14 +43,23 @@ export default function ClusteredBarChart({ id, data, keyField, valueFields }: P
 
     // Create axes
     // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+    const yRenderer = am5xy.AxisRendererY.new(root, {
+      inversed: true,
+      cellStartLocation: 0.1,
+      cellEndLocation: 0.9,
+      minGridDistance: 20,
+    })
+
+    yRenderer.labels.template.setAll({
+      oversizedBehavior: 'wrap',
+      maxWidth: Math.max(100, Math.min(vw(25), 250)),
+      textAlign: 'center',
+    })
+
     const yAxis = chart.yAxes.push(
       am5xy.CategoryAxis.new(root, {
         categoryField: keyField,
-        renderer: am5xy.AxisRendererY.new(root, {
-          inversed: true,
-          cellStartLocation: 0.1,
-          cellEndLocation: 0.9,
-        }),
+        renderer: yRenderer,
       })
     )
 
