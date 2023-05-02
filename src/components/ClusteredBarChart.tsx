@@ -155,7 +155,7 @@ export default function ClusteredBarChart({ id, data, keyField, valueFields }: P
     cursor.lineY.set('forceHidden', true)
     cursor.lineX.set('forceHidden', true)
 
-    chart.root.dom.style.height = `${valueFields.length * data.length * 45 + 100}px`
+    chart.root.dom.style.height = `${valueFields.length * data.length * 40 + 100}px`
 
     // Make stuff animate on load
     // https://www.amcharts.com/docs/v5/concepts/animations/

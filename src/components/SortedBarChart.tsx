@@ -28,10 +28,8 @@ export default function SortedBarChart({ id, data, keyField, valueField }: Props
     // https://www.amcharts.com/docs/v5/charts/xy-chart/
     const chart = root.container.children.push(
       am5xy.XYChart.new(root, {
-        // panX: true,
-        // panY: true,
-        wheelX: 'zoomY',
-        wheelY: 'panY',
+        wheelX: 'panX',
+        wheelY: 'zoomX',
       })
     )
 
