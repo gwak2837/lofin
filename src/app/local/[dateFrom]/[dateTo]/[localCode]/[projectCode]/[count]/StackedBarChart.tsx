@@ -145,10 +145,6 @@ export default function StackedBarChart({ data }: Props) {
 
       series.data.setAll(data2)
 
-      // Make stuff animate on load
-      // https://www.amcharts.com/docs/v5/concepts/animations/
-      series.appear()
-
       series.bullets.push(() =>
         am5.Bullet.new(root, {
           sprite: am5.Label.new(root, {
@@ -170,6 +166,10 @@ export default function StackedBarChart({ data }: Props) {
           }
         })
       })
+
+      // Make stuff animate on load
+      // https://www.amcharts.com/docs/v5/concepts/animations/
+      series.appear()
 
       legend.data.push(series)
     }
