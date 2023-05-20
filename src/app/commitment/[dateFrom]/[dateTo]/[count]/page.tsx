@@ -27,19 +27,32 @@ export default async function CommitmentsPage({ params }: PageProps) {
   return (
     <>
       {commitments ? (
-        <ol className="m-4 grid gap-8">
+        <ol className="m-4 grid gap-4">
           {commitments.commitments.map((commitment) => (
-            <li key={commitment.id} className="border overflow-scroll">
-              <pre>{JSON.stringify(commitment, null, 2)}</pre>
+            <li key={commitment.id} className="border-2 rounded-lg overflow-scroll">
+              <div className="p-2 flex gap-4 justify-center">
+                <span>{commitment.candidate__sgid}</span>
+                <span>{commitment.candidate__sgname}</span>
+                <span>{commitment.candidate__sidoname}</span>
+                <span>{commitment.candidate__sggname}</span>
+                {commitment.candidate__wiwname && <span>{commitment.candidate__wiwname}</span>}
+                {commitment.candidate__partyname && <span>{commitment.candidate__partyname}</span>}
+                <span>{commitment.candidate__krname}</span>
+              </div>
+              <div className="border w-full" />
 
-              <h3 className="mt-6 mb-2 text-xl font-semibold">공약 분야</h3>
-              <div>{commitment.prmsrealmname}</div>
+              <div className="p-2">
+                <button>수정</button>
 
-              <h3 className="mt-6 mb-2 text-xl font-semibold">공약 제목</h3>
-              <div>{commitment.prmstitle}</div>
+                <h3 className="mb-2 text-xl font-semibold">공약 분야</h3>
+                <div>{commitment.prmsrealmname}</div>
 
-              <h3 className="mt-6 mb-2 text-xl font-semibold">공약 내용</h3>
-              <div>{applyLineBreak(commitment.prmmcont)}</div>
+                <h3 className="mt-6 mb-2 text-xl font-semibold">공약 제목</h3>
+                <div>{commitment.prmstitle}</div>
+
+                <h3 className="mt-6 mb-2 text-xl font-semibold">공약 내용</h3>
+                <div>{applyLineBreak(commitment.prmmcont)}</div>
+              </div>
             </li>
           ))}
         </ol>
