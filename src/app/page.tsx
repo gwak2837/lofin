@@ -29,7 +29,7 @@ export default async function HomePage() {
 
       <h2 className="text-2xl m-6 text-center">데이터</h2>
       <div className="max-w-screen-md mx-auto my-2 grid gap-4 text-center">
-        <Link href="/center">공약</Link>
+        <Link href="/commitment">공약</Link>
         <Link href="/">중앙부처별 사업계획 예산</Link>
       </div>
     </main>
