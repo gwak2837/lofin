@@ -1,6 +1,6 @@
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../../../common/constants'
-import { applyLineBreak } from '../../../../../common/react'
 import { PageProps } from '../../../../../common/types'
+import EditableCommitment from './EditableCommitment'
 
 type Response = {
   commitments: any[]
@@ -15,7 +15,9 @@ async function getCommitments(params: Record<string, string & string[]>) {
     searchParams.append('count', count)
   }
 
-  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/commitment?${searchParams}`)
+  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/commitment?${searchParams}`, {
+    cache: 'no-store',
+  })
   if (!response.ok) throw new Error(await response.text())
 
   return (await response.json()) as Response | null
@@ -42,16 +44,7 @@ export default async function CommitmentsPage({ params }: PageProps) {
               <div className="border w-full" />
 
               <div className="p-2">
-                <button>수정</button>
-
-                <h3 className="mb-2 text-xl font-semibold">공약 분야</h3>
-                <div>{commitment.prmsrealmname}</div>
-
-                <h3 className="mt-6 mb-2 text-xl font-semibold">공약 제목</h3>
-                <div>{commitment.prmstitle}</div>
-
-                <h3 className="mt-6 mb-2 text-xl font-semibold">공약 내용</h3>
-                <div>{applyLineBreak(commitment.prmmcont)}</div>
+                <EditableCommitment commitment={commitment} />
               </div>
             </li>
           ))}
