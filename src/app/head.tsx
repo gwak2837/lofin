@@ -1,9 +1,8 @@
 import { APPLICATION_SHORT_NAME, CANONICAL_URL } from '../common/constants'
 
 export default function RootHead() {
-  const title = '중앙위원회 정책참여시스템'
-  const description =
-    '지자체 세부사업별 예산안 평가, 지역별 정책 공약 · 실천 방안 · 실천 개선안 마련'
+  const title = ''
+  const description = ''
 
   return (
     <>

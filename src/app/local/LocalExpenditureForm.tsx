@@ -7,6 +7,7 @@ import Select from 'react-select'
 import { CalendarType, DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
 import { localOptions, projectOptions } from '../../common/lofin'
+import { Option, getOption } from '../../common/utils'
 
 const DateRangePicker = dynamic(() => import('../../components/DateRangePicker'), {
   ssr: false,
@@ -155,11 +156,6 @@ export default function LocalExpenditureForm() {
   )
 }
 
-type Option = {
-  label: string
-  value: any
-}
-
 export const calendarTypeOptions: Option[] = [
   {
     label: '일별',
@@ -179,11 +175,5 @@ function getLocalOption(groupedLocalGovs: Record<string, any>[], localCode: numb
   for (const localOption of groupedLocalGovs) {
     const found = localOption.options?.find((localGov: Option) => localGov.value === localCode)
     if (found) return found
-  }
-}
-
-function getOption(options: Option[], value: any) {
-  for (const option of options) {
-    if (option.value === value) return option
   }
 }

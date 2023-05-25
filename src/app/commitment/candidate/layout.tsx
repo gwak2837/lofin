@@ -21,7 +21,7 @@ export default function CommitmentLayout({ children }: Props) {
             height="798"
           />
         </Link>
-        <Link href="/local" className="hover:no-underline focus:no-underline">
+        <Link href="/commitment/candidate" className="hover:no-underline focus:no-underline">
           <h2 className="text-2xl whitespace-nowrap text-black ">후보자 공약</h2>
         </Link>
       </div>

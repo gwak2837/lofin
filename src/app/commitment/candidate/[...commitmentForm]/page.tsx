@@ -1,5 +1,7 @@
-import { NEXT_PUBLIC_BACKEND_URL } from '../../../../../common/constants'
-import { PageProps } from '../../../../../common/types'
+import { notFound } from 'next/navigation'
+
+import { NEXT_PUBLIC_BACKEND_URL } from '../../../../common/constants'
+import { PageProps } from '../../../../common/types'
 import EditableCommitment from './EditableCommitment'
 
 type Response = {
@@ -7,9 +9,27 @@ type Response = {
 }
 
 async function getCommitments(params: Record<string, string & string[]>) {
-  const { dateFrom, dateTo, count } = params
+  const [dateFrom, dateTo, sido, sigungu, voteType, name, count] = params.commitmentForm
+
+  if (!dateFrom || !dateTo) return notFound()
 
   const searchParams = new URLSearchParams(`dateFrom=${dateFrom}&dateTo=${dateTo}`)
+
+  if (sido !== 'null') {
+    searchParams.append('sido', sido)
+  }
+
+  if (sigungu !== 'null') {
+    searchParams.append('sigungu', sigungu)
+  }
+
+  if (voteType !== 'null') {
+    searchParams.append('voteType', voteType)
+  }
+
+  if (name !== 'null') {
+    searchParams.append('name', name)
+  }
 
   if (count !== '20') {
     searchParams.append('count', count)

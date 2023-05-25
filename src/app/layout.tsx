@@ -1,6 +1,7 @@
 import './globals.css'
 
 import { Analytics } from '@vercel/analytics/react'
+import { Metadata } from 'next'
 import localFont from 'next/font/local'
 import { ReactNode } from 'react'
 
@@ -17,6 +18,12 @@ import KakaoScript from '../components/KakaoScript'
 import ReactHotToast from '../components/ReactHotToast'
 import ReactQuery from '../components/ReactQuery'
 import Recoil from '../components/Recoil'
+
+export const metadata: Metadata = {
+  title: '중앙위원회 정책참여시스템',
+  description: '지자체 세부사업별 예산안 평가, 지역별 정책 공약 · 실천 방안 · 실천 개선안 마련',
+  // description: '우리나라 예산이 정확하고 효율적으로 쓰이는지 확인해보세요',
+}
 
 const myFont = localFont({
   src: './PretendardVariable.woff2',

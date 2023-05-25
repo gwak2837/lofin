@@ -33,3 +33,24 @@ export function vw(percent = 100) {
   var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
   return (percent * w) / 100
 }
+
+export type Option = {
+  group?: string
+  label: string
+  value: any
+}
+
+export function getGroupedOption(options: any, value: any) {
+  for (const option of options) {
+    const found = option.options?.find(
+      (option: Option) => option.value === value.value && option.group === value.group
+    )
+    if (found) return found
+  }
+}
+
+export function getOption(options: Option[], value: any) {
+  for (const option of options) {
+    if (option.value === value) return option
+  }
+}

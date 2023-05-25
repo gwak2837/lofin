@@ -4,8 +4,8 @@ import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { NEXT_PUBLIC_BACKEND_URL } from '../../../../../common/constants'
-import { applyLineBreak } from '../../../../../common/react'
+import { NEXT_PUBLIC_BACKEND_URL } from '../../../../common/constants'
+import { applyLineBreak } from '../../../../common/react'
 
 type CommitmentForm = {
   realm: string
@@ -23,9 +23,8 @@ export default function EditableCommitment({ commitment }: Props) {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm({
+  } = useForm<CommitmentForm>({
     defaultValues: {
       realm: commitment.prmsrealmname,
       title: commitment.prmstitle,
@@ -52,8 +51,8 @@ export default function EditableCommitment({ commitment }: Props) {
 
     if (result.updatedRowCount === 0) return
 
-    // const response2 = await fetch(`/api/revalidate?path=${encodeURIComponent(pathname ?? '')}`)
-    // console.log('👀 ~ response2:', await response2.json())
+    const response2 = await fetch(`/api/revalidate?path=${encodeURIComponent(pathname ?? '')}`)
+    console.log('👀 ~ response2:', await response2.json())
 
     setIsEditable(false)
   }
@@ -81,7 +80,7 @@ export default function EditableCommitment({ commitment }: Props) {
       <input className="p-2 border w-full" {...register('realm')} />
 
       <h3 className="mt-6 mb-2 text-xl font-semibold">공약 제목</h3>
-      <input className="p-2 border w-full" {...register('title')} />
+      <input className="p-2 border w-full" {...register('title', { required: true })} />
 
       <h3 className="mt-6 mb-2 text-xl font-semibold">공약 내용</h3>
       <textarea

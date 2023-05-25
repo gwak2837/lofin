@@ -23,14 +23,14 @@ export default async function HomePage() {
       <h2 className="text-2xl m-6 text-center">전문가 그룹 평가</h2>
       <div className="max-w-screen-md mx-auto my-2 grid gap-4 text-center">
         <Link href="/center">중앙부처 사업 도출</Link>
-        <Link href="/">중앙부처별 사업계획 예산</Link>
+        {/* <Link href="/">중앙부처별 사업계획 예산</Link> */}
         {/* <Link href="/">전문가 정성 평가</Link> */}
         {/* <Link href="/">전문가 정량 평가</Link> */}
       </div>
 
       <h2 className="text-2xl m-6 text-center">공약</h2>
       <div className="max-w-screen-md mx-auto my-2 grid gap-4 text-center">
-        <Link href="/commitment">후보자 공약</Link>
+        <Link href="/commitment/candidate">후보자 공약</Link>
         <Link href="/commitment/president">대통령 공약</Link>
       </div>
     </main>
