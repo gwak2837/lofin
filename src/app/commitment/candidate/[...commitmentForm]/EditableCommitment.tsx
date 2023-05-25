@@ -57,6 +57,24 @@ export default function EditableCommitment({ commitment }: Props) {
     setIsEditable(false)
   }
 
+  async function deleteCommitment() {
+    if (!window.confirm('정말로 삭제하시겠습니까?')) return
+
+    const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/commitment?ids=${commitment.id}`, {
+      method: 'DELETE',
+    })
+    if (!response.ok) alert(await response.text())
+
+    const result = await response.json()
+
+    if (result.deletedRowCount === 0) return
+
+    const response2 = await fetch(`/api/revalidate?path=${encodeURIComponent(pathname ?? '')}`)
+    console.log('👀 ~ response2:', await response2.json())
+
+    setIsEditable(false)
+  }
+
   const [isEditable, setIsEditable] = useState(false)
 
   return isEditable ? (
@@ -91,6 +109,12 @@ export default function EditableCommitment({ commitment }: Props) {
   ) : (
     <>
       <div className="text-right">
+        <button
+          className="mr-2 px-4 py-2 border-2 rounded border-red-600 text-red-600 hover:bg-red-600 hover:text-white focus:bg-red-600 focus:text-white"
+          onClick={() => deleteCommitment()}
+        >
+          삭제
+        </button>
         <button
           className="px-4 py-2 border-2 rounded hover:bg-sky-200 hover:border-sky-200 focus:border-sky-200"
           onClick={() => setIsEditable(true)}

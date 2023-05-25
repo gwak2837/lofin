@@ -54,8 +54,12 @@ export default function CommitmentCreationForm() {
   const [candidate, setCandidate] = useState<Option | null>(null)
 
   // 공약 생성
+  const [loading, setLoading] = useState(false)
+
   async function createCommitment(form: TCommitmentCreationForm) {
     if (!candidate) return alert('Please select candidate')
+
+    setLoading(true)
 
     const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/commitment`, {
       method: 'POST',
@@ -69,7 +73,9 @@ export default function CommitmentCreationForm() {
         candidateId: +candidate.value,
       }),
     })
-    if (!response.ok) alert(await response.text())
+    setLoading(false)
+
+    if (!response.ok) return alert(await response.text())
 
     const result = await response.json()
     if (result.updatedRowCount === 0) return
@@ -116,7 +122,9 @@ export default function CommitmentCreationForm() {
         />
       </div>
 
-      <button className="p-4 w-full border rounded bg-sky-200 font-semibold">생성하기</button>
+      <button className="p-4 w-full border rounded bg-sky-200 font-semibold" disabled={loading}>
+        생성하기
+      </button>
     </form>
   )
 }
