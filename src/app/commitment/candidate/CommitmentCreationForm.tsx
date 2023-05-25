@@ -16,6 +16,7 @@ type TCommitmentCreationForm = {
 export default function CommitmentCreationForm() {
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm<TCommitmentCreationForm>({
@@ -73,6 +74,7 @@ export default function CommitmentCreationForm() {
         candidateId: +candidate.value,
       }),
     })
+
     setLoading(false)
 
     if (!response.ok) return alert(await response.text())
@@ -81,6 +83,9 @@ export default function CommitmentCreationForm() {
     if (result.updatedRowCount === 0) return
 
     console.log('👀 ~ result:', result)
+
+    reset()
+    setCandidate(null)
   }
 
   return (
