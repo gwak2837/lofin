@@ -116,7 +116,7 @@ export default function EditableCommitment({ commitment }: Props) {
           삭제
         </button>
         <button
-          className="px-4 py-2 border-2 rounded border-sky-200 hover:bg-sky-200 focus:border-sky-200"
+          className="px-4 py-2 border-2 rounded border-sky-600 text-sky-600 hover:bg-sky-600 hover:text-white focus:border-sky-600 focus:text-white"
           onClick={() => setIsEditable(true)}
         >
           수정

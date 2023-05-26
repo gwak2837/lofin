@@ -14,10 +14,12 @@ export default function PresidentPage() {
             height="798"
           />
         </Link>
-        <Link href="/local" className="hover:no-underline focus:no-underline">
-          <h2 className="text-2xl whitespace-nowrap text-black ">후보자 공약</h2>
+        <Link href="/commitment/president" className="hover:no-underline focus:no-underline">
+          <h2 className="text-2xl whitespace-nowrap text-black ">대통령 공약</h2>
         </Link>
       </div>
+
+      <div />
     </main>
   )
 }
