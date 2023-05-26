@@ -37,8 +37,8 @@ export default function CommitmentForm() {
   const params = usePathname()?.split('/') ?? []
   const dateFrom = params[3]?.slice(0, 4) ?? '2022'
   const dateTo = params[4]?.slice(0, 4) ?? '2022'
-  const sidoParam = params[5] ? decodeURIComponent(params[5]) : '서울특별시'
-  const sigunguParam = params[6] ? decodeURIComponent(params[6]) : '서울특별시'
+  const sidoParam = params[5] ? decodeURIComponent(params[5]) : '전국'
+  const sigunguParam = params[6] ? decodeURIComponent(params[6]) : '대한민국'
   const voteTypeParam = params[7] ? +params[7] : 1
   const nameParam = params[8] ? decodeURIComponent(params[8]) : '윤석열'
   const countParam = params[9] ? +params[9] : 20
