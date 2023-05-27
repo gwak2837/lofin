@@ -4,7 +4,7 @@ import CommitmentCreationForm from './CommitmentCreationForm'
 
 async function getCandidateOptions() {
   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/candidate`)
-  if (!response.ok) alert(await response.text())
+  if (!response.ok) throw new Error(await response.text())
 
   const result = await response.json()
 

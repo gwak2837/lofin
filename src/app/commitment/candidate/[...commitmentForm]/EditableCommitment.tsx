@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../../common/constants'
 import { applyLineBreak } from '../../../../common/react'
@@ -45,7 +46,7 @@ export default function EditableCommitment({ commitment }: Props) {
         contents: [form.content],
       }),
     })
-    if (!response.ok) alert(await response.text())
+    if (!response.ok) toast.error(await response.text())
 
     const result = await response.json()
 
@@ -63,7 +64,7 @@ export default function EditableCommitment({ commitment }: Props) {
     const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/commitment?ids=${commitment.id}`, {
       method: 'DELETE',
     })
-    if (!response.ok) alert(await response.text())
+    if (!response.ok) toast.error(await response.text())
 
     const result = await response.json()
 
