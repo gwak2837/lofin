@@ -27,9 +27,9 @@ export default function EditableCommitment({ commitment }: Props) {
     formState: { errors },
   } = useForm<CommitmentForm>({
     defaultValues: {
-      realm: commitment.prmsrealmname,
-      title: commitment.prmstitle,
-      content: commitment.prmmcont,
+      realm: commitment.prmsRealmName,
+      title: commitment.prmsTitle,
+      content: commitment.prmmCont,
     },
   })
 
@@ -125,13 +125,13 @@ export default function EditableCommitment({ commitment }: Props) {
       </div>
 
       <h3 className="mb-2 text-xl font-semibold">공약 분야</h3>
-      <div>{commitment.prmsrealmname}</div>
+      <div>{commitment.prmsRealmName}</div>
 
       <h3 className="mt-6 mb-2 text-xl font-semibold">공약 제목</h3>
-      <div>{commitment.prmstitle}</div>
+      <div>{commitment.prmsTitle}</div>
 
       <h3 className="mt-6 mb-2 text-xl font-semibold">공약 내용</h3>
-      <div>{applyLineBreak(commitment.prmmcont)}</div>
+      <div>{applyLineBreak(commitment.prmmCont)}</div>
     </>
   )
 }
