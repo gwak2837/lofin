@@ -9,10 +9,10 @@ async function getCandidateOptions() {
   const result = await response.json()
 
   return result.candidates.map((candidate: any) => {
-    const { id, sgid, sgname, sggname, sidoname, wiwname, partyname, krname } = candidate
+    const { id, sgId, sgName, sigunguName, sidoName, wiwName, partyName, krName } = candidate
 
     return {
-      label: `${partyname} ${krname} : ${sgid} ${sidoname} ${wiwname ?? sggname} ${sgname}`,
+      label: `${partyName} ${krName} : ${sgId} ${sidoName} ${wiwName ?? sigunguName} ${sgName}`,
       value: id,
     }
   })
