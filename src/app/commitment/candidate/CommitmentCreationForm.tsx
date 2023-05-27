@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import Select from 'react-select'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../common/constants'
@@ -13,7 +14,11 @@ type TCommitmentCreationForm = {
   content: string
 }
 
-export default function CommitmentCreationForm() {
+type Props = {
+  candidateOptions: any[]
+}
+
+export default function CommitmentCreationForm({ candidateOptions }: Props) {
   const {
     register,
     reset,
@@ -27,38 +32,13 @@ export default function CommitmentCreationForm() {
     },
   })
 
-  // 후보 선택
-  const [candidateOptions, setCandidateOptions] = useState([])
-
-  async function getCandidates() {
-    const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/candidate`)
-    if (!response.ok) alert(await response.text())
-
-    const result = await response.json()
-
-    return result.candidates.map((candidate: any) => {
-      const { id, sgid, sgname, sggname, sidoname, wiwname, partyname, krname } = candidate
-
-      return {
-        label: `${partyname} ${krname} : ${sgid} ${sidoname} ${wiwname ?? sggname} ${sgname}`,
-        value: id,
-      }
-    })
-  }
-
-  useEffect(() => {
-    ;(async () => {
-      setCandidateOptions(await getCandidates())
-    })()
-  }, [])
-
   const [candidate, setCandidate] = useState<Option | null>(null)
 
   // 공약 생성
   const [loading, setLoading] = useState(false)
 
   async function createCommitment(form: TCommitmentCreationForm) {
-    if (!candidate) return alert('Please select candidate')
+    if (!candidate) return toast.error('`후보자`를 선택해주세요')
 
     setLoading(true)
 
@@ -77,12 +57,12 @@ export default function CommitmentCreationForm() {
 
     setLoading(false)
 
-    if (!response.ok) return alert(await response.text())
+    if (!response.ok) return toast.error(await response.text())
 
     const result = await response.json()
-    if (result.updatedRowCount === 0) return
+    if (result.updatedRowCount === 0) return toast.error('후보자 공약 생성 실패')
 
-    console.log('👀 ~ result:', result)
+    toast.success('후보자 공약 생성 성공')
 
     reset()
     setCandidate(null)
@@ -95,17 +75,13 @@ export default function CommitmentCreationForm() {
     >
       <div className="grid gap-2">
         <label>후보자</label>
-        {candidateOptions.length !== 0 ? (
-          <Select
-            instanceId="candidate"
-            onChange={(newOption) => setCandidate(newOption)}
-            options={candidateOptions}
-            required
-            value={getOption(candidateOptions, candidate)}
-          />
-        ) : (
-          <input className="border p-2 w-full" />
-        )}
+        <Select
+          instanceId="candidate"
+          onChange={(newOption) => setCandidate(newOption)}
+          options={candidateOptions}
+          required
+          value={getOption(candidateOptions, candidate)}
+        />
       </div>
 
       <div className="grid gap-2">
@@ -127,7 +103,10 @@ export default function CommitmentCreationForm() {
         />
       </div>
 
-      <button className="p-4 w-full border rounded bg-sky-200 font-semibold" disabled={loading}>
+      <button
+        className="p-4 w-full border border-sky-400 rounded bg-sky-200 font-semibold"
+        disabled={loading}
+      >
         생성하기
       </button>
     </form>

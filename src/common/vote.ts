@@ -1,4 +1,4 @@
-export const voteOptions = [
+export const electionDistrictOptions = [
   {
     label: '강원도',
     options: [
@@ -286,3 +286,106 @@ export const voteOptions = [
     ],
   },
 ]
+
+export function decodeElectionTypeCode(electionTypeCode: number) {
+  switch (electionTypeCode) {
+    case 1:
+      return '대통령 선거'
+    case 2:
+      return '국회의원 선거'
+    case 3:
+      return '시·도지사 선거'
+    case 4:
+      return '구·시·군의 장 선거'
+    case 5:
+      return '시·도 의회의원 선거'
+    case 6:
+      return '구·시·군 의회의원 선거'
+    case 7:
+      return '비례대표 국회의원 선거'
+    case 8:
+      return '광역의원 비례대표 선거'
+    case 9:
+      return '기초의원 비례대표 선거'
+    case 10:
+      return '교육의원 선거'
+    case 11:
+      return '교육감 선거'
+    default:
+      return ''
+  }
+}
+
+export const electionOptions = [
+  { value: { date: 20230405, type: 11 }, label: '20230405 교육감 선거' },
+  { value: { date: 20230405, type: 6 }, label: '20230405 구·시·군 의회의원 선거' },
+  { value: { date: 20230405, type: 5 }, label: '20230405 시·도 의회의원 선거' },
+  { value: { date: 20230405, type: 4 }, label: '20230405 구·시·군의 장 선거' },
+  { value: { date: 20230405, type: 2 }, label: '20230405 국회의원 선거' },
+  { value: { date: 20220601, type: 11 }, label: '20220601 교육감 선거' },
+  { value: { date: 20220601, type: 10 }, label: '20220601 교육의원 선거' },
+  { value: { date: 20220601, type: 9 }, label: '20220601 기초의원 비례대표 선거' },
+  { value: { date: 20220601, type: 8 }, label: '20220601 광역의원 비례대표 선거' },
+  { value: { date: 20220601, type: 6 }, label: '20220601 구·시·군 의회의원 선거' },
+  { value: { date: 20220601, type: 5 }, label: '20220601 시·도 의회의원 선거' },
+  { value: { date: 20220601, type: 4 }, label: '20220601 구·시·군의 장 선거' },
+  { value: { date: 20220601, type: 3 }, label: '20220601 시·도지사 선거' },
+  { value: { date: 20220601, type: 2 }, label: '20220601 국회의원 선거' },
+  { value: { date: 20220309, type: 2 }, label: '20220309 국회의원 선거' },
+  { value: { date: 20220309, type: 1 }, label: '20220309 대통령 선거' },
+  { value: { date: 20210407, type: 6 }, label: '20210407 구·시·군 의회의원 선거' },
+  { value: { date: 20210407, type: 5 }, label: '20210407 시·도 의회의원 선거' },
+  { value: { date: 20210407, type: 4 }, label: '20210407 구·시·군의 장 선거' },
+  { value: { date: 20210407, type: 3 }, label: '20210407 시·도지사 선거' },
+  { value: { date: 20200415, type: 7 }, label: '20200415 비례대표 국회의원 선거' },
+  { value: { date: 20200415, type: 6 }, label: '20200415 구·시·군 의회의원 선거' },
+  { value: { date: 20200415, type: 5 }, label: '20200415 시·도 의회의원 선거' },
+  { value: { date: 20200415, type: 4 }, label: '20200415 구·시·군의 장 선거' },
+  { value: { date: 20200415, type: 2 }, label: '20200415 국회의원 선거' },
+  { value: { date: 20190403, type: 6 }, label: '20190403 구·시·군 의회의원 선거' },
+  { value: { date: 20190403, type: 2 }, label: '20190403 국회의원 선거' },
+  { value: { date: 20180613, type: 11 }, label: '20180613 교육감 선거' },
+  { value: { date: 20180613, type: 10 }, label: '20180613 교육의원 선거' },
+  { value: { date: 20180613, type: 9 }, label: '20180613 기초의원 비례대표 선거' },
+  { value: { date: 20180613, type: 8 }, label: '20180613 광역의원 비례대표 선거' },
+  { value: { date: 20180613, type: 6 }, label: '20180613 구·시·군 의회의원 선거' },
+  { value: { date: 20180613, type: 5 }, label: '20180613 시·도 의회의원 선거' },
+  { value: { date: 20180613, type: 4 }, label: '20180613 구·시·군의 장 선거' },
+  { value: { date: 20180613, type: 3 }, label: '20180613 시·도지사 선거' },
+  { value: { date: 20180613, type: 2 }, label: '20180613 국회의원 선거' },
+  { value: { date: 20170509, type: 6 }, label: '20170509 구·시·군 의회의원 선거' },
+  { value: { date: 20170509, type: 5 }, label: '20170509 시·도 의회의원 선거' },
+  { value: { date: 20170509, type: 1 }, label: '20170509 대통령 선거' },
+  { value: { date: 20160413, type: 7 }, label: '20160413 비례대표 국회의원 선거' },
+  { value: { date: 20160413, type: 6 }, label: '20160413 구·시·군 의회의원 선거' },
+  { value: { date: 20160413, type: 5 }, label: '20160413 시·도 의회의원 선거' },
+  { value: { date: 20160413, type: 4 }, label: '20160413 구·시·군의 장 선거' },
+  { value: { date: 20160413, type: 2 }, label: '20160413 국회의원 선거' },
+  { value: { date: 20140604, type: 11 }, label: '20140604 교육감 선거' },
+  { value: { date: 20140604, type: 10 }, label: '20140604 교육의원 선거' },
+  { value: { date: 20140604, type: 9 }, label: '20140604 기초의원 비례대표 선거' },
+  { value: { date: 20140604, type: 8 }, label: '20140604 광역의원 비례대표 선거' },
+  { value: { date: 20140604, type: 6 }, label: '20140604 구·시·군 의회의원 선거' },
+  { value: { date: 20140604, type: 5 }, label: '20140604 시·도 의회의원 선거' },
+  { value: { date: 20140604, type: 4 }, label: '20140604 구·시·군의 장 선거' },
+  { value: { date: 20140604, type: 3 }, label: '20140604 시·도지사 선거' },
+  { value: { date: 20121219, type: 1 }, label: '20121219 대통령 선거' },
+  { value: { date: 20120411, type: 7 }, label: '20120411 비례대표 국회의원 선거' },
+  { value: { date: 20120411, type: 2 }, label: '20120411 국회의원 선거' },
+  { value: { date: 20100602, type: 11 }, label: '20100602 교육감 선거' },
+  { value: { date: 20100602, type: 10 }, label: '20100602 교육의원 선거' },
+  { value: { date: 20100602, type: 9 }, label: '20100602 기초의원 비례대표 선거' },
+  { value: { date: 20100602, type: 8 }, label: '20100602 광역의원 비례대표 선거' },
+  { value: { date: 20100602, type: 6 }, label: '20100602 구·시·군 의회의원 선거' },
+  { value: { date: 20100602, type: 5 }, label: '20100602 시·도 의회의원 선거' },
+  { value: { date: 20100602, type: 4 }, label: '20100602 구·시·군의 장 선거' },
+  { value: { date: 20100602, type: 3 }, label: '20100602 시·도지사 선거' },
+  { value: { date: 20080409, type: 7 }, label: '20080409 비례대표 국회의원 선거' },
+  { value: { date: 20080409, type: 2 }, label: '20080409 국회의원 선거' },
+  { value: { date: 20071219, type: 1 }, label: '20071219 대통령 선거' },
+  { value: { date: 20040415, type: 7 }, label: '20040415 비례대표 국회의원 선거' },
+  { value: { date: 20040415, type: 2 }, label: '20040415 국회의원 선거' },
+  { value: { date: 20021219, type: 1 }, label: '20021219 대통령 선거' },
+]
+
+//

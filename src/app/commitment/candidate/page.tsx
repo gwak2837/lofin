@@ -1,12 +1,39 @@
+import { NEXT_PUBLIC_BACKEND_URL } from '../../../common/constants'
+import CandidateCreationForm from './CandidateCreationForm'
 import CommitmentCreationForm from './CommitmentCreationForm'
 
-export default function CommitmentPage() {
+async function getCandidateOptions() {
+  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/candidate`)
+  if (!response.ok) alert(await response.text())
+
+  const result = await response.json()
+
+  return result.candidates.map((candidate: any) => {
+    const { id, sgid, sgname, sggname, sidoname, wiwname, partyname, krname } = candidate
+
+    return {
+      label: `${partyname} ${krname} : ${sgid} ${sidoname} ${wiwname ?? sggname} ${sgname}`,
+      value: id,
+    }
+  })
+}
+
+export default async function CommitmentPage() {
+  const candidateOptions = await getCandidateOptions()
+
   return (
     <>
       <h3 className="mx-auto mt-8 mb-2 p-2 whitespace-nowrap max-w-screen-md text-xl font-semibold">
+        후보자 생성하기
+      </h3>
+
+      <CandidateCreationForm />
+
+      <h3 className="mx-auto mt-8 mb-2 p-2 whitespace-nowrap max-w-screen-md text-xl font-semibold">
         공약 생성하기
       </h3>
-      <CommitmentCreationForm />
+
+      <CommitmentCreationForm candidateOptions={candidateOptions} />
     </>
   )
 }
