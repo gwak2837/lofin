@@ -9,7 +9,7 @@ type Response = {
 }
 
 async function getCommitments(params: Record<string, string & string[]>) {
-  const [dateFrom, dateTo, sido, sigungu, voteType, name, count] = params.commitmentForm
+  const [dateFrom, dateTo, sido, sigungu, electionType, name, count] = params.commitmentForm
 
   if (!dateFrom || !dateTo) return notFound()
 
@@ -23,8 +23,8 @@ async function getCommitments(params: Record<string, string & string[]>) {
     searchParams.append('sigungu', sigungu)
   }
 
-  if (voteType !== 'null') {
-    searchParams.append('voteType', voteType)
+  if (electionType !== 'null') {
+    searchParams.append('electionType', electionType)
   }
 
   if (name !== 'null') {
@@ -35,9 +35,7 @@ async function getCommitments(params: Record<string, string & string[]>) {
     searchParams.append('count', count)
   }
 
-  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/commitment?${searchParams}`, {
-    cache: 'no-store',
-  })
+  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/commitment?${searchParams}`)
   if (!response.ok) throw new Error(await response.text())
 
   return (await response.json()) as Response | null
@@ -53,13 +51,13 @@ export default async function CommitmentsPage({ params }: PageProps) {
           {commitments.commitments.map((commitment) => (
             <li key={commitment.id} className="border-2 rounded-lg overflow-scroll">
               <div className="p-2 flex gap-4 justify-center">
-                <span>{commitment.candidate__sgid}</span>
-                <span>{commitment.candidate__sgname}</span>
-                <span>{commitment.candidate__sidoname}</span>
-                <span>{commitment.candidate__sggname}</span>
-                {commitment.candidate__wiwname && <span>{commitment.candidate__wiwname}</span>}
-                {commitment.candidate__partyname && <span>{commitment.candidate__partyname}</span>}
-                <span>{commitment.candidate__krname}</span>
+                <span>{commitment.candidate.sgId}</span>
+                <span>{commitment.candidate.sgName}</span>
+                <span>{commitment.candidate.sidoName}</span>
+                <span>{commitment.candidate.sigunguName}</span>
+                {commitment.candidate.wiwName && <span>{commitment.candidate.wiwName}</span>}
+                {commitment.candidate.partyName && <span>{commitment.candidate.partyName}</span>}
+                <span>{commitment.candidate.krName}</span>
               </div>
               <div className="border w-full" />
 
