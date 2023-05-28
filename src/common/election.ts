@@ -1,4 +1,4 @@
-export const electionDistrictOptions = [
+export const electionFlowOptions = [
   {
     label: '강원도',
     options: [

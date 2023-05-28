@@ -6,7 +6,7 @@ import { FormEvent, useEffect, useRef, useState } from 'react'
 import Select from 'react-select'
 import { DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
-import { electionDistrictOptions } from '../../../common/election'
+import { electionFlowOptions } from '../../../common/election'
 import { getGroupedOption } from '../../../common/utils'
 
 const DateRangePicker = dynamic(() => import('../../../components/DateRangePicker'), {
@@ -90,9 +90,9 @@ export default function CommitmentForm() {
         <Select
           instanceId="voteOptions"
           onChange={(newOption) => setVote(newOption)}
-          options={electionDistrictOptions}
+          options={electionFlowOptions}
           required
-          value={getGroupedOption(electionDistrictOptions, vote)}
+          value={getGroupedOption(electionFlowOptions, vote)}
         />
 
         <span>선거</span>
