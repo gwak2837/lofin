@@ -6,8 +6,8 @@ import toast from 'react-hot-toast'
 import Select from 'react-select'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../common/constants'
+import { electionOptions } from '../../../common/election'
 import { getOption } from '../../../common/utils'
-import { electionOptions } from '../../../common/vote'
 
 type TCandidateCreationForm = {
   sidoName: string

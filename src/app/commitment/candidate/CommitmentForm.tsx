@@ -6,8 +6,8 @@ import { FormEvent, useEffect, useRef, useState } from 'react'
 import Select from 'react-select'
 import { DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
+import { electionDistrictOptions } from '../../../common/election'
 import { getGroupedOption } from '../../../common/utils'
-import { electionDistrictOptions } from '../../../common/vote'
 
 const DateRangePicker = dynamic(() => import('../../../components/DateRangePicker'), {
   ssr: false,
