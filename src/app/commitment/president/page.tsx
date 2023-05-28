@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import presidents from './president.json' assert { type: 'json' }
 
 export default function PresidentPage() {
   return (
@@ -19,7 +20,7 @@ export default function PresidentPage() {
         </Link>
       </div>
 
-      <div />
+      <pre>{JSON.stringify(presidents, null, 2)}</pre>
     </main>
   )
 }
