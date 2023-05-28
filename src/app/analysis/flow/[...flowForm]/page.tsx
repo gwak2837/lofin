@@ -11,7 +11,7 @@ async function getFlowAnalysis(params: Record<string, string & string[]>) {
   if (!isRealm || !centerRealmOrSector || !localRealmOrSector || !year) return notFound()
 
   const searchParams = new URLSearchParams(
-    `isRealm=${isRealm}&centerRealmOrSector=${centerRealmOrSector}&localRealmOrSector=${localRealmOrSector}`
+    `isRealm=${isRealm}&centerRealmOrSector=${centerRealmOrSector}&localRealmOrSector=${localRealmOrSector}&year=${year}`
   )
 
   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/analysis/flow?${searchParams}`)

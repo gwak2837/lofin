@@ -14,7 +14,6 @@ async function getDistrictAnalysis(params: Record<string, string & string[]>) {
   const searchParams = new URLSearchParams(
     `localCode=${localCode}&localDateFrom=${localDateFrom}&localDateTo=${localDateTo}&centerYear=${centerYear}&isLocalRealm=${isLocalRealm}`
   )
-  console.log('👀 ~ searchParams:', searchParams.toString())
 
   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/analysis/relation?${searchParams}`)
   if (!response.ok) throw new Error(await response.text())
