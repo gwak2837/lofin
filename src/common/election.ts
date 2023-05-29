@@ -1,5 +1,9 @@
 export const electionFlowOptions = [
   {
+    label: '전국',
+    options: [{ group: '전국', value: '대한민국', label: '대한민국' }],
+  },
+  {
     label: '강원도',
     options: [
       { group: '강원도', value: '강원도', label: '전체' },
@@ -219,10 +223,7 @@ export const electionFlowOptions = [
       { group: '인천광역시', value: '중구', label: '중구' },
     ],
   },
-  {
-    label: '전국',
-    options: [{ group: '전국', value: '대한민국', label: '대한민국' }],
-  },
+
   {
     label: '전라남도',
     options: [
