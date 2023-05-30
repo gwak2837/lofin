@@ -6,12 +6,13 @@ import { NEXT_PUBLIC_BACKEND_URL } from '../../../../common/constants'
 import { PageProps } from '../../../../common/types'
 
 async function getFlowAnalysis(params: Record<string, string & string[]>) {
-  const [isRealm, centerRealmOrSector, localRealmOrSector, year] = params.flowForm
+  const [localCode, isRealm, centerRealmOrSector, localRealmOrSector, year] = params.flowForm
 
-  if (!isRealm || !centerRealmOrSector || !localRealmOrSector || !year) return notFound()
+  if (!localCode || !isRealm || !centerRealmOrSector || !localRealmOrSector || !year)
+    return notFound()
 
   const searchParams = new URLSearchParams(
-    `isRealm=${isRealm}&centerRealmOrSector=${centerRealmOrSector}&localRealmOrSector=${localRealmOrSector}&year=${year}`
+    `localCode=${localCode}&isRealm=${isRealm}&centerRealmOrSector=${centerRealmOrSector}&localRealmOrSector=${localRealmOrSector}&year=${year}`
   )
 
   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/analysis/flow?${searchParams}`)

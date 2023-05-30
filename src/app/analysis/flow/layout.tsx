@@ -24,7 +24,7 @@ export default function FlowAnalysisLayout({ children }: Props) {
         </Link>
       </div>
 
-      <Link href="/analysis/flow/true/사회복지/80/2022">이동</Link>
+      <Link href="/analysis/flow/1100000/true/사회복지/80/2022">이동</Link>
 
       {children}
     </main>
