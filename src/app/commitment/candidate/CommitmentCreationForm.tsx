@@ -7,6 +7,7 @@ import Select from 'react-select'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../common/constants'
 import { Option, getOption } from '../../../common/utils'
+import LoadingSpinner from '../../../components/LoadingSpinner'
 
 type TCommitmentCreationForm = {
   realm: string
@@ -104,10 +105,10 @@ export default function CommitmentCreationForm({ candidateOptions }: Props) {
       </div>
 
       <button
-        className="p-4 w-full border border-sky-400 rounded bg-sky-200 font-semibold"
+        className="p-4 w-full flex gap-2 justify-center items-center border border-sky-400 rounded bg-sky-200 font-semibold disabled:bg-slate-200 disabled:border-slate-400"
         disabled={loading}
       >
-        생성하기
+        {loading && <LoadingSpinner />} 생성하기
       </button>
     </form>
   )
