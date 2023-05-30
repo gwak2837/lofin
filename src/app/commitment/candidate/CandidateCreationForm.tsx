@@ -63,9 +63,9 @@ export default function CandidateCreationForm() {
     if (!response.ok) return toast.error(await response.text())
 
     const result = await response.json()
-    if (result.updatedRowCount === 0) return toast.error('후보자 공약 생성 실패')
+    if (result.updatedRowCount === 0) return toast.error('후보자 생성 실패')
 
-    toast.success('후보자 공약 생성 성공')
+    toast.success('후보자 생성 성공')
 
     reset()
   }
