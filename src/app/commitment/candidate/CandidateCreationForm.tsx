@@ -8,6 +8,7 @@ import Select from 'react-select'
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../common/constants'
 import { electionOptions } from '../../../common/election'
 import { getOption } from '../../../common/utils'
+import LoadingSpinner from '../../../components/LoadingSpinner'
 
 type TCandidateCreationForm = {
   sidoName: string
@@ -38,10 +39,10 @@ export default function CandidateCreationForm() {
   // 후보자 생성
   const [loading, setLoading] = useState(false)
 
-  async function createCommitment(form: TCandidateCreationForm) {
+  async function createCandidate(form: TCandidateCreationForm) {
     setLoading(true)
 
-    const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/commitment`, {
+    const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/candidate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -72,7 +73,7 @@ export default function CandidateCreationForm() {
   return (
     <form
       className="mx-auto p-2 grid gap-4 whitespace-nowrap max-w-screen-md"
-      onSubmit={handleSubmit(createCommitment)}
+      onSubmit={handleSubmit(createCandidate)}
     >
       <div className="grid gap-2">
         <label>선거 종류</label>
@@ -126,10 +127,10 @@ export default function CandidateCreationForm() {
       </div>
 
       <button
-        className="p-4 w-full border rounded border-sky-400 bg-sky-200 font-semibold"
+        className="p-4 w-full flex gap-2 justify-center items-center border rounded border-sky-400 bg-sky-200 font-semibold disabled:bg-slate-200 disabled:border-slate-400"
         disabled={loading}
       >
-        생성하기
+        {loading && <LoadingSpinner />} 생성하기
       </button>
     </form>
   )
