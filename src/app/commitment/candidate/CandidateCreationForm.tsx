@@ -48,8 +48,8 @@ export default function CandidateCreationForm() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        sgId: election.date,
-        sgTypecode: election.type,
+        sgId: election.value.date,
+        sgTypecode: election.value.type,
         sidoName: form.sidoName,
         sggName: form.sigunguName,
         wiwName: form.wiwName,
