@@ -6,7 +6,7 @@ import { NEXT_PUBLIC_BACKEND_URL } from '../../../../common/constants'
 import { PageProps } from '../../../../common/types'
 
 async function getFlowAnalysis(params: Record<string, string & string[]>) {
-  const [localCode, isRealm, centerRealmOrSector, localRealmOrSector, year] = params.flowForm
+  const [year, localCode, isRealm, centerRealmOrSector, localRealmOrSector] = params.flowForm
 
   if (!localCode || !isRealm || !centerRealmOrSector || !localRealmOrSector || !year)
     return notFound()

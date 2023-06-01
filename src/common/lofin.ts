@@ -366,6 +366,11 @@ export const localOptions = [
   },
 ]
 
+export const sigunguLocalOptions = localOptions.map((option) => ({
+  label: option.label,
+  options: option.options.filter((option) => option.value > 100),
+}))
+
 export const projectOptions = [
   { value: 0, label: '전체' },
   { value: 10, label: '일반공공행정' },

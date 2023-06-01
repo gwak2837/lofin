@@ -18,7 +18,7 @@ export default async function HomePage() {
       <div className="max-w-screen-md mx-auto my-2 grid gap-4 text-center">
         <Link href="/center">중앙부처 사업 도출</Link>
         <Link href="/local">지자체 세부사업별 예산 도출</Link>
-        <Link href="/analysis/flow">지역별 예산 분배 분석</Link>
+        <Link href="/analysis/flow">지역별 예산 흐름 분석</Link>
         <Link href="/analysis/relation">중앙부처 · 지자체 예산 연관성 분석</Link>
       </div>
 

@@ -20,7 +20,7 @@ export default function FlowAnalysisLayout({ children }: Props) {
           />
         </Link>
         <Link href="/analysis/flow" className="hover:no-underline focus:no-underline">
-          <h2 className="text-2xl whitespace-nowrap text-black ">지역별 예산 분배 분석</h2>
+          <h2 className="text-2xl whitespace-nowrap text-black ">지역별 예산 흐름 분석</h2>
         </Link>
       </div>
 

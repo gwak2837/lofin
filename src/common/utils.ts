@@ -49,6 +49,13 @@ export function getGroupedOption(options: any, value: any) {
   }
 }
 
+export function getNestedOption(options: any, value: any) {
+  for (const option of options) {
+    const found = option.options?.find((option: Option) => option.value === value)
+    if (found) return found
+  }
+}
+
 export function getOption(options: Option[], value: any) {
   for (const option of options) {
     if (option.value === value) return option

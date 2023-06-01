@@ -2,6 +2,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 
+import RelationForm from './RelationForm'
+
 type Props = {
   children: ReactNode
 }
@@ -24,7 +26,7 @@ export default function RelationAnalysisLayout({ children }: Props) {
         </Link>
       </div>
 
-      <Link href="/analysis/relation/1100000/2022-01-01/2022-12-31/2022/true">이동</Link>
+      <RelationForm />
 
       {children}
     </main>
