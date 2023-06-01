@@ -2,53 +2,24 @@
 
 import dynamic from 'next/dynamic'
 import { usePathname, useRouter } from 'next/navigation'
-import { FormEvent, useEffect, useRef, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import Select from 'react-select'
-import { DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
-import { electionFlowOptions } from '../../../common/election'
-import { getGroupedOption } from '../../../common/utils'
+import { getOption } from '../../../common/utils'
 
-const DateRangePicker = dynamic(() => import('../../../components/DateRangePicker'), {
-  ssr: false,
-  loading: () => (
-    <div className="grid grid-cols-[1fr_auto_1fr] gap-4 items-center">
-      <input
-        aria-label="Date"
-        className="p-2 border disabled:cursor-not-allowed"
-        disabled
-        placeholder="YYYY-MM-DD"
-        type="text"
-      />
-      <span>to</span>
-      <input
-        aria-label="Date"
-        className="p-2 border disabled:cursor-not-allowed"
-        disabled
-        placeholder="YYYY-MM-DD"
-        type="text"
-      />
-    </div>
-  ),
-})
+type Props = {
+  electionOptions: any[]
+}
 
-export default function CommitmentForm() {
+export default function CommitmentForm({ electionOptions }: Props) {
   // Pathname
   const params = usePathname()?.split('/') ?? []
-  const dateFrom = params[3]?.slice(0, 4) ?? '2022'
-  const dateTo = params[4]?.slice(0, 4) ?? '2022'
-  const sidoParam = params[5] ? decodeURIComponent(params[5]) : '전국'
-  const sigunguParam = params[6] ? decodeURIComponent(params[6]) : '대한민국'
-  const voteTypeParam = params[7] ? +params[7] : 1
-  const nameParam = params[8] ? decodeURIComponent(params[8]) : '윤석열'
-  const countParam = params[9] ? +params[9] : 20
+  const electionsParam = params[3]
+  const countParam = params[4] ? +params[4] : 20
 
   // Form
-  const dateRangePickerRef = useRef<TDateRangePicker>(null)
+  const [elections, setElections] = useState<any>([])
   const [count, setCount] = useState(countParam)
-  const [vote, setVote] = useState({ group: sidoParam, value: sigunguParam })
-  const [voteType, setVoteType] = useState(voteTypeParam)
-  const [name, setName] = useState(nameParam)
 
   useEffect(() => {
     setCount(countParam)
@@ -59,68 +30,32 @@ export default function CommitmentForm() {
   function search(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-    if (!dateRangePickerRef.current) return
-
-    const dateFrom = dateRangePickerRef.current.getStartDate().getFullYear() * 10000
-    const dateTo = dateRangePickerRef.current.getEndDate().getFullYear() * 10000 + 1231
-    const sido = encodeURIComponent(vote.group)
-    const sigungu = encodeURIComponent(vote.value)
-    const name2 = name || 'null'
-    const voteType2 = voteType || 'null'
-
-    let searchResultPage = `/commitment/candidate/${dateFrom}/${dateTo}/${sido}/${sigungu}/${voteType2}/${name2}/${count}`
-
+    const candidateIds = elections.map((election: any) => election.value)
+    let searchResultPage = `/commitment/candidate/${candidateIds}/${count}`
     router.push(searchResultPage)
   }
 
   return (
     <form className="m-2 p-2 whitespace-nowrap max-w-screen-md mx-auto" onSubmit={search}>
       <div className="grid grid-cols-[auto_1fr] items-center gap-4">
-        <span>기간</span>
-        <div className="z-20">
-          <DateRangePicker
-            calendarType="year"
-            defaultDateFrom={dateFrom}
-            defaultDateTo={dateTo}
-            forwardedRef={dateRangePickerRef}
+        <label>후보자</label>
+        <div className="grid gap-2">
+          <Select
+            instanceId="electionOptions"
+            isMulti
+            onChange={(newOption) => setElections(newOption)}
+            options={electionOptions}
+            required
+            value={getOption(electionOptions, elections)}
           />
         </div>
 
-        <span>지역</span>
-        <Select
-          instanceId="voteOptions"
-          onChange={(newOption) => setVote(newOption)}
-          options={electionFlowOptions}
-          required
-          value={getGroupedOption(electionFlowOptions, vote)}
-        />
-
-        <span>선거</span>
-        <select
-          className="border p-2"
-          onChange={(e) => setVoteType(+e.target.value)}
-          value={voteType}
-        >
-          <option value="">전체</option>
-          <option value={1}>대통령</option>
-          <option value={3}>시 ∙ 도지사</option>
-          <option value={4}>구 ∙ 시 ∙ 군의장</option>
-          <option value={11}>교육감</option>
-        </select>
-
-        <span>이름</span>
-        <input
-          className="border p-2"
-          onChange={(e) => setName(e.target.value)}
-          placeholder="홍길동"
-          value={name}
-        />
-
-        <span>개수</span>
+        <label htmlFor="count">개수</label>
         <input
           className="p-2 border w-full"
           min="1"
           max="100"
+          name="count"
           onChange={(e) => setCount(+e.target.value)}
           placeholder="20"
           type="number"

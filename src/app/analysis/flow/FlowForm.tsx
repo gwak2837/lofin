@@ -1,4 +1,3 @@
-// <Link href="/analysis/flow/2022/1100000/true/사회복지/80">이동</Link>
 'use client'
 
 import { usePathname, useRouter } from 'next/navigation'

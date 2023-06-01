@@ -9,26 +9,14 @@ type Response = {
 }
 
 async function getCommitments(params: Record<string, string & string[]>) {
-  const [dateFrom, dateTo, sido, sigungu, electionType, name, count] = params.commitmentForm
+  const [candidateIds, count] = params.commitmentForm
 
-  if (!dateFrom || !dateTo) return notFound()
+  if (!candidateIds) return notFound()
 
-  const searchParams = new URLSearchParams(`dateFrom=${dateFrom}&dateTo=${dateTo}`)
+  const searchParams = new URLSearchParams()
 
-  if (sido !== 'null') {
-    searchParams.append('sido', sido)
-  }
-
-  if (sigungu !== 'null') {
-    searchParams.append('sigungu', sigungu)
-  }
-
-  if (electionType !== 'null') {
-    searchParams.append('electionType', electionType)
-  }
-
-  if (name !== 'null') {
-    searchParams.append('name', name)
+  for (const candidateId of decodeURIComponent(candidateIds).split(',')) {
+    searchParams.append('candidateIds', candidateId)
   }
 
   if (count !== '20') {
