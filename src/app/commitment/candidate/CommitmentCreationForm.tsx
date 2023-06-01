@@ -66,7 +66,6 @@ export default function CommitmentCreationForm({ candidateOptions }: Props) {
     toast.success('후보자 공약 생성 성공')
 
     reset()
-    setCandidate(null)
   }
 
   return (
