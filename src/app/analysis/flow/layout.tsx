@@ -2,6 +2,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 
+import FlowForm from './FlowForm'
+
 type Props = {
   children: ReactNode
 }
@@ -24,7 +26,7 @@ export default function FlowAnalysisLayout({ children }: Props) {
         </Link>
       </div>
 
-      <Link href="/analysis/flow/1100000/true/사회복지/80/2022">이동</Link>
+      <FlowForm />
 
       {children}
     </main>

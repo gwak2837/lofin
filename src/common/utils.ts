@@ -40,10 +40,10 @@ export type Option = {
   value: any
 }
 
-export function getGroupedOption(options: any, value: any) {
+export function getGroupedOption(options: any, _option: any) {
   for (const option of options) {
     const found = option.options?.find(
-      (option: Option) => option.value === value.value && option.group === value.group
+      (option: Option) => option.value === _option.value && option.group === _option.group
     )
     if (found) return found
   }

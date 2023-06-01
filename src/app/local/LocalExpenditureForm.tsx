@@ -6,7 +6,7 @@ import { FormEvent, useEffect, useRef, useState } from 'react'
 import Select from 'react-select'
 import { CalendarType, DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
-import { localOptions, projectOptions } from '../../common/lofin'
+import { localOptions, localRealmOptions } from '../../common/lofin'
 import { Option, getOption } from '../../common/utils'
 
 const DateRangePicker = dynamic(() => import('../../components/DateRangePicker'), {
@@ -128,9 +128,9 @@ export default function LocalExpenditureForm() {
           <Select
             instanceId="projectCode"
             onChange={(newProjectCode) => newProjectCode && setProjectCode(newProjectCode.value)}
-            options={projectOptions}
+            options={localRealmOptions}
             required
-            value={getOption(projectOptions, projectCode)}
+            value={getOption(localRealmOptions, projectCode)}
           />
         </div>
 

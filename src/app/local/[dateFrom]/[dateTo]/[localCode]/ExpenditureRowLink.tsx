@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation'
 
-import { projectOptions } from '../../../../../common/lofin'
+import { localRealmOptions } from '../../../../../common/lofin'
 import { formatPrice } from '../../../../../common/utils'
 
 type Props = {
@@ -34,7 +34,7 @@ export default function ExpenditureRowLink({ expenditure, i }: Props) {
 }
 
 function getProjectCode(projectLabel: string) {
-  for (const projectOption of projectOptions) {
+  for (const projectOption of localRealmOptions) {
     if (projectOption.label === projectLabel) return projectOption.value
   }
 }

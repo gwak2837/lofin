@@ -1,5 +1,3 @@
-import Image from 'next/image'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../../common/constants'
@@ -11,7 +9,6 @@ async function getDistrictAnalysis(params: Record<string, string & string[]>) {
 
   const searchParams = new URLSearchParams(`year=${year}&localCode=${localCode}&isRealm=${isRealm}`)
 
-  console.log('👀 ~ searchParams:', searchParams)
   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/analysis/relation?${searchParams}`)
   if (!response.ok) throw new Error(await response.text())
 
