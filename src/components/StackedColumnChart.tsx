@@ -8,9 +8,11 @@ import { useEffect } from 'react'
 type Props = {
   data: any
   id: string
+  keyField: string
+  valueFields: string[]
 }
 
-export default function StackedColumnChart({ data, id }: Props) {
+export default function StackedColumnChart({ data, id, keyField, valueFields }: Props) {
   useEffect(() => {
     let root = am5.Root.new(id)
     root.setThemes([am5themes_Animated.new(root)])
@@ -36,42 +38,12 @@ export default function StackedColumnChart({ data, id }: Props) {
       })
     )
 
-    let data = [
-      {
-        year: '2021',
-        europe: 2.5,
-        namerica: 2.5,
-        asia: 2.1,
-        lamerica: 1,
-        meast: 0.8,
-        africa: 0.4,
-      },
-      {
-        year: '2022',
-        europe: 2.6,
-        namerica: 2.7,
-        asia: 2.2,
-        lamerica: 0.5,
-        meast: 0.4,
-        africa: 0.3,
-      },
-      {
-        year: '2023',
-        europe: 2.8,
-        namerica: 2.9,
-        asia: 2.4,
-        lamerica: 0.3,
-        meast: 0.9,
-        africa: 0.5,
-      },
-    ]
-
     // Create axes
     // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
     let xRenderer = am5xy.AxisRendererX.new(root, {})
     let xAxis = chart.xAxes.push(
       am5xy.CategoryAxis.new(root, {
-        categoryField: 'year',
+        categoryField: keyField,
         renderer: xRenderer,
         tooltip: am5.Tooltip.new(root, {}),
       })
@@ -111,12 +83,12 @@ export default function StackedColumnChart({ data, id }: Props) {
           xAxis: xAxis,
           yAxis: yAxis,
           valueYField: fieldName,
-          categoryXField: 'year',
+          categoryXField: keyField,
         })
       )
 
       series.columns.template.setAll({
-        tooltipText: '{name}, {categoryX}: {valueY}',
+        tooltipText: '{name}: {valueY}',
         tooltipY: am5.percent(10),
       })
       series.data.setAll(data)
@@ -137,24 +109,30 @@ export default function StackedColumnChart({ data, id }: Props) {
         })
       })
 
+      series.columns.template.onPrivate('height', function (height, target) {
+        am5.array.each(target?.dataItem?.bullets ?? [], (bullet) => {
+          if ((height ?? 0) > bullet.get('sprite').height() + 1) {
+            bullet.get('sprite').show()
+          } else {
+            bullet.get('sprite').hide()
+          }
+        })
+      })
+
       legend.data.push(series)
     }
 
-    makeSeries('Europe', 'europe')
-    makeSeries('North America', 'namerica')
-    makeSeries('Asia', 'asia')
-    makeSeries('Latin America', 'lamerica')
-    makeSeries('Middle East', 'meast')
-    makeSeries('Africa', 'africa')
+    for (const valueField of valueFields) {
+      makeSeries(valueField, valueField)
+    }
 
     chart.root.dom.style.height = `100vh`
-
     chart.appear(1000, 100)
 
     return () => {
       root.dispose()
     }
-  }, [id])
+  }, [data, id, keyField, valueFields])
 
   return <div id={id} />
 }
