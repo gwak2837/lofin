@@ -35,24 +35,24 @@ const DateRangePicker = dynamic(() => import('../../components/DateRangePicker')
 export default function LocalExpenditureForm() {
   // Pathname
   const params = usePathname()?.split('/') ?? []
-  const dateFrom = params[2] ?? '2022-12-01'
+  const dateFrom = params[2] ?? '2022-01-01'
   const dateTo = params[3] ?? '2022-12-31'
-  const localCodeParam = params[4] ? +params[4] : 11
-  const projectCodeParam = params[5] ? +params[5] : 0
+  const localCodeParam = params[4] ? +params[4] : 1100000
+  const realmCodeParam = params[5] ? +params[5] : 0
   const countParam = params[6] ? +params[6] : 20
 
   // Form
   const [calendarType, setCalendarType] = useState<CalendarType>('date')
   const dateRangePickerRef = useRef<TDateRangePicker>(null)
   const [localCode, setLocalCode] = useState(localCodeParam)
-  const [projectCode, setProjectCode] = useState(projectCodeParam)
+  const [realmCode, setRealmCode] = useState(realmCodeParam)
   const [count, setCount] = useState(countParam)
 
   useEffect(() => {
     setLocalCode(localCodeParam)
-    setProjectCode(projectCodeParam)
+    setRealmCode(realmCodeParam)
     setCount(countParam)
-  }, [countParam, localCodeParam, projectCodeParam])
+  }, [countParam, localCodeParam, realmCodeParam])
 
   const router = useRouter()
 
@@ -83,7 +83,7 @@ export default function LocalExpenditureForm() {
 
     let searchResultPage = `/local/${dateFrom}/${dateTo}/${localCode}`
 
-    if (projectCode !== 0) searchResultPage += `/${projectCode}/${count}`
+    if (realmCode !== 0) searchResultPage += `/${realmCode}/${count}`
 
     router.push(searchResultPage)
   }
@@ -123,18 +123,18 @@ export default function LocalExpenditureForm() {
           />
         </div>
 
-        <span>세부사업</span>
+        <span>분야</span>
         <div>
           <Select
             instanceId="projectCode"
-            onChange={(newProjectCode) => newProjectCode && setProjectCode(newProjectCode.value)}
+            onChange={(newProjectCode) => newProjectCode && setRealmCode(newProjectCode.value)}
             options={localRealmOptions}
             required
-            value={getOption(localRealmOptions, projectCode)}
+            value={getOption(localRealmOptions, realmCode)}
           />
         </div>
 
-        {projectCode !== 0 && (
+        {realmCode !== 0 && (
           <>
             <span>개수</span>
             <input

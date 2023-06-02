@@ -5,7 +5,7 @@ import { FormEvent, useEffect, useState } from 'react'
 import Select from 'react-select'
 
 import { cefinRealmOptions, cefinSectorOptions } from '../../../common/cefin'
-import { localRealmOptions, localSectorOptions, sigunguLocalOptions } from '../../../common/lofin'
+import { localOptions, localRealmOptions, localSectorOptions } from '../../../common/lofin'
 import { getNestedOption, getOption } from '../../../common/utils'
 
 export default function FlowForm() {
@@ -62,9 +62,9 @@ export default function FlowForm() {
           <Select
             instanceId="sigunguLocalOptions"
             onChange={(newLocalGov) => newLocalGov && setLocalCode(newLocalGov.value)}
-            options={sigunguLocalOptions}
+            options={localOptions}
             required
-            value={getNestedOption(sigunguLocalOptions, localCode)}
+            value={getNestedOption(localOptions, localCode)}
           />
         </div>
 

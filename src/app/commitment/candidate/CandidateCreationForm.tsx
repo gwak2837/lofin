@@ -65,6 +65,9 @@ export default function CandidateCreationForm() {
     const result = await response.json()
     if (result.updatedRowCount === 0) return toast.error('후보자 생성 실패')
 
+    const response2 = await fetch(`/api/revalidate?path=/commitment/candidate`)
+    console.log('👀 ~ response2:', await response2.json())
+
     toast.success('후보자 생성 성공')
 
     reset()

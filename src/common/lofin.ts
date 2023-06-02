@@ -28,7 +28,6 @@ export const localOptions = [
   {
     label: '서울',
     options: [
-      { value: 11, label: '서울전체' },
       { value: 1100000, label: '서울본청' },
       { value: 1111000, label: '서울종로구' },
       { value: 1112000, label: '서울중구' },
@@ -60,7 +59,6 @@ export const localOptions = [
   {
     label: '부산',
     options: [
-      { value: 26, label: '부산전체' },
       { value: 2600000, label: '부산본청' },
       { value: 2611000, label: '부산중구' },
       { value: 2612000, label: '부산서구' },
@@ -83,7 +81,6 @@ export const localOptions = [
   {
     label: '대구',
     options: [
-      { value: 27, label: '대구전체' },
       { value: 2700000, label: '대구본청' },
       { value: 2711000, label: '대구중구' },
       { value: 2712000, label: '대구동구' },
@@ -98,7 +95,6 @@ export const localOptions = [
   {
     label: '인천',
     options: [
-      { value: 28, label: '인천전체' },
       { value: 2800000, label: '인천본청' },
       { value: 2811000, label: '인천중구' },
       { value: 2812000, label: '인천동구' },
@@ -115,7 +111,6 @@ export const localOptions = [
   {
     label: '광주',
     options: [
-      { value: 29, label: '광주전체' },
       { value: 2900000, label: '광주본청' },
       { value: 2911000, label: '광주동구' },
       { value: 2912000, label: '광주서구' },
@@ -127,7 +122,6 @@ export const localOptions = [
   {
     label: '대전',
     options: [
-      { value: 30, label: '대전전체' },
       { value: 3000000, label: '대전본청' },
       { value: 3011000, label: '대전동구' },
       { value: 3012000, label: '대전중구' },
@@ -139,7 +133,6 @@ export const localOptions = [
   {
     label: '울산',
     options: [
-      { value: 31, label: '울산전체' },
       { value: 3100000, label: '울산본청' },
       { value: 3111000, label: '울산중구' },
       { value: 3112000, label: '울산남구' },
@@ -155,7 +148,6 @@ export const localOptions = [
   {
     label: '경기',
     options: [
-      { value: 41, label: '경기전체' },
       { value: 4100000, label: '경기본청' },
       { value: 4111000, label: '경기수원시' },
       { value: 4112000, label: '경기성남시' },
@@ -193,7 +185,6 @@ export const localOptions = [
   {
     label: '강원',
     options: [
-      { value: 42, label: '강원전체' },
       { value: 4200000, label: '강원본청' },
       { value: 4211000, label: '강원춘천시' },
       { value: 4212000, label: '강원원주시' },
@@ -218,7 +209,6 @@ export const localOptions = [
   {
     label: '충북',
     options: [
-      { value: 43, label: '충북전체' },
       { value: 4300000, label: '충북본청' },
       { value: 4312000, label: '충북충주시' },
       { value: 4313000, label: '충북제천시' },
@@ -236,7 +226,6 @@ export const localOptions = [
   {
     label: '충남',
     options: [
-      { value: 44, label: '충남전체' },
       { value: 4400000, label: '충남본청' },
       { value: 4411000, label: '충남천안시' },
       { value: 4412000, label: '충남공주시' },
@@ -258,7 +247,6 @@ export const localOptions = [
   {
     label: '전북',
     options: [
-      { value: 45, label: '전북전체' },
       { value: 4500000, label: '전북본청' },
       { value: 4511000, label: '전북전주시' },
       { value: 4512000, label: '전북군산시' },
@@ -279,7 +267,6 @@ export const localOptions = [
   {
     label: '전남',
     options: [
-      { value: 46, label: '전남전체' },
       { value: 4600000, label: '전남본청' },
       { value: 4611000, label: '전남목포시' },
       { value: 4612000, label: '전남여수시' },
@@ -308,7 +295,6 @@ export const localOptions = [
   {
     label: '경북',
     options: [
-      { value: 47, label: '경북전체' },
       { value: 4700000, label: '경북본청' },
       { value: 4711000, label: '경북포항시' },
       { value: 4712000, label: '경북경주시' },
@@ -338,7 +324,6 @@ export const localOptions = [
   {
     label: '경남',
     options: [
-      { value: 48, label: '경남전체' },
       { value: 4800000, label: '경남본청' },
       { value: 4811000, label: '경남창원시' },
       { value: 4813000, label: '경남진주시' },
@@ -365,11 +350,6 @@ export const localOptions = [
     options: [{ value: 4900000, label: '제주본청' }],
   },
 ]
-
-export const sigunguLocalOptions = localOptions.map((option) => ({
-  label: option.label,
-  options: option.options.filter((option) => option.value > 100),
-}))
 
 export const localRealmOptions = [
   { value: 0, label: '전체' },

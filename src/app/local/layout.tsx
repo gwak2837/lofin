@@ -22,7 +22,7 @@ export default function LocalExpenditureLayout({ children }: Props) {
           />
         </Link>
         <Link href="/local" className="hover:no-underline focus:no-underline">
-          <h2 className="text-2xl whitespace-nowrap text-black ">예산 진단 지표 분석</h2>
+          <h2 className="text-2xl whitespace-nowrap text-black ">지자체 분야별 예산 도출</h2>
         </Link>
       </div>
 

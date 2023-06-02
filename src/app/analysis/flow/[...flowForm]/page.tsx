@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../../common/constants'
 import { PageProps } from '../../../../common/types'
+import StackedColumnChart from '../../../../components/StackedColumnChart'
 
 async function getFlowAnalysis(params: Record<string, string & string[]>) {
   const [year, localCode, isRealm, centerRealmOrSector, localRealmOrSector] = params.flowForm
@@ -25,6 +26,7 @@ export default async function FlowAnalysisPage({ params }: PageProps) {
   return (
     <div className="">
       <main className="">
+        <StackedColumnChart data={[]} id="flow-analysis" />
         <pre className="overflow-x-scroll">{JSON.stringify(flowAnalysis, null, 2)}</pre>
       </main>
     </div>

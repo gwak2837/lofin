@@ -22,7 +22,7 @@ export default function CenterExpenditureLayout({ children }: Props) {
           />
         </Link>
         <Link href="/center" className="hover:no-underline focus:no-underline">
-          <h2 className="text-2xl whitespace-nowrap text-black ">중앙 부처 사업 도출</h2>
+          <h2 className="text-2xl whitespace-nowrap text-black ">중앙정부 소관별 예산 도출</h2>
         </Link>
       </div>
 

@@ -22,7 +22,7 @@ async function getLocalExpendituresByProject(params: Record<string, string & str
   }
 
   if (projectCode && projectCode !== '0') {
-    searchParams.append('projectCode', projectCode)
+    searchParams.append('realmCode', projectCode)
   }
 
   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/expenditure/local/realm?${searchParams}`)

@@ -4,7 +4,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
 import Select from 'react-select'
 
-import { sigunguLocalOptions } from '../../../common/lofin'
+import { localOptions } from '../../../common/lofin'
 import { getNestedOption } from '../../../common/utils'
 
 export default function RelationForm() {
@@ -46,9 +46,9 @@ export default function RelationForm() {
           <Select
             instanceId="sigunguLocalOptions"
             onChange={(newLocalGov) => newLocalGov && setLocalCode(newLocalGov.value)}
-            options={sigunguLocalOptions}
+            options={localOptions}
             required
-            value={getNestedOption(sigunguLocalOptions, localCode)}
+            value={getNestedOption(localOptions, localCode)}
           />
         </div>
 
