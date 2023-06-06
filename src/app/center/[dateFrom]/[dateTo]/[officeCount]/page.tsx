@@ -45,7 +45,6 @@ export default async function CenterExpenditurePage({ params }: PageProps) {
             valueFields={[
               ['y_yy_dfn_medi_kcur_amt_sum', '국회확정금액'],
               ['y_yy_medi_kcur_amt_sum', '정부안금액'],
-              ['y_prey_first_kcur_amt_sum', '전년도국회확정금액'],
             ]}
           />
 
@@ -66,12 +65,6 @@ export default async function CenterExpenditurePage({ params }: PageProps) {
                   </th>
                   <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
                     정부안금액
-                  </th>
-                  <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                    전년도최종금액
-                  </th>
-                  <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                    전년도국회확정금액
                   </th>
                 </tr>
               </thead>

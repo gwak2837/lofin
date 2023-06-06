@@ -27,12 +27,6 @@ export default function ExpenditureRowLink({ expenditure, i }: Props) {
       <td className="p-2 text-right">
         {formatPrice(Math.floor(+expenditure.y_yy_medi_kcur_amt_sum / 1000))}
       </td>
-      <td className="p-2 text-right">
-        {formatPrice(Math.floor(+expenditure.y_prey_fnl_frc_amt_sum / 1000))}
-      </td>
-      <td className="p-2 text-right">
-        {formatPrice(Math.floor(+expenditure.y_prey_first_kcur_amt_sum / 1000))}
-      </td>
     </tr>
   )
 }

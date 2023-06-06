@@ -16,7 +16,7 @@ const DateRangePicker = dynamic(() => import('../../components/DateRangePicker')
         aria-label="Date"
         className="p-2 border disabled:cursor-not-allowed"
         disabled
-        placeholder="YYYY-MM-DD"
+        placeholder="YYYY"
         type="text"
       />
       <span>to</span>
@@ -24,7 +24,7 @@ const DateRangePicker = dynamic(() => import('../../components/DateRangePicker')
         aria-label="Date"
         className="p-2 border disabled:cursor-not-allowed"
         disabled
-        placeholder="YYYY-MM-DD"
+        placeholder="YYYY"
         type="text"
       />
     </div>
@@ -34,8 +34,8 @@ const DateRangePicker = dynamic(() => import('../../components/DateRangePicker')
 export default function CenterExpenditureForm() {
   // Pathname
   const params = usePathname()?.split('/') ?? []
-  const dateFrom = params[2] ?? '2023'
-  const dateTo = params[3] ?? '2023'
+  const dateFrom = params[2] ?? '2022'
+  const dateTo = params[3] ?? '2022'
   const officeCountParam = params[4] ? +params[4] : 30
   const officeNameParam = params[5] ? decodeURIComponent(params[5]) : '전체'
   const countParam = params[6] ? +params[6] : 30

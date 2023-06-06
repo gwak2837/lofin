@@ -47,7 +47,7 @@ export default function DateRangePicker({
         usageStatistics: false,
       },
       format:
-        calendarType === 'date' ? 'yyyy-MM-dd' : calendarType === 'month' ? 'yyyy-MM-dd' : 'yyyy',
+        calendarType === 'date' ? 'yyyy-MM-dd' : calendarType === 'month' ? 'yyyy-MM' : 'yyyy',
       language: 'ko',
       selectableRanges: [[new Date(2013, 0, 1), new Date(2023, 11, 31)]],
       usageStatistics: false,

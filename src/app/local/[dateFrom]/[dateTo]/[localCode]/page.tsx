@@ -21,11 +21,14 @@ async function getLocalExpenditures(params: Record<string, string & string[]>) {
   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/expenditure/local?${searchParams}`)
   if (!response.ok) throw new Error(await response.text())
 
-  return (await response.json()) as Response | null
+  return (await response.json()) as Response
 }
 
 export default async function LocalExpendituresPage({ params }: PageProps) {
   const localExpenditures = await getLocalExpenditures(params)
+
+  const a = localExpenditures.expenditures.reduce((acc, cur) => acc + +cur.orgnztnam_sum, 0)
+  console.log('👀 ~ a:', a)
 
   return (
     <>

@@ -2,7 +2,7 @@
 
 import { ErrorProps } from '../../../../common/types'
 
-export default function RelationAnalysisError({ error, reset }: ErrorProps) {
+export default function RatioAnalysisError({ error, reset }: ErrorProps) {
   return (
     <div className="text-center">
       <h2>Something went wrong!</h2>

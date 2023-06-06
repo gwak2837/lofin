@@ -7,7 +7,7 @@ import Select from 'react-select'
 import { localOptions } from '../../../common/lofin'
 import { getNestedOption } from '../../../common/utils'
 
-export default function RelationForm() {
+export default function RatioForm() {
   // Pathname
   const params = usePathname()?.split('/') ?? []
   const yearParam = params[3] ?? '2022'
@@ -25,7 +25,7 @@ export default function RelationForm() {
   function search(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-    let searchResultPage = `/analysis/relation/${year}/${localCode}/${isRealm}`
+    let searchResultPage = `/analysis/ratio/${year}/${localCode}/${isRealm}`
     router.push(searchResultPage)
   }
 
