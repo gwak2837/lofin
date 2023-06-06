@@ -22,7 +22,7 @@ export default function RatioAnalysisLayout({ children }: Props) {
           />
         </Link>
         <Link href="/analysis/ratio" className="hover:no-underline focus:no-underline">
-          <h2 className="text-2xl whitespace-nowrap text-black ">예산 연관성 분석</h2>
+          <h2 className="text-2xl whitespace-nowrap text-black ">예산 비율 분석</h2>
         </Link>
       </div>
 
