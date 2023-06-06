@@ -85,6 +85,7 @@ export default function RatioForm() {
         <span>구분</span>
         <div className="z-30">
           <Select
+            isDisabled={true}
             instanceId="type"
             onChange={(newType) => newType && setCalendarType(newType.value)}
             options={calendarTypeOptions}
