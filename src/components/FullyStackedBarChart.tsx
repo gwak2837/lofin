@@ -10,21 +10,34 @@ type Props = {
   id: string
   keyField: string
   valueFields: string[]
+  valueLabels?: string[]
 }
 
-export default function StackedColumnChart({ data, id, keyField, valueFields }: Props) {
+export default function FullyStackedBarChart({
+  data,
+  id,
+  keyField,
+  valueFields,
+  valueLabels,
+}: Props) {
   useEffect(() => {
     let root = am5.Root.new(id)
 
     // Set themes
     // https://www.amcharts.com/docs/v5/concepts/themes/
-    root.setThemes([am5themes_Animated.new(root)])
+    let myTheme = am5.Theme.new(root)
+
+    myTheme.rule('Grid', ['base']).setAll({
+      strokeOpacity: 0.1,
+    })
+
+    root.setThemes([am5themes_Animated.new(root), myTheme])
 
     // Create chart
     // https://www.amcharts.com/docs/v5/charts/xy-chart/
     let chart = root.container.children.push(
       am5xy.XYChart.new(root, {
-        panX: false,
+        panX: true,
         panY: false,
         wheelX: 'panX',
         wheelY: 'zoomX',
@@ -35,33 +48,38 @@ export default function StackedColumnChart({ data, id, keyField, valueFields }: 
     // Add scrollbar
     // https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
     chart.set(
-      'scrollbarX',
+      'scrollbarY',
       am5.Scrollbar.new(root, {
-        orientation: 'horizontal',
+        orientation: 'vertical',
       })
     )
 
     // Create axes
     // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
-    let xRenderer = am5xy.AxisRendererX.new(root, {})
-    let xAxis = chart.xAxes.push(
+    let yRenderer = am5xy.AxisRendererY.new(root, {})
+    let yAxis = chart.yAxes.push(
       am5xy.CategoryAxis.new(root, {
         categoryField: keyField,
-        renderer: xRenderer,
+        renderer: yRenderer,
         tooltip: am5.Tooltip.new(root, {}),
       })
     )
 
-    xRenderer.grid.template.setAll({
+    yRenderer.grid.template.setAll({
       location: 1,
     })
 
-    xAxis.data.setAll(data)
+    yAxis.data.setAll(data)
 
-    let yAxis = chart.yAxes.push(
+    let xAxis = chart.xAxes.push(
       am5xy.ValueAxis.new(root, {
         min: 0,
-        renderer: am5xy.AxisRendererY.new(root, {
+        max: 100,
+        maxDeviation: 0,
+        numberFormat: "#'%'",
+        strictMinMax: true,
+        calculateTotals: true,
+        renderer: am5xy.AxisRendererX.new(root, {
           strokeOpacity: 0.1,
         }),
       })
@@ -85,14 +103,16 @@ export default function StackedColumnChart({ data, id, keyField, valueFields }: 
           stacked: true,
           xAxis: xAxis,
           yAxis: yAxis,
-          valueYField: fieldName,
-          categoryXField: keyField,
+          baseAxis: yAxis,
+          valueXField: fieldName,
+          valueXShow: 'valueXTotalPercent',
+          categoryYField: keyField,
         })
       )
 
       series.columns.template.setAll({
-        tooltipText: '{name}: {valueY}',
-        tooltipY: am5.percent(10),
+        tooltipText: "{name}: {valueX} ({valueXTotalPercent.formatNumber('#.#')}%)",
+        tooltipY: am5.percent(90),
       })
       series.data.setAll(data)
 
@@ -103,7 +123,7 @@ export default function StackedColumnChart({ data, id, keyField, valueFields }: 
       series.bullets.push(function () {
         return am5.Bullet.new(root, {
           sprite: am5.Label.new(root, {
-            text: '{valueY}',
+            text: "{valueXTotalPercent.formatNumber('#.#')}%",
             fill: root.interfaceColors.get('alternativeText'),
             centerY: am5.p50,
             centerX: am5.p50,
@@ -112,9 +132,9 @@ export default function StackedColumnChart({ data, id, keyField, valueFields }: 
         })
       })
 
-      series.columns.template.onPrivate('height', function (height, target) {
+      series.columns.template.onPrivate('width', function (width, target) {
         am5.array.each(target?.dataItem?.bullets ?? [], (bullet) => {
-          if ((height ?? 0) > bullet.get('sprite').height() + 1) {
+          if ((width ?? 0) > bullet.get('sprite').width() + 1) {
             bullet.get('sprite').show()
           } else {
             bullet.get('sprite').hide()
@@ -125,11 +145,15 @@ export default function StackedColumnChart({ data, id, keyField, valueFields }: 
       legend.data.push(series)
     }
 
-    for (const valueField of valueFields) {
-      makeSeries(valueField, valueField)
+    for (let i = 0; i < valueFields.length; i++) {
+      if (valueLabels) {
+        makeSeries(valueLabels[i], valueFields[i])
+      } else {
+        makeSeries(valueFields[i], valueFields[i])
+      }
     }
 
-    chart.root.dom.style.height = `100vh`
+    chart.root.dom.style.height = `${data.length * 50 + 250}px`
 
     // Make stuff animate on load
     // https://www.amcharts.com/docs/v5/concepts/animations/
@@ -138,7 +162,7 @@ export default function StackedColumnChart({ data, id, keyField, valueFields }: 
     return () => {
       root.dispose()
     }
-  }, [data, id, keyField, valueFields])
+  }, [data, id, keyField, valueFields, valueLabels])
 
   return <div id={id} />
 }
