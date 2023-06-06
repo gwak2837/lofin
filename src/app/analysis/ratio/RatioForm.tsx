@@ -39,7 +39,7 @@ export default function RatioForm() {
   const dateFromParam = params[3] ?? '2023'
   const dateToParam = params[4] ?? '2023'
   const localCodeParam = params[5] ?? '11'
-  const isRealmParam = params[6] === 'true'
+  const isRealmParam = params[6] !== 'false'
 
   // Form
   const [calendarType, setCalendarType] = useState<CalendarType>('year')

@@ -33,11 +33,10 @@ export default async function RatioAnalysisPage({ params }: PageProps) {
   const ratioAnalysis = await getRatioAnalysis(params)
 
   return (
-    <div className="">
-      <main className="">
-        <FullyStackedBarChart id="ratioAnalysis" data={ratioAnalysis} keyField="type" />
-        {/* <pre className="overflow-x-scroll">{JSON.stringify(ratioAnalysis, null, 2)}</pre> */}
-      </main>
-    </div>
+    <main className="">
+      <h5 className="text-sm mt-2 text-center">단위: 백만</h5>
+      <FullyStackedBarChart id="ratioAnalysis" data={ratioAnalysis} keyField="type" />
+      {/* <pre className="overflow-x-scroll">{JSON.stringify(ratioAnalysis, null, 2)}</pre> */}
+    </main>
   )
 }
