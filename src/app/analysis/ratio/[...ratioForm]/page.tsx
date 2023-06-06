@@ -31,36 +31,11 @@ async function getRatioAnalysis(params: Record<string, string & string[]>) {
 
 export default async function RatioAnalysisPage({ params }: PageProps) {
   const ratioAnalysis = await getRatioAnalysis(params)
-  console.log('👀 ~ ratioAnalysis:', ratioAnalysis)
 
   return (
     <div className="">
       <main className="">
-        <FullyStackedBarChart
-          id="ratioAnalysis"
-          data={ratioAnalysis}
-          keyField="type"
-          valueFields={[
-            '사회복지',
-            '일반·지방행정',
-            '교육',
-            '국방',
-            '산업·중소기업및에너지',
-            '농림수산',
-            '공공질서및안전',
-            '교통및물류',
-            '보건',
-            '환경',
-            '과학기술',
-            '통신',
-            '문화및관광',
-            '통일·외교',
-            '예비비',
-            '국토및지역개발',
-            '일반공공행정',
-            '기타',
-          ]}
-        />
+        <FullyStackedBarChart id="ratioAnalysis" data={ratioAnalysis} keyField="type" />
         {/* <pre className="overflow-x-scroll">{JSON.stringify(ratioAnalysis, null, 2)}</pre> */}
       </main>
     </div>

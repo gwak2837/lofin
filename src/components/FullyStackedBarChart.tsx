@@ -5,21 +5,15 @@ import am5themes_Animated from '@amcharts/amcharts5/themes/Animated'
 import * as am5xy from '@amcharts/amcharts5/xy'
 import { useEffect } from 'react'
 
+import { vw } from '../common/utils'
+
 type Props = {
   data: any
   id: string
   keyField: string
-  valueFields: string[]
-  valueLabels?: string[]
 }
 
-export default function FullyStackedBarChart({
-  data,
-  id,
-  keyField,
-  valueFields,
-  valueLabels,
-}: Props) {
+export default function FullyStackedBarChart({ data, id, keyField }: Props) {
   useEffect(() => {
     let root = am5.Root.new(id)
 
@@ -145,15 +139,20 @@ export default function FullyStackedBarChart({
       legend.data.push(series)
     }
 
-    for (let i = 0; i < valueFields.length; i++) {
-      if (valueLabels) {
-        makeSeries(valueLabels[i], valueFields[i])
-      } else {
-        makeSeries(valueFields[i], valueFields[i])
+    const fieldNames = new Set<string>()
+
+    for (const d of data) {
+      for (const fieldName of Object.keys(d)) {
+        if (fieldName === keyField) continue
+        fieldNames.add(fieldName)
       }
     }
 
-    chart.root.dom.style.height = `${data.length * 50 + 250}px`
+    for (const fieldName of fieldNames) {
+      makeSeries(fieldName, fieldName)
+    }
+
+    chart.root.dom.style.height = `${data.length * 50 + 50 + getHeight(fieldNames.size) * 40}px`
 
     // Make stuff animate on load
     // https://www.amcharts.com/docs/v5/concepts/animations/
@@ -162,7 +161,15 @@ export default function FullyStackedBarChart({
     return () => {
       root.dispose()
     }
-  }, [data, id, keyField, valueFields, valueLabels])
+  }, [data, id, keyField])
 
   return <div id={id} />
+}
+
+function getHeight(size: number) {
+  const viewWidth = vw()
+  if (viewWidth < 440) return size
+  else if (viewWidth >= 440 && viewWidth < 610) return size / 2
+  else if (viewWidth >= 610 && viewWidth < 820) return size / 3
+  else return size / 4
 }
