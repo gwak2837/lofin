@@ -122,7 +122,7 @@ export default function StackedColumnChart({ data, id, keyField, valueFields }: 
         })
       })
 
-      legend.data.push(series)
+      // legend.data.push(series)
     }
 
     for (const valueField of valueFields) {

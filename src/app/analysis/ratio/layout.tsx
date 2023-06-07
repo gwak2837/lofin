@@ -21,7 +21,7 @@ export default function RatioAnalysisLayout({ children }: Props) {
             height="798"
           />
         </Link>
-        <Link href="/analysis/ratio" className="hover:no-underline focus:no-underline">
+        <Link href="/amchart/ratio" className="hover:no-underline focus:no-underline">
           <h2 className="text-2xl whitespace-nowrap text-black ">예산 비율 분석</h2>
         </Link>
       </div>

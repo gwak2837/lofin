@@ -36,8 +36,8 @@ const DateRangePicker = dynamic(() => import('../../../components/DateRangePicke
 export default function RatioForm() {
   // Pathname
   const params = usePathname()?.split('/') ?? []
-  const dateFromParam = params[3] ?? '2023'
-  const dateToParam = params[4] ?? '2023'
+  const dateFromParam = params[3] ?? '2023-01-01'
+  const dateToParam = params[4] ?? '2023-12-31'
   const localCodeParam = params[5] ?? '11'
   const isRealmParam = params[6] !== 'false'
 
@@ -75,7 +75,7 @@ export default function RatioForm() {
       }
     })()
 
-    let searchResultPage = `/analysis/ratio/${dateFrom}/${dateTo}/${localCode}/${isRealm}`
+    let searchResultPage = `/amchart/ratio/${dateFrom}/${dateTo}/${localCode}/${isRealm}`
     router.push(searchResultPage)
   }
 

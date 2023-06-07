@@ -14,7 +14,7 @@ type Props = {
 export default function CommitmentForm({ electionOptions }: Props) {
   // Pathname
   const params = usePathname()?.split('/') ?? []
-  const electionsParam = params[3]
+  // const electionsParam = params[3] ? :[]
   const countParam = params[4] ? +params[4] : 20
 
   // Form

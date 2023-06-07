@@ -129,7 +129,13 @@ export const cefinRealmOptions = [
   { value: '일반공공행정', label: '일반공공행정' },
   { value: '공공질서및안전', label: '공공질서및안전' },
   { value: '국토및지역개발', label: '국토및지역개발' },
-]
+] as const
+
+export const cefinRealmDefaultOption = cefinRealmOptions[13]
+
+export function getCefinRealmOption(value: string) {
+  return cefinRealmOptions.find((l) => l.value === value)
+}
 
 export const cefinSectorOptions = [
   { value: '경찰', label: '경찰' },
@@ -221,4 +227,10 @@ export const cefinSectorOptions = [
   { value: '기후대기및환경안전', label: '기후대기및환경안전' },
   { value: '자원순환및환경경제', label: '자원순환및환경경제' },
   { value: '중소기업및소상공인육성', label: '중소기업및소상공인육성' },
-]
+] as const
+
+export const cefinSectorDefaultOption = cefinSectorOptions[68]
+
+export function getCefinSectorOption(value: string) {
+  return cefinSectorOptions.find((l) => l.value === value)
+}

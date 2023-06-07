@@ -386,7 +386,13 @@ export const localRealmOptions = [
   { value: 150, label: '과학기술' },
   { value: 160, label: '예비비' },
   { value: 900, label: '기타' },
-]
+] as const
+
+export const localRealmDefaultOption = localRealmOptions[6]
+
+export function getLocalRealmOption(value: number) {
+  return localRealmOptions.find((l) => l.value === value)
+}
 
 export const localSectorOptions = [
   { value: 11, label: '입법 및 선거관리' },
@@ -442,4 +448,10 @@ export const localSectorOptions = [
   { value: 153, label: '과학기술일반' },
   { value: 161, label: '예비비' },
   { value: 901, label: '기타' },
-]
+] as const
+
+export const localSectorDefaultOption = localSectorOptions[21]
+
+export function getLocalSectorOption(value: number) {
+  return localSectorOptions.find((l) => l.value === value)
+}

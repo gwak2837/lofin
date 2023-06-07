@@ -23,7 +23,7 @@ async function getRatioAnalysis(params: Record<string, string & string[]>) {
     searchParams.append('isRealm', isRealm)
   }
 
-  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/analysis/ratio?${searchParams}`)
+  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/amchart/ratio?${searchParams}`)
   if (!response.ok) throw new Error(await response.text())
 
   return (await response.json()) as Response
