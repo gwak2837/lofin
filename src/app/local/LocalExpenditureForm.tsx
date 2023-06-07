@@ -130,7 +130,7 @@ export default function LocalExpenditureForm() {
             onChange={(newProjectCode) => newProjectCode && setRealmCode(newProjectCode.value)}
             options={localRealmOptions}
             required
-            value={getOption(localRealmOptions, realmCode)}
+            value={getOption(localRealmOptions as any, realmCode)}
           />
         </div>
 
