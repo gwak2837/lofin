@@ -12,11 +12,11 @@ async function getFlowAnalysis(params: Record<string, string & string[]>) {
 
   const searchParams = new URLSearchParams(`dateFrom=${dateFrom}&dateTo=${dateTo}`)
 
-  for (const centerRealmOrSector of centerRealmOrSectors.split(',')) {
+  for (const centerRealmOrSector of decodeURIComponent(centerRealmOrSectors).split(',')) {
     searchParams.append('centerRealmOrSector', centerRealmOrSector)
   }
 
-  for (const localRealmOrSector of localRealmOrSectors.split(',')) {
+  for (const localRealmOrSector of decodeURIComponent(localRealmOrSectors).split(',')) {
     searchParams.append('localRealmOrSector', localRealmOrSector)
   }
 

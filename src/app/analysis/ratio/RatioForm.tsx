@@ -75,7 +75,7 @@ export default function RatioForm() {
       }
     })()
 
-    let searchResultPage = `/amchart/ratio/${dateFrom}/${dateTo}/${localCode}/${isRealm}`
+    let searchResultPage = `/analysis/ratio/${dateFrom}/${dateTo}/${localCode}/${isRealm}`
     router.push(searchResultPage)
   }
 

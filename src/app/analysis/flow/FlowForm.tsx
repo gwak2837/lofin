@@ -51,8 +51,8 @@ const DateRangePicker = dynamic(() => import('../../../components/DateRangePicke
 export default function FlowForm() {
   // Pathname
   const params = usePathname()?.split('/') ?? []
-  const dateFromParam = params[3] ?? '2022-01-01'
-  const dateToParam = params[4] ?? '2022-12-31'
+  const dateFromParam = params[3] ?? '2023-01-01'
+  const dateToParam = params[4] ?? '2023-12-31'
   const isRealmParam = params[7] !== 'false'
   const centerRealmOrSectorOptionsParam = params[5]
     ? decodeURIComponent(params[5])
@@ -83,7 +83,9 @@ export default function FlowForm() {
   const [isRealm, setIsRealm] = useState(isRealmParam)
   const [criteria, setCriteria] = useState(criteriaParam)
 
-  useEffect(() => {
+  function setIsRealm__setRealmOrSector(isRealm: boolean) {
+    setIsRealm(isRealm)
+
     if (isRealm) {
       setCenterRealmOrSectorOptions([cefinRealmDefaultOption])
       setLocalRealmOrSectorOptions([localRealmDefaultOption])
@@ -91,7 +93,7 @@ export default function FlowForm() {
       setCenterRealmOrSectorOptions([cefinSectorDefaultOption])
       setLocalRealmOrSectorOptions([localSectorDefaultOption])
     }
-  }, [isRealm])
+  }
 
   // Search
   const router = useRouter()
@@ -160,7 +162,7 @@ export default function FlowForm() {
           />
         </div>
 
-        <span>단위</span>
+        <span>지방 단위</span>
         <div className="grid grid-cols-3 w-full rounded-md overflow-hidden border border-sky-400">
           <button
             className={
@@ -194,14 +196,14 @@ export default function FlowForm() {
         <div className="grid grid-cols-2 w-full rounded-md overflow-hidden border border-sky-400">
           <button
             className={'p-2 border-r border-sky-400 ' + (isRealm ? 'bg-sky-400 text-white' : '')}
-            onClick={() => setIsRealm(true)}
+            onClick={() => setIsRealm__setRealmOrSector(true)}
             type="button"
           >
             분야
           </button>
           <button
             className={'p-2 ' + (!isRealm ? 'bg-sky-400 text-white' : '')}
-            onClick={() => setIsRealm(false)}
+            onClick={() => setIsRealm__setRealmOrSector(false)}
             type="button"
           >
             부문

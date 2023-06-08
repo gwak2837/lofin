@@ -35,8 +35,8 @@ const DateRangePicker = dynamic(() => import('../../components/DateRangePicker')
 export default function LocalExpenditureForm() {
   // Pathname
   const params = usePathname()?.split('/') ?? []
-  const dateFrom = params[2] ?? '2022-01-01'
-  const dateTo = params[3] ?? '2022-12-31'
+  const dateFrom = params[2] ?? '2023-01-01'
+  const dateTo = params[3] ?? '2023-12-31'
   const localCodeParam = params[4] ? +params[4] : 1100000
   const realmCodeParam = params[5] ? +params[5] : 0
   const countParam = params[6] ? +params[6] : 20
