@@ -143,6 +143,8 @@ dist
 
 # End of https://www.toptal.com/developers/gitignore/api/node
 
+.DS_Store
+
 public/*.js
 public/*.map
 

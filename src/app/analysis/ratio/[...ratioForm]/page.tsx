@@ -9,7 +9,7 @@ type Response = {
   cefin: Record<string, any>[]
 }
 
-async function getRatioAnalysis(params: Record<string, string & string[]>) {
+async function getRatioAnalytics(params: Record<string, string & string[]>) {
   const [dateFrom, dateTo, localCode, isRealm] = params.ratioForm
   if (!dateFrom || !dateTo || !localCode || !isRealm) return notFound()
 
@@ -23,20 +23,20 @@ async function getRatioAnalysis(params: Record<string, string & string[]>) {
     searchParams.append('isRealm', isRealm)
   }
 
-  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/amchart/ratio?${searchParams}`)
+  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/analytics/ratio?${searchParams}`)
   if (!response.ok) throw new Error(await response.text())
 
   return (await response.json()) as Response
 }
 
-export default async function RatioAnalysisPage({ params }: PageProps) {
-  const ratioAnalysis = await getRatioAnalysis(params)
+export default async function RatioAnalyticsPage({ params }: PageProps) {
+  const ratioAnalytics = await getRatioAnalytics(params)
 
   return (
     <main className="">
       <h5 className="text-sm mt-2 text-center">단위: 백만</h5>
-      <FullyStackedBarChart id="ratioAnalysis" data={ratioAnalysis} keyField="type" />
-      {/* <pre className="overflow-x-scroll">{JSON.stringify(ratioAnalysis, null, 2)}</pre> */}
+      <FullyStackedBarChart id="ratioAnalytics" data={ratioAnalytics} keyField="type" />
+      {/* <pre className="overflow-x-scroll">{JSON.stringify(ratioAnalytics, null, 2)}</pre> */}
     </main>
   )
 }

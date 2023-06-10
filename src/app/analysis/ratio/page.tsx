@@ -1,3 +1,3 @@
-export default function RatioAnalysisPage() {
+export default function RatioAnalyticsPage() {
   return null
 }

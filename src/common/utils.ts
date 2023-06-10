@@ -61,3 +61,7 @@ export function getOption(options: Option[], value: any) {
     if (option.value === value) return option
   }
 }
+
+export function formatRatio(child: number, parent: number, fractionDigits = 2) {
+  return child === parent ? '-' : `${((100 * child) / parent - 100).toFixed(fractionDigits)}%`
+}

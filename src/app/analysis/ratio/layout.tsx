@@ -8,7 +8,7 @@ type Props = {
   children: ReactNode
 }
 
-export default function RatioAnalysisLayout({ children }: Props) {
+export default function RatioAnalyticsLayout({ children }: Props) {
   return (
     <main>
       <div className="max-w-screen-md mx-auto my-2 flex flex-wrap justify-center items-center">

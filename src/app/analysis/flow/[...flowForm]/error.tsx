@@ -2,7 +2,7 @@
 
 import { ErrorProps } from '../../../../common/types'
 
-export default function FlowAnalysisError({ error, reset }: ErrorProps) {
+export default function FlowAnalyticsError({ error, reset }: ErrorProps) {
   return (
     <div className="text-center">
       <h2>Something went wrong!</h2>

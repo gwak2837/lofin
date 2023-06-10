@@ -10,9 +10,10 @@ type Response = {
 
 async function getCenterExpendituresByOffice(params: Record<string, string & string[]>) {
   const { dateFrom, dateTo, officeName, count } = params
+  console.log('👀 ~ officeName:', officeName)
 
   const searchParams = new URLSearchParams(
-    `dateFrom=${dateFrom}&dateTo=${dateTo}&officeName=${decodeURIComponent(officeName)}`
+    `dateFrom=${dateFrom}&dateTo=${dateTo}&officeName=${officeName}`
   )
 
   if (count !== '30') {
