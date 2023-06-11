@@ -7,11 +7,11 @@ import Select from 'react-select'
 import { CalendarType, DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
 import {
-  cefinRealmDefaultOption,
-  cefinRealmOptions,
+  cefinFieldDefaultOption,
+  cefinFieldOptions,
   cefinSectorDefaultOption,
   cefinSectorOptions,
-  getCefinRealmOption,
+  getCefinFieldOption,
   getCefinSectorOption,
 } from '../../../common/cefin'
 import {
@@ -58,9 +58,9 @@ export default function FlowForm() {
     ? decodeURIComponent(params[5])
         .split(',')
         .map((centerRealmOrSector) =>
-          (isRealmParam ? getCefinRealmOption : getCefinSectorOption)(centerRealmOrSector)
+          (isRealmParam ? getCefinFieldOption : getCefinSectorOption)(centerRealmOrSector)
         )
-    : [isRealmParam ? cefinRealmDefaultOption : cefinSectorDefaultOption]
+    : [isRealmParam ? cefinFieldDefaultOption : cefinSectorDefaultOption]
   const localRealmOrSectorOptionsParam = params[6]
     ? params[6]
         .split(',')
@@ -83,11 +83,11 @@ export default function FlowForm() {
   const [isRealm, setIsRealm] = useState(isRealmParam)
   const [criteria, setCriteria] = useState(criteriaParam)
 
-  function setIsRealm__setRealmOrSector(isRealm: boolean) {
+  function setIsRealm_setRealmOrSector(isRealm: boolean) {
     setIsRealm(isRealm)
 
     if (isRealm) {
-      setCenterRealmOrSectorOptions([cefinRealmDefaultOption])
+      setCenterRealmOrSectorOptions([cefinFieldDefaultOption])
       setLocalRealmOrSectorOptions([localRealmDefaultOption])
     } else {
       setCenterRealmOrSectorOptions([cefinSectorDefaultOption])
@@ -196,14 +196,14 @@ export default function FlowForm() {
         <div className="grid grid-cols-2 w-full rounded-md overflow-hidden border border-sky-400">
           <button
             className={'p-2 border-r border-sky-400 ' + (isRealm ? 'bg-sky-400 text-white' : '')}
-            onClick={() => setIsRealm__setRealmOrSector(true)}
+            onClick={() => setIsRealm_setRealmOrSector(true)}
             type="button"
           >
             분야
           </button>
           <button
             className={'p-2 ' + (!isRealm ? 'bg-sky-400 text-white' : '')}
-            onClick={() => setIsRealm__setRealmOrSector(false)}
+            onClick={() => setIsRealm_setRealmOrSector(false)}
             type="button"
           >
             부문
@@ -216,7 +216,7 @@ export default function FlowForm() {
             instanceId="centerRealmOrSectors"
             isMulti
             onChange={(newOptions) => setCenterRealmOrSectorOptions(newOptions as any)}
-            options={isRealm ? cefinRealmOptions : cefinSectorOptions}
+            options={isRealm ? cefinFieldOptions : cefinSectorOptions}
             required
             value={centerRealmOrSectorOptions}
           />

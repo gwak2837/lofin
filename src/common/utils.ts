@@ -62,6 +62,10 @@ export function getOption(options: Option[], value: any) {
   }
 }
 
-export function formatRatio(child: number, parent: number, fractionDigits = 2) {
-  return child === parent ? '-' : `${((100 * child) / parent - 100).toFixed(fractionDigits)}%`
+export function formatVariationRatio(child: number, parent: number, fractionDigits = 2) {
+  return child === parent ? '-' : ((100 * child) / parent - 100).toFixed(fractionDigits) + '%'
+}
+
+export function formatRatio(a: number, b: number, fractionDigits = 0) {
+  return ((100 * a) / b).toFixed(fractionDigits) + '%'
 }

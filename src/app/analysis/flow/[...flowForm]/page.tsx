@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../../common/constants'
 import { PageProps } from '../../../../common/types'
-import { formatPrice, formatRatio } from '../../../../common/utils'
+import { formatPrice, formatRatio, formatVariationRatio } from '../../../../common/utils'
 import StackedColumnChart from '../../../../components/StackedColumnChart'
 
 async function getFlowAnalytics(params: Record<string, string & string[]>) {
@@ -51,7 +51,7 @@ export default async function FlowAnalyticsPage({ params }: PageProps) {
   const lofinBullets = Object.keys(amchart[1]).filter((k) => k !== 'seriesName')
 
   return (
-    <main className="">
+    <>
       <h5 className="text-sm mt-2 text-center">단위: 백만</h5>
       <StackedColumnChart
         data={amchart}
@@ -98,7 +98,7 @@ export default async function FlowAnalyticsPage({ params }: PageProps) {
                   <td className="p-2 text-right">{formatPrice(+a.y_yy_dfn_medi_kcur_amt)}원</td>
                   <td className="p-2 text-right">{formatPrice(+a.y_yy_medi_kcur_amt)}원</td>
                   <td className="p-2 text-right">
-                    {formatRatio(+a.y_yy_dfn_medi_kcur_amt, +a.y_yy_medi_kcur_amt)}
+                    {formatVariationRatio(+a.y_yy_dfn_medi_kcur_amt, +a.y_yy_medi_kcur_amt)}
                   </td>
                 </tr>
               </Link>
@@ -118,6 +118,9 @@ export default async function FlowAnalyticsPage({ params }: PageProps) {
               <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
                 지자체
               </th>
+              <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                국비 비율
+              </th>
               <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold flex gap-2 justify-center items-center">
                 예산현액
                 <Image src="/images/down-arrow.png" alt="Down Arrow" width="12" height="12" />
@@ -134,6 +137,7 @@ export default async function FlowAnalyticsPage({ params }: PageProps) {
               <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
                 기타
               </th>
+
               <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
                 지출액
               </th>
@@ -152,19 +156,20 @@ export default async function FlowAnalyticsPage({ params }: PageProps) {
                 <tr className="cursor-pointer hover:bg-slate-100">
                   <td className="p-2 text-center">{i + 1}</td>
                   <td className="p-2 text-center">{a.sfrnd_name}</td>
-                  <td className="p-2 text-right">{formatPrice(Math.floor(+a.budget_crntam))}원</td>
-                  <td className="p-2 text-right">{formatPrice(Math.floor(+a.nxndr))}원</td>
-                  <td className="p-2 text-right">{formatPrice(Math.floor(+a.cty))}원</td>
-                  <td className="p-2 text-right">{formatPrice(Math.floor(+a.signgunon))}원</td>
-                  <td className="p-2 text-right">{formatPrice(Math.floor(+a.etc_crntam))}원</td>
-                  <td className="p-2 text-right">{formatPrice(Math.floor(+a.expndtram))}원</td>
-                  <td className="p-2 text-right">{formatPrice(Math.floor(+a.orgnztnam))}원</td>
+                  <td className="p-2 text-right">{formatRatio(+a.nxndr, +a.budget_crntam)}</td>
+                  <td className="p-2 text-right">{formatPrice(+a.budget_crntam)}원</td>
+                  <td className="p-2 text-right">{formatPrice(+a.nxndr)}원</td>
+                  <td className="p-2 text-right">{formatPrice(+a.cty)}원</td>
+                  <td className="p-2 text-right">{formatPrice(+a.signgunon)}원</td>
+                  <td className="p-2 text-right">{formatPrice(+a.etc_crntam)}원</td>
+                  <td className="p-2 text-right">{formatPrice(+a.expndtram)}원</td>
+                  <td className="p-2 text-right">{formatPrice(+a.orgnztnam)}원</td>
                 </tr>
               </Link>
             ))}
           </tbody>
         </table>
       </div>
-    </main>
+    </>
   )
 }

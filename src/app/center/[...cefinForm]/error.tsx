@@ -1,6 +1,6 @@
 'use client'
 
-import { ErrorProps } from '../../../../../common/types'
+import { ErrorProps } from '../../../common/types'
 
 export default function CenterExpenditureError({ error, reset }: ErrorProps) {
   return (

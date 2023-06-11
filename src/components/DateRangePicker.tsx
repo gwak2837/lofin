@@ -49,7 +49,7 @@ export default function DateRangePicker({
       format:
         calendarType === 'date' ? 'yyyy-MM-dd' : calendarType === 'month' ? 'yyyy-MM' : 'yyyy',
       language: 'ko',
-      selectableRanges: [[new Date(2013, 0, 1), new Date(2023, 11, 31)]],
+      selectableRanges: [[new Date(2000, 0, 1), new Date(2030, 11, 31)]],
       usageStatistics: false,
       type: calendarType,
     })

@@ -1,5 +1,4 @@
-export const centerOfficeOptions = [
-  { value: '전체', label: '전체' },
+export const cefinOfficeOptions = [
   { value: '국가청렴위원회', label: '국가청렴위원회' },
   { value: '국정홍보처', label: '국정홍보처' },
   { value: '대통령비서실', label: '대통령비서실' },
@@ -103,9 +102,15 @@ export const centerOfficeOptions = [
   { value: '기상청', label: '기상청' },
   { value: '국가보훈처', label: '국가보훈처' },
   { value: '헌법재판소', label: '헌법재판소' },
-]
+] as const
 
-export const cefinRealmOptions = [
+export const cefinOfficeDefaultOption = cefinOfficeOptions[0]
+
+export function getCefinOfficeOption(value: string) {
+  return cefinOfficeOptions.find((l) => l.value === value)
+}
+
+export const cefinFieldOptions = [
   { value: '교육', label: '교육' },
   { value: '국방', label: '국방' },
   { value: '보건', label: '보건' },
@@ -131,10 +136,10 @@ export const cefinRealmOptions = [
   { value: '국토및지역개발', label: '국토및지역개발' },
 ] as const
 
-export const cefinRealmDefaultOption = cefinRealmOptions[13]
+export const cefinFieldDefaultOption = cefinFieldOptions[13]
 
-export function getCefinRealmOption(value: string) {
-  return cefinRealmOptions.find((l) => l.value === value)
+export function getCefinFieldOption(value: string) {
+  return cefinFieldOptions.find((l) => l.value === value)
 }
 
 export const cefinSectorOptions = [

@@ -9,9 +9,7 @@
       "export default async function $1Page() {",
       "  return (",
       "    <div className=\"\">",
-      "      <main className=\"\">",
-      "        <pre className=\"overflow-x-scroll\">{JSON.stringify({}, null, 2)}</pre>",
-      "      </main>",
+      "      <pre className=\"overflow-x-scroll\">{JSON.stringify({}, null, 2)}</pre>",
       "    </div>",
       "  )",
       "}",
@@ -51,7 +49,7 @@
       "}",
       "",
       "export default function $1Layout({ children }: Props) {",
-      "  return <>{children}</>",
+      "  return <main>{children}</main>",
       "}",
       ""
     ]
