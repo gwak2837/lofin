@@ -160,7 +160,7 @@ export default function CefinForm() {
         </div>
 
         <span>{isField === null ? '전체' : isField === true ? '분야' : '부문'}</span>
-        <div className="z-20">
+        <div className="z-10">
           <Select
             instanceId="fieldOrSectorOptions"
             isDisabled={isField === null}

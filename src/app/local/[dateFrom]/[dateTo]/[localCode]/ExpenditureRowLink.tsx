@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation'
 
 import { localRealmOptions } from '../../../../../common/lofin'
-import { formatPrice } from '../../../../../common/utils'
+import { formatPrice, formatRatio } from '../../../../../common/utils'
 
 type Props = {
   expenditure: any
@@ -22,6 +22,9 @@ export default function ExpenditureRowLink({ expenditure, i }: Props) {
     <tr className="cursor-pointer hover:bg-slate-100" onClick={goToLocalExpendituresByRealmPage}>
       <td className="p-2 text-center">{i + 1}</td>
       <td className="p-2 text-center">{expenditure.realm}</td>
+      <td className="p-2 text-right">
+        {formatRatio(+expenditure.nxndr_sum, +expenditure.budget_crntam_sum)}
+      </td>
       <td className="p-2 text-right">{formatPrice(expenditure.budget_crntam_sum)}원</td>
       <td className="p-2 text-right">{formatPrice(expenditure.nxndr_sum)}원</td>
       <td className="p-2 text-right">{formatPrice(expenditure.cty_sum)}원</td>

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import fetch from 'node-fetch'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../../../common/constants'
@@ -49,7 +50,11 @@ export default async function LocalExpendituresPage({ params }: PageProps) {
                     분야
                   </th>
                   <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                    국비 비율
+                  </th>
+                  <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold flex gap-2 justify-center items-center">
                     예산현액
+                    <Image src="/images/down-arrow.png" alt="Down Arrow" width="12" height="12" />
                   </th>
                   <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
                     국비

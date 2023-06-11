@@ -67,5 +67,5 @@ export function formatVariationRatio(child: number, parent: number, fractionDigi
 }
 
 export function formatRatio(a: number, b: number, fractionDigits = 0) {
-  return ((100 * a) / b).toFixed(fractionDigits) + '%'
+  return a === 0 ? '-' : ((100 * a) / b).toFixed(fractionDigits) + '%'
 }

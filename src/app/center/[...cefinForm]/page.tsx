@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
@@ -68,8 +69,9 @@ export default async function CenterExpenditurePage({ params }: PageProps) {
               <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
                 사업명
               </th>
-              <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+              <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold flex gap-2 justify-center items-center">
                 국회확정금액
+                <Image src="/images/down-arrow.png" alt="Down Arrow" width="12" height="12" />
               </th>
               <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
                 정부안금액
@@ -120,8 +122,9 @@ export default async function CenterExpenditurePage({ params }: PageProps) {
               <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
                 소관
               </th>
-              <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+              <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold flex gap-2 justify-center items-center">
                 국회확정금액
+                <Image src="/images/down-arrow.png" alt="Down Arrow" width="12" height="12" />
               </th>
               <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
                 정부안금액
