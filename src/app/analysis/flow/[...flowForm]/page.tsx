@@ -8,23 +8,23 @@ import { formatPrice, formatRatio, formatVariationRatio } from '../../../../comm
 import StackedColumnChart from '../../../../components/StackedColumnChart'
 
 async function getFlowAnalytics(params: Record<string, string & string[]>) {
-  const [dateFrom, dateTo, centerRealmOrSectors, localRealmOrSectors, isRealm, criteria] =
+  const [dateFrom, dateTo, cefinFieldsOrSectors, lofinFieldsOrSectors, isField, criteria] =
     params.flowForm
 
-  if (!dateFrom || !dateTo || !centerRealmOrSectors || !localRealmOrSectors) return notFound()
+  if (!dateFrom || !dateTo || !cefinFieldsOrSectors || !lofinFieldsOrSectors) return notFound()
 
   const searchParams = new URLSearchParams(`dateFrom=${dateFrom}&dateTo=${dateTo}`)
 
-  for (const centerRealmOrSector of decodeURIComponent(centerRealmOrSectors).split(',')) {
-    searchParams.append('centerRealmOrSector', centerRealmOrSector)
+  for (const cefinFieldOrSector of decodeURIComponent(cefinFieldsOrSectors).split(',')) {
+    searchParams.append('centerRealmOrSector', cefinFieldOrSector)
   }
 
-  for (const localRealmOrSector of decodeURIComponent(localRealmOrSectors).split(',')) {
-    searchParams.append('localRealmOrSector', localRealmOrSector)
+  for (const lofinFieldOrSector of decodeURIComponent(lofinFieldsOrSectors).split(',')) {
+    searchParams.append('localRealmOrSector', lofinFieldOrSector)
   }
 
-  if (isRealm !== 'false') {
-    searchParams.append('isRealm', isRealm)
+  if (isField !== 'false') {
+    searchParams.append('isRealm', isField)
   }
 
   if (criteria !== 'sido') {
@@ -42,8 +42,9 @@ export default async function FlowAnalyticsPage({ params }: PageProps) {
   const centerDateTo = params.flowForm[1].slice(0, 4)
   const localDateFrom = params.flowForm[0]
   const localDateTo = params.flowForm[1]
-  const centerRealm = params.flowForm[2]
-  const localRealm = params.flowForm[3]
+  const centerField = params.flowForm[2]
+  const localField = params.flowForm[3]
+  const isField = params.flowForm[4]
 
   const { amchart, analytics } = await getFlowAnalytics(params)
 
@@ -89,7 +90,7 @@ export default async function FlowAnalyticsPage({ params }: PageProps) {
             {(analytics.cefin as any[]).map((a, i) => (
               <Link
                 key={i}
-                href={`/center/${centerDateFrom}/${centerDateTo}/0/${a.offc_nm}/30`}
+                href={`/center/${centerDateFrom}/${centerDateTo}/${isField}/${centerField}/30/${a.offc_nm}/30`}
                 legacyBehavior
               >
                 <tr className="cursor-pointer hover:bg-slate-100">
@@ -150,7 +151,7 @@ export default async function FlowAnalyticsPage({ params }: PageProps) {
             {(analytics.lofin as any[]).map((a, i) => (
               <Link
                 key={i}
-                href={`/local/${localDateFrom}/${localDateTo}/${a.sfrnd_code}/${localRealm}/20`}
+                href={`/local/${localDateFrom}/${localDateTo}/${a.sfrnd_code}/${localField}/20`}
                 legacyBehavior
               >
                 <tr className="cursor-pointer hover:bg-slate-100">

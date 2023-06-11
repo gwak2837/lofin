@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import { usePathname, useRouter } from 'next/navigation'
-import { FormEvent, useEffect, useRef, useState } from 'react'
+import { FormEvent, useRef, useState } from 'react'
 import Select from 'react-select'
 import { CalendarType, DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
@@ -53,22 +53,22 @@ export default function FlowForm() {
   const params = usePathname()?.split('/') ?? []
   const dateFromParam = params[3] ?? '2023-01-01'
   const dateToParam = params[4] ?? '2023-12-31'
-  const isRealmParam = params[7] !== 'false'
+  const isFieldParam = params[7] !== 'false'
   const centerRealmOrSectorOptionsParam = params[5]
     ? decodeURIComponent(params[5])
         .split(',')
         .map((centerRealmOrSector) =>
-          (isRealmParam ? getCefinFieldOption : getCefinSectorOption)(centerRealmOrSector)
+          (isFieldParam ? getCefinFieldOption : getCefinSectorOption)(centerRealmOrSector)
         )
-    : [isRealmParam ? cefinFieldDefaultOption : cefinSectorDefaultOption]
+    : [isFieldParam ? cefinFieldDefaultOption : cefinSectorDefaultOption]
   const localRealmOrSectorOptionsParam = params[6]
     ? params[6]
         .split(',')
         .map((localRealmOrSector) =>
-          (isRealmParam ? getLocalRealmOption : getLocalSectorOption)(+localRealmOrSector)
+          (isFieldParam ? getLocalRealmOption : getLocalSectorOption)(+localRealmOrSector)
         )
         .filter((localRealmOrSector) => localRealmOrSector)
-    : [isRealmParam ? localRealmDefaultOption : localSectorDefaultOption]
+    : [isFieldParam ? localRealmDefaultOption : localSectorDefaultOption]
   const criteriaParam = params[8] ?? 'sido'
 
   // Form
@@ -80,11 +80,11 @@ export default function FlowForm() {
   const [localRealmOrSectorOptions, setLocalRealmOrSectorOptions] = useState(
     localRealmOrSectorOptionsParam
   )
-  const [isRealm, setIsRealm] = useState(isRealmParam)
+  const [isField, setIsField] = useState(isFieldParam)
   const [criteria, setCriteria] = useState(criteriaParam)
 
   function setIsRealm_setRealmOrSector(isRealm: boolean) {
-    setIsRealm(isRealm)
+    setIsField(isRealm)
 
     if (isRealm) {
       setCenterRealmOrSectorOptions([cefinFieldDefaultOption])
@@ -133,7 +133,7 @@ export default function FlowForm() {
       .map((l) => l?.value)
       .filter((l) => l)
       .join(',')
-    let searchResultPage = `/analysis/flow/${dateFrom}/${dateTo}/${centerRealmOrSectors_}/${localRealmOrSectors_}/${isRealm}/${criteria}`
+    let searchResultPage = `/analysis/flow/${dateFrom}/${dateTo}/${centerRealmOrSectors_}/${localRealmOrSectors_}/${isField}/${criteria}`
     router.push(searchResultPage)
   }
 
@@ -195,14 +195,14 @@ export default function FlowForm() {
         <span>구분</span>
         <div className="grid grid-cols-2 w-full rounded-md overflow-hidden border border-sky-400">
           <button
-            className={'p-2 border-r border-sky-400 ' + (isRealm ? 'bg-sky-400 text-white' : '')}
+            className={'p-2 border-r border-sky-400 ' + (isField ? 'bg-sky-400 text-white' : '')}
             onClick={() => setIsRealm_setRealmOrSector(true)}
             type="button"
           >
             분야
           </button>
           <button
-            className={'p-2 ' + (!isRealm ? 'bg-sky-400 text-white' : '')}
+            className={'p-2 ' + (!isField ? 'bg-sky-400 text-white' : '')}
             onClick={() => setIsRealm_setRealmOrSector(false)}
             type="button"
           >
@@ -210,25 +210,25 @@ export default function FlowForm() {
           </button>
         </div>
 
-        <span>중앙 {isRealm ? '분야' : '부문'}</span>
+        <span>중앙 {isField ? '분야' : '부문'}</span>
         <div className="z-20">
           <Select
             instanceId="centerRealmOrSectors"
             isMulti
             onChange={(newOptions) => setCenterRealmOrSectorOptions(newOptions as any)}
-            options={isRealm ? cefinFieldOptions : cefinSectorOptions}
+            options={isField ? cefinFieldOptions : cefinSectorOptions}
             required
             value={centerRealmOrSectorOptions}
           />
         </div>
 
-        <span>지방 {isRealm ? '분야' : '부문'}</span>
+        <span>지방 {isField ? '분야' : '부문'}</span>
         <div className="z-10">
           <Select
             instanceId="localRealmOrSectorOptions"
             isMulti
             onChange={(newOptions) => setLocalRealmOrSectorOptions(newOptions as any)}
-            options={isRealm ? localRealmOptions : localSectorOptions}
+            options={isField ? localRealmOptions : localSectorOptions}
             required
             value={localRealmOrSectorOptions}
           />
