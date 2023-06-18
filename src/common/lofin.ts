@@ -368,9 +368,34 @@ export const localOptions = [
     label: '제주',
     options: [{ value: 4900000, label: '제주본청' }],
   },
+  {
+    label: '강원자치도',
+    options: [
+      { value: 51, label: '강원전체' },
+      { value: 5100000, label: '강원본청' },
+      { value: 5111000, label: '강원춘천시' },
+      { value: 5112000, label: '강원원주시' },
+      { value: 5113000, label: '강원강릉시' },
+      { value: 5114000, label: '강원동해시' },
+      { value: 5115000, label: '강원태백시' },
+      { value: 5116000, label: '강원속초시' },
+      { value: 5117000, label: '강원삼척시' },
+      { value: 5171000, label: '강원홍천군' },
+      { value: 5172000, label: '강원횡성군' },
+      { value: 5173000, label: '강원영월군' },
+      { value: 5174000, label: '강원평창군' },
+      { value: 5175000, label: '강원정선군' },
+      { value: 5176000, label: '강원철원군' },
+      { value: 5177000, label: '강원화천군' },
+      { value: 5178000, label: '강원양구군' },
+      { value: 5179000, label: '강원인제군' },
+      { value: 5180000, label: '강원고성군' },
+      { value: 5181000, label: '강원양양군' },
+    ],
+  },
 ]
 
-export const localRealmOptions = [
+export const localFieldOptions = [
   { value: 0, label: '전체' },
   { value: 10, label: '일반공공행정' },
   { value: 20, label: '공공질서 및 안전' },
@@ -388,10 +413,10 @@ export const localRealmOptions = [
   { value: 900, label: '기타' },
 ] as const
 
-export const localRealmDefaultOption = localRealmOptions[6]
+export const localFieldDefaultOption = localFieldOptions[6]
 
-export function getLocalRealmOption(value: number) {
-  return localRealmOptions.find((l) => l.value === value)
+export function getLocalFieldOption(value: number) {
+  return localFieldOptions.find((l) => l.value === value)
 }
 
 export const localSectorOptions = [

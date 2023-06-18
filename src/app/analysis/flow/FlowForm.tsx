@@ -15,10 +15,10 @@ import {
   getCefinSectorOption,
 } from '../../../common/cefin'
 import {
-  getLocalRealmOption,
+  getLocalFieldOption,
   getLocalSectorOption,
-  localRealmDefaultOption,
-  localRealmOptions,
+  localFieldDefaultOption,
+  localFieldOptions,
   localSectorDefaultOption,
   localSectorOptions,
 } from '../../../common/lofin'
@@ -54,44 +54,44 @@ export default function FlowForm() {
   const dateFromParam = params[3] ?? '2023-01-01'
   const dateToParam = params[4] ?? '2023-12-31'
   const isFieldParam = params[7] !== 'false'
-  const centerRealmOrSectorOptionsParam = params[5]
+  const centerFieldOrSectorOptionsParam = params[5]
     ? decodeURIComponent(params[5])
         .split(',')
-        .map((centerRealmOrSector) =>
-          (isFieldParam ? getCefinFieldOption : getCefinSectorOption)(centerRealmOrSector)
+        .map((centerFieldOrSector) =>
+          (isFieldParam ? getCefinFieldOption : getCefinSectorOption)(centerFieldOrSector)
         )
     : [isFieldParam ? cefinFieldDefaultOption : cefinSectorDefaultOption]
-  const localRealmOrSectorOptionsParam = params[6]
+  const localFieldOrSectorOptionsParam = params[6]
     ? params[6]
         .split(',')
-        .map((localRealmOrSector) =>
-          (isFieldParam ? getLocalRealmOption : getLocalSectorOption)(+localRealmOrSector)
+        .map((localFieldOrSector) =>
+          (isFieldParam ? getLocalFieldOption : getLocalSectorOption)(+localFieldOrSector)
         )
-        .filter((localRealmOrSector) => localRealmOrSector)
-    : [isFieldParam ? localRealmDefaultOption : localSectorDefaultOption]
+        .filter((localFieldOrSector) => localFieldOrSector)
+    : [isFieldParam ? localFieldDefaultOption : localSectorDefaultOption]
   const criteriaParam = params[8] ?? 'sido'
 
   // Form
   const [calendarType, setCalendarType] = useState<CalendarType>('year')
   const dateRangePickerRef = useRef<TDateRangePicker>(null)
-  const [centerRealmOrSectorOptions, setCenterRealmOrSectorOptions] = useState(
-    centerRealmOrSectorOptionsParam
+  const [centerFieldOrSectorOptions, setCenterFieldOrSectorOptions] = useState(
+    centerFieldOrSectorOptionsParam
   )
-  const [localRealmOrSectorOptions, setLocalRealmOrSectorOptions] = useState(
-    localRealmOrSectorOptionsParam
+  const [localFieldOrSectorOptions, setLocalFieldOrSectorOptions] = useState(
+    localFieldOrSectorOptionsParam
   )
   const [isField, setIsField] = useState(isFieldParam)
   const [criteria, setCriteria] = useState(criteriaParam)
 
-  function setIsRealm_setRealmOrSector(isRealm: boolean) {
-    setIsField(isRealm)
+  function setIsField_setFieldOrSector(isField: boolean) {
+    setIsField(isField)
 
-    if (isRealm) {
-      setCenterRealmOrSectorOptions([cefinFieldDefaultOption])
-      setLocalRealmOrSectorOptions([localRealmDefaultOption])
+    if (isField) {
+      setCenterFieldOrSectorOptions([cefinFieldDefaultOption])
+      setLocalFieldOrSectorOptions([localFieldDefaultOption])
     } else {
-      setCenterRealmOrSectorOptions([cefinSectorDefaultOption])
-      setLocalRealmOrSectorOptions([localSectorDefaultOption])
+      setCenterFieldOrSectorOptions([cefinSectorDefaultOption])
+      setLocalFieldOrSectorOptions([localSectorDefaultOption])
     }
   }
 
@@ -123,17 +123,17 @@ export default function FlowForm() {
       }
     })()
 
-    const centerRealmOrSectors_ = encodeURIComponent(
-      centerRealmOrSectorOptions
+    const centerFieldOrSectors_ = encodeURIComponent(
+      centerFieldOrSectorOptions
         .map((c) => c?.value)
         .filter((c) => c)
         .join(',')
     )
-    const localRealmOrSectors_ = localRealmOrSectorOptions
+    const localFieldOrSectors_ = localFieldOrSectorOptions
       .map((l) => l?.value)
       .filter((l) => l)
       .join(',')
-    let searchResultPage = `/analysis/flow/${dateFrom}/${dateTo}/${centerRealmOrSectors_}/${localRealmOrSectors_}/${isField}/${criteria}`
+    let searchResultPage = `/analysis/flow/${dateFrom}/${dateTo}/${centerFieldOrSectors_}/${localFieldOrSectors_}/${isField}/${criteria}`
     router.push(searchResultPage)
   }
 
@@ -196,14 +196,14 @@ export default function FlowForm() {
         <div className="grid grid-cols-2 w-full rounded-md overflow-hidden border border-sky-400">
           <button
             className={'p-2 border-r border-sky-400 ' + (isField ? 'bg-sky-400 text-white' : '')}
-            onClick={() => setIsRealm_setRealmOrSector(true)}
+            onClick={() => setIsField_setFieldOrSector(true)}
             type="button"
           >
             분야
           </button>
           <button
             className={'p-2 ' + (!isField ? 'bg-sky-400 text-white' : '')}
-            onClick={() => setIsRealm_setRealmOrSector(false)}
+            onClick={() => setIsField_setFieldOrSector(false)}
             type="button"
           >
             부문
@@ -213,24 +213,24 @@ export default function FlowForm() {
         <span>중앙 {isField ? '분야' : '부문'}</span>
         <div className="z-20">
           <Select
-            instanceId="centerRealmOrSectors"
+            instanceId="centerFieldOrSectors"
             isMulti
-            onChange={(newOptions) => setCenterRealmOrSectorOptions(newOptions as any)}
+            onChange={(newOptions) => setCenterFieldOrSectorOptions(newOptions as any)}
             options={isField ? cefinFieldOptions : cefinSectorOptions}
             required
-            value={centerRealmOrSectorOptions}
+            value={centerFieldOrSectorOptions}
           />
         </div>
 
         <span>지방 {isField ? '분야' : '부문'}</span>
         <div className="z-10">
           <Select
-            instanceId="localRealmOrSectorOptions"
+            instanceId="localFieldOrSectorOptions"
             isMulti
-            onChange={(newOptions) => setLocalRealmOrSectorOptions(newOptions as any)}
-            options={isField ? localRealmOptions : localSectorOptions}
+            onChange={(newOptions) => setLocalFieldOrSectorOptions(newOptions as any)}
+            options={isField ? localFieldOptions : localSectorOptions}
             required
-            value={localRealmOrSectorOptions}
+            value={localFieldOrSectorOptions}
           />
         </div>
       </div>

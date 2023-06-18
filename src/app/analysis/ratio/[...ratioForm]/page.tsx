@@ -10,8 +10,8 @@ type Response = {
 }
 
 async function getRatioAnalytics(params: Record<string, string & string[]>) {
-  const [dateFrom, dateTo, localCode, isRealm] = params.ratioForm
-  if (!dateFrom || !dateTo || !localCode || !isRealm) return notFound()
+  const [dateFrom, dateTo, localCode, isField] = params.ratioForm
+  if (!dateFrom || !dateTo || !localCode || !isField) return notFound()
 
   const searchParams = new URLSearchParams(`dateFrom=${dateFrom}&dateTo=${dateTo}`)
 
@@ -19,8 +19,8 @@ async function getRatioAnalytics(params: Record<string, string & string[]>) {
     searchParams.append('localCode', localCode)
   }
 
-  if (isRealm !== 'false') {
-    searchParams.append('isRealm', isRealm)
+  if (isField !== 'false') {
+    searchParams.append('isField', isField)
   }
 
   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/analytics/ratio?${searchParams}`)

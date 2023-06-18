@@ -6,7 +6,7 @@ import { FormEvent, useEffect, useRef, useState } from 'react'
 import Select from 'react-select'
 import { CalendarType, DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
-import { localOptions, localRealmOptions } from '../../common/lofin'
+import { localFieldOptions, localOptions } from '../../common/lofin'
 import { Option, getOption } from '../../common/utils'
 
 const DateRangePicker = dynamic(() => import('../../components/DateRangePicker'), {
@@ -42,15 +42,15 @@ export default function LocalExpenditureForm() {
   const countParam = params[6] ? +params[6] : 20
 
   // Form
-  const [calendarType, setCalendarType] = useState<CalendarType>('date')
+  const [calendarType, setCalendarType] = useState<CalendarType>('year')
   const dateRangePickerRef = useRef<TDateRangePicker>(null)
   const [localCode, setLocalCode] = useState(localCodeParam)
-  const [realmCode, setRealmCode] = useState(realmCodeParam)
+  const [realmCode, setFieldCode] = useState(realmCodeParam)
   const [count, setCount] = useState(countParam)
 
   useEffect(() => {
     setLocalCode(localCodeParam)
-    setRealmCode(realmCodeParam)
+    setFieldCode(realmCodeParam)
     setCount(countParam)
   }, [countParam, localCodeParam, realmCodeParam])
 
@@ -94,6 +94,7 @@ export default function LocalExpenditureForm() {
         <span>구분</span>
         <div className="z-30">
           <Select
+            isDisabled={true}
             instanceId="type"
             onChange={(newType) => newType && setCalendarType(newType.value)}
             options={calendarTypeOptions}
@@ -127,10 +128,10 @@ export default function LocalExpenditureForm() {
         <div>
           <Select
             instanceId="projectCode"
-            onChange={(newProjectCode) => newProjectCode && setRealmCode(newProjectCode.value)}
-            options={localRealmOptions}
+            onChange={(newProjectCode) => newProjectCode && setFieldCode(newProjectCode.value)}
+            options={localFieldOptions}
             required
-            value={getOption(localRealmOptions as any, realmCode)}
+            value={getOption(localFieldOptions as any, realmCode)}
           />
         </div>
 

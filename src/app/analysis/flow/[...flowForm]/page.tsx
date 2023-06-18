@@ -16,15 +16,15 @@ async function getFlowAnalytics(params: Record<string, string & string[]>) {
   const searchParams = new URLSearchParams(`dateFrom=${dateFrom}&dateTo=${dateTo}`)
 
   for (const cefinFieldOrSector of decodeURIComponent(cefinFieldsOrSectors).split(',')) {
-    searchParams.append('centerRealmOrSector', cefinFieldOrSector)
+    searchParams.append('centerFieldOrSector', cefinFieldOrSector)
   }
 
   for (const lofinFieldOrSector of decodeURIComponent(lofinFieldsOrSectors).split(',')) {
-    searchParams.append('localRealmOrSector', lofinFieldOrSector)
+    searchParams.append('localFieldOrSector', lofinFieldOrSector)
   }
 
   if (isField !== 'false') {
-    searchParams.append('isRealm', isField)
+    searchParams.append('isField', isField)
   }
 
   if (criteria !== 'sido') {

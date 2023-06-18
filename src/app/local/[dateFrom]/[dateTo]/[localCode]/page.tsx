@@ -1,10 +1,10 @@
 import Image from 'next/image'
-import fetch from 'node-fetch'
+import Link from 'next/link'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../../../common/constants'
 import { PageProps } from '../../../../../common/types'
+import { formatPrice, formatRatio } from '../../../../../common/utils'
 import Charts from './Charts'
-import ExpenditureRowLink from './ExpenditureRowLink'
 
 type Response = {
   expenditures: any[]
@@ -28,8 +28,7 @@ async function getLocalExpenditures(params: Record<string, string & string[]>) {
 export default async function LocalExpendituresPage({ params }: PageProps) {
   const localExpenditures = await getLocalExpenditures(params)
 
-  const a = localExpenditures.expenditures.reduce((acc, cur) => acc + +cur.orgnztnam_sum, 0)
-  console.log('👀 ~ a:', a)
+  const { dateFrom, dateTo, localCode } = params
 
   return (
     <>
@@ -78,7 +77,32 @@ export default async function LocalExpendituresPage({ params }: PageProps) {
               </thead>
               <tbody>
                 {localExpenditures.expenditures.map((expenditure, i) => (
-                  <ExpenditureRowLink key={i} expenditure={expenditure} i={i} />
+                  <Link
+                    key={i}
+                    href={`/local/${dateFrom}/${dateTo}/${localCode}/${
+                      expenditure.realm_code
+                    }/${20}`}
+                    legacyBehavior
+                  >
+                    <tr className="cursor-pointer hover:bg-slate-100">
+                      <td className="p-2 text-center">{i + 1}</td>
+                      <td className="p-2 text-center">{expenditure.realm}</td>
+                      <td className="p-2 text-right">
+                        {formatRatio(+expenditure.nxndr_sum, +expenditure.budget_crntam_sum)}
+                      </td>
+                      <td className="p-2 text-right">
+                        {formatPrice(expenditure.budget_crntam_sum)}원
+                      </td>
+                      <td className="p-2 text-right">{formatPrice(expenditure.nxndr_sum)}원</td>
+                      <td className="p-2 text-right">{formatPrice(expenditure.cty_sum)}원</td>
+                      <td className="p-2 text-right">{formatPrice(expenditure.signgunon_sum)}원</td>
+                      <td className="p-2 text-right">
+                        {formatPrice(expenditure.etc_crntam_sum)}원
+                      </td>
+                      <td className="p-2 text-right">{formatPrice(expenditure.expndtram_sum)}원</td>
+                      <td className="p-2 text-right">{formatPrice(expenditure.orgnztnam_sum)}원</td>
+                    </tr>
+                  </Link>
                 ))}
               </tbody>
             </table>

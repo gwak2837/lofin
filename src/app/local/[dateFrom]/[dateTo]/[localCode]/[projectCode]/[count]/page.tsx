@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../../../../../common/constants'
 import { PageProps } from '../../../../../../../common/types'
@@ -34,6 +35,8 @@ async function getLocalExpendituresByProject(params: Record<string, string & str
 
 export default async function LocalExpendituresByProjectPage({ params }: PageProps) {
   const localExpenditures = await getLocalExpendituresByProject(params)
+
+  const { dateFrom, dateTo, localCode, projectCode, count } = params
 
   return (
     <>
@@ -82,18 +85,24 @@ export default async function LocalExpendituresByProjectPage({ params }: PagePro
           </thead>
           <tbody>
             {(localExpenditures.expenditures as any[]).map((a, i) => (
-              <tr key={i}>
-                <td className="p-2 text-center">{i + 1}</td>
-                <td className="p-2 text-center">{a.detailBusinessName}</td>
-                <td className="p-2 text-right">{formatRatio(+a.nxndrSum, +a.budgetSum)}</td>
-                <td className="p-2 text-right">{formatPrice(+a.budgetSum)}원</td>
-                <td className="p-2 text-right">{formatPrice(+a.nxndrSum)}원</td>
-                <td className="p-2 text-right">{formatPrice(+a.citySum)}원</td>
-                <td className="p-2 text-right">{formatPrice(+a.sigunguSum)}원</td>
-                <td className="p-2 text-right">{formatPrice(+a.etcSum)}원</td>
-                <td className="p-2 text-right">{formatPrice(+a.expndtramSum)}원</td>
-                <td className="p-2 text-right">{formatPrice(+a.organizationSum)}원</td>
-              </tr>
+              <Link
+                key={i}
+                href={`/local/dateFrom, dateTo, localCode, projectCode, count`}
+                legacyBehavior
+              >
+                <tr className="cursor-pointer hover:bg-slate-100">
+                  <td className="p-2 text-center">{i + 1}</td>
+                  <td className="p-2 text-center">{a.detailBusinessName}</td>
+                  <td className="p-2 text-right">{formatRatio(+a.nxndrSum, +a.budgetSum)}</td>
+                  <td className="p-2 text-right">{formatPrice(+a.budgetSum)}원</td>
+                  <td className="p-2 text-right">{formatPrice(+a.nxndrSum)}원</td>
+                  <td className="p-2 text-right">{formatPrice(+a.citySum)}원</td>
+                  <td className="p-2 text-right">{formatPrice(+a.sigunguSum)}원</td>
+                  <td className="p-2 text-right">{formatPrice(+a.etcSum)}원</td>
+                  <td className="p-2 text-right">{formatPrice(+a.expndtramSum)}원</td>
+                  <td className="p-2 text-right">{formatPrice(+a.organizationSum)}원</td>
+                </tr>
+              </Link>
             ))}
           </tbody>
         </table>

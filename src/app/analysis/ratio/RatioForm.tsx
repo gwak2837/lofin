@@ -39,13 +39,13 @@ export default function RatioForm() {
   const dateFromParam = params[3] ?? '2023-01-01'
   const dateToParam = params[4] ?? '2023-12-31'
   const localCodeParam = params[5] ?? '11'
-  const isRealmParam = params[6] !== 'false'
+  const isFieldParam = params[6] !== 'false'
 
   // Form
   const [calendarType, setCalendarType] = useState<CalendarType>('year')
   const dateRangePickerRef = useRef<TDateRangePicker>(null)
   const [localCode, setLocalCode] = useState(+localCodeParam)
-  const [isRealm, setIsRealm] = useState(isRealmParam)
+  const [isField, setIsField] = useState(isFieldParam)
 
   // Search
   const router = useRouter()
@@ -75,7 +75,7 @@ export default function RatioForm() {
       }
     })()
 
-    let searchResultPage = `/analysis/ratio/${dateFrom}/${dateTo}/${localCode}/${isRealm}`
+    let searchResultPage = `/analysis/ratio/${dateFrom}/${dateTo}/${localCode}/${isField}`
     router.push(searchResultPage)
   }
 
@@ -118,15 +118,15 @@ export default function RatioForm() {
         <span>구분</span>
         <div className="grid grid-cols-2 w-full rounded-md overflow-hidden border border-sky-400">
           <button
-            className={'p-2 border-r border-sky-400 ' + (isRealm ? 'bg-sky-400 text-white' : '')}
-            onClick={() => setIsRealm(true)}
+            className={'p-2 border-r border-sky-400 ' + (isField ? 'bg-sky-400 text-white' : '')}
+            onClick={() => setIsField(true)}
             type="button"
           >
             분야
           </button>
           <button
-            className={'p-2 ' + (!isRealm ? 'bg-sky-400 text-white' : '')}
-            onClick={() => setIsRealm(false)}
+            className={'p-2 ' + (!isField ? 'bg-sky-400 text-white' : '')}
+            onClick={() => setIsField(false)}
             type="button"
           >
             부문
