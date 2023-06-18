@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../common/constants'
@@ -22,10 +21,17 @@ async function getBusinessAnalysis(params: Record<string, string & string[]>) {
 }
 
 export default async function Page({ params }: PageProps) {
-  const { bard, naver } = await getBusinessAnalysis(params)
+  const { nationalTask, business, bard, naver } = await getBusinessAnalysis(params)
 
   return (
     <div className="p-2">
+      <h2 className="text-2xl m-6 text-center">입력</h2>
+      <h3 className="text-xl my-2">국정과제</h3>
+      {applyLineBreak(nationalTask)}
+
+      <h3 className="text-xl my-2">지자체 사업</h3>
+      <pre className="overflow-x-scroll">{JSON.stringify(business, null, 2)}</pre>
+
       <h2 className="text-2xl m-6 text-center">구글 바드</h2>
       {applyLineBreak(bard)}
 
