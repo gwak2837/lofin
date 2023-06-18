@@ -29,7 +29,10 @@ export default async function Page({ params }: PageProps) {
       <h2 className="text-2xl m-6 text-center">구글 바드</h2>
       {applyLineBreak(bard)}
 
-      <h2 className="text-2xl m-6 text-center">네이버</h2>
+      <h2 className="text-2xl m-6 text-center">Chat GPT</h2>
+      <div className="text-center text-slate-400">예정</div>
+
+      <h2 className="text-2xl m-6 text-center">네이버 검색</h2>
       <ul className="grid gap-2">
         {(naver as any[]).map((n, i) => (
           <li key={i} className="border rounded p-2">
@@ -40,6 +43,12 @@ export default async function Page({ params }: PageProps) {
           </li>
         ))}
       </ul>
+
+      <h2 className="text-2xl m-6 text-center">구글 검색</h2>
+      <div className="text-center text-slate-400">예정</div>
+
+      <h2 className="text-2xl m-6 text-center">유튜브 검색</h2>
+      <div className="text-center text-slate-400">예정</div>
     </div>
   )
 }
