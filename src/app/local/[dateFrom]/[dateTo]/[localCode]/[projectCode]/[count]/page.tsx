@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../../../../../common/constants'
 import { PageProps } from '../../../../../../../common/types'
-import { formatPrice, formatRatio, formatVariationRatio } from '../../../../../../../common/utils'
+import { formatPrice, formatRatio } from '../../../../../../../common/utils'
 import StackedBarChart from './StackedBarChart'
 
 type Response = {
@@ -35,8 +35,6 @@ async function getLocalExpendituresByProject(params: Record<string, string & str
 
 export default async function LocalExpendituresByProjectPage({ params }: PageProps) {
   const localExpenditures = await getLocalExpendituresByProject(params)
-
-  const { dateFrom, dateTo, localCode, projectCode, count } = params
 
   return (
     <>
@@ -85,11 +83,7 @@ export default async function LocalExpendituresByProjectPage({ params }: PagePro
           </thead>
           <tbody>
             {(localExpenditures.expenditures as any[]).map((a, i) => (
-              <Link
-                key={i}
-                href={`/local/dateFrom, dateTo, localCode, projectCode, count`}
-                legacyBehavior
-              >
+              <Link key={a.id} href={`/business/false/${a.id}/0`} legacyBehavior>
                 <tr className="cursor-pointer hover:bg-slate-100">
                   <td className="p-2 text-center">{i + 1}</td>
                   <td className="p-2 text-center">{a.detailBusinessName}</td>
@@ -110,14 +104,3 @@ export default async function LocalExpendituresByProjectPage({ params }: PagePro
     </>
   )
 }
-
-// {
-//       detailBusinessName: '소방차량 유지관리',
-//       budgetSum: '5620627000',
-//       nxndrSum: '0',
-//       citySum: '5620627000',
-//       sigunguSum: '0',
-//       etcSum: '0',
-//       expndtramSum: '1674190812',
-//       organizationSum: '5620627000'
-//     }
