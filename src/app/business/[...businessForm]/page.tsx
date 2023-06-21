@@ -21,25 +21,38 @@ async function getBusinessAnalysis(params: Record<string, string & string[]>) {
 }
 
 export default async function Page({ params }: PageProps) {
-  const { nationalTask, business, bard, naver } = await getBusinessAnalysis(params)
+  const { nationalTask, business, bard, naver, youtube } = await getBusinessAnalysis(params)
+  console.log('👀 ~ youtube:', youtube)
 
   return (
     <div className="p-2">
-      <h2 className="text-2xl m-6 text-center">입력</h2>
-      <h3 className="text-xl my-2">국정과제</h3>
-      {applyLineBreak(nationalTask)}
-
-      <h3 className="text-xl my-2">지자체 사업</h3>
-      <pre className="overflow-x-scroll">{JSON.stringify(business, null, 2)}</pre>
-
       <h2 className="text-2xl m-6 text-center">구글 바드</h2>
-      {applyLineBreak(bard)}
+      <h3 className="text-xl my-2">연관성 있음</h3>
+      {applyLineBreak(bard[0])}
+      <h3 className="text-xl my-2">연관성 없음</h3>
+      {applyLineBreak(bard[1])}
 
       <h2 className="text-2xl m-6 text-center">Chat GPT</h2>
       <div className="text-center text-slate-400">예정</div>
 
+      <h2 className="text-2xl m-6 text-center">유튜브 검색</h2>
+      <ul className="grid grid-cols-[repeat(auto-fit,minmax(512px,1fr))] gap-2">
+        {(youtube as any[]).map((y, i) => (
+          <li key={i} className="border rounded p-2">
+            <iframe
+              id="ytplayer"
+              className="aspect-video	w-full"
+              type="text/html"
+              src={`https://www.youtube.com/embed/${y.id.videoId}`}
+              frameborder="0"
+              allowfullscreen="allowfullscreen"
+            />
+          </li>
+        ))}
+      </ul>
+
       <h2 className="text-2xl m-6 text-center">네이버 검색</h2>
-      <ul className="grid gap-2">
+      <ul className="grid grid-cols-[repeat(auto-fit,minmax(512px,1fr))] gap-2">
         {(naver as any[]).map((n, i) => (
           <li key={i} className="border rounded p-2">
             <a href={n.link} target="__blank">
@@ -53,8 +66,14 @@ export default async function Page({ params }: PageProps) {
       <h2 className="text-2xl m-6 text-center">구글 검색</h2>
       <div className="text-center text-slate-400">예정</div>
 
-      <h2 className="text-2xl m-6 text-center">유튜브 검색</h2>
-      <div className="text-center text-slate-400">예정</div>
+      <div className="border w-full my-20" />
+
+      <h2 className="text-2xl m-6 text-center">입력</h2>
+      <h3 className="text-xl my-2">국정과제</h3>
+      {applyLineBreak(nationalTask)}
+
+      <h3 className="text-xl my-2">지자체 사업</h3>
+      <pre className="overflow-x-scroll">{JSON.stringify(business, null, 2)}</pre>
     </div>
   )
 }
