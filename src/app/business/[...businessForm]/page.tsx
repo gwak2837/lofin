@@ -21,7 +21,7 @@ async function getBusinessAnalysis(params: Record<string, string & string[]>) {
 }
 
 export default async function Page({ params }: PageProps) {
-  const { nationalTask, business, bard, naver, youtube } = await getBusinessAnalysis(params)
+  const { nationalTask, business, bard, naver, youtube, google } = await getBusinessAnalysis(params)
 
   return (
     <div className="p-2">
@@ -35,9 +35,9 @@ export default async function Page({ params }: PageProps) {
       <div className="text-center text-slate-400">예정</div>
 
       <h2 className="text-2xl m-6 text-center">유튜브 검색</h2>
-      <ul className="grid grid-cols-[repeat(auto-fit,minmax(512px,1fr))] gap-2">
+      <ul className="grid grid-cols-[repeat(auto-fit,minmax(512px,1fr))] gap-2 overflow-x-auto">
         {(youtube as any[]).map((y, i) => (
-          <li key={i} className="border rounded p-2">
+          <li key={i} className="rounded overflow-hidden">
             <iframe
               id={`ytplayer-${y.id.videoId}`}
               className="aspect-video	w-full border-0"
@@ -49,7 +49,7 @@ export default async function Page({ params }: PageProps) {
       </ul>
 
       <h2 className="text-2xl m-6 text-center">네이버 검색</h2>
-      <ul className="grid grid-cols-[repeat(auto-fit,minmax(512px,1fr))] gap-2">
+      <ul className="grid grid-cols-[repeat(auto-fit,minmax(512px,1fr))] gap-2 overflow-x-auto">
         {(naver as any[]).map((n, i) => (
           <li key={i} className="border rounded p-2">
             <a href={n.link} target="__blank">
@@ -61,7 +61,16 @@ export default async function Page({ params }: PageProps) {
       </ul>
 
       <h2 className="text-2xl m-6 text-center">구글 검색</h2>
-      <div className="text-center text-slate-400">예정</div>
+      <ul className="grid grid-cols-[repeat(auto-fit,minmax(512px,1fr))] gap-2 overflow-x-auto">
+        {(google as any[]).map((n, i) => (
+          <li key={i} className="border rounded p-2">
+            <a href={n.link} target="__blank">
+              <h3 className="text-xl my-2" dangerouslySetInnerHTML={{ __html: n.htmlTitle }} />
+              <div dangerouslySetInnerHTML={{ __html: n.htmlSnippet }} />
+            </a>
+          </li>
+        ))}
+      </ul>
 
       <div className="border w-full my-20" />
 
