@@ -22,7 +22,6 @@ async function getBusinessAnalysis(params: Record<string, string & string[]>) {
 
 export default async function Page({ params }: PageProps) {
   const { nationalTask, business, bard, naver, youtube } = await getBusinessAnalysis(params)
-  console.log('👀 ~ youtube:', youtube)
 
   return (
     <div className="p-2">
@@ -40,12 +39,10 @@ export default async function Page({ params }: PageProps) {
         {(youtube as any[]).map((y, i) => (
           <li key={i} className="border rounded p-2">
             <iframe
-              id="ytplayer"
-              className="aspect-video	w-full"
-              type="text/html"
+              id={`ytplayer-${y.id.videoId}`}
+              className="aspect-video	w-full border-0"
               src={`https://www.youtube.com/embed/${y.id.videoId}`}
-              frameborder="0"
-              allowfullscreen="allowfullscreen"
+              allowFullScreen
             />
           </li>
         ))}
