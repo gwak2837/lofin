@@ -6,11 +6,11 @@ export default async function HomePage() {
     <main>
       <Link href="/" className="cursor-pointer">
         <Image
-          src="/images/pickup-logo.png"
-          alt="pickup-logo"
+          src="/images/logo.webp"
+          alt="logo"
           className="max-w-xs mx-auto"
-          width="2392"
-          height="798"
+          width="240"
+          height="108"
         />
       </Link>
 

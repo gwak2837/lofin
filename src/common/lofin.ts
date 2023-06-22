@@ -393,7 +393,18 @@ export const localOptions = [
       { value: 5181000, label: '강원양양군' },
     ],
   },
-]
+] as const
+
+export const localGovDefaultOption = localOptions[1].options[25]
+
+export function getLocalGovOption(value: string) {
+  for (const sidoGroup of localOptions) {
+    for (const sigunguOption of sidoGroup.options) {
+      if (sigunguOption.value === +value) return sigunguOption
+    }
+  }
+  return null
+}
 
 export const localFieldOptions = [
   { value: 0, label: '전체' },

@@ -4,6 +4,8 @@ import { NEXT_PUBLIC_BACKEND_URL } from '../../../common/constants'
 import { applyLineBreak } from '../../../common/react'
 import { PageProps } from '../../../common/types'
 
+export const revalidate = 86400
+
 async function getBusinessAnalysis(params: Record<string, string & string[]>) {
   const [isCefin, id, nationalTaskId] = params.businessForm
   if (!isCefin || !id || !nationalTaskId) return notFound()

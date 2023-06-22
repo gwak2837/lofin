@@ -36,11 +36,11 @@ export default async function CommitmentLayout({ children }: Props) {
       <div className="max-w-screen-md mx-auto my-2 flex flex-wrap justify-center items-center">
         <Link href="/">
           <Image
-            src="/images/pickup-logo.png"
-            alt="pickup-logo"
+            src="/images/logo.webp"
+            alt="jikida-logo"
             className="max-w-xs cursor-pointer"
-            width="2392"
-            height="798"
+            width="240"
+            height="108"
           />
         </Link>
         <Link href="/commitment/candidate" className="hover:no-underline focus:no-underline">

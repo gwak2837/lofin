@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 
-import LocalExpenditureForm from './LocalExpenditureForm'
+import LofinForm from './LocalExpenditureForm'
 
 type Props = {
   children: ReactNode
@@ -14,11 +14,11 @@ export default function LocalExpenditureLayout({ children }: Props) {
       <div className="max-w-screen-md mx-auto my-2 flex flex-wrap justify-center items-center">
         <Link href="/">
           <Image
-            src="/images/pickup-logo.png"
-            alt="pickup-logo"
+            src="/images/logo.webp"
+            alt="jikida-logo"
             className="max-w-xs cursor-pointer"
-            width="2392"
-            height="798"
+            width="240"
+            height="108"
           />
         </Link>
         <Link href="/local" className="hover:no-underline focus:no-underline">
@@ -26,7 +26,7 @@ export default function LocalExpenditureLayout({ children }: Props) {
         </Link>
       </div>
 
-      <LocalExpenditureForm />
+      <LofinForm />
 
       {children}
     </main>

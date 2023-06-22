@@ -83,23 +83,19 @@ export default function CefinForm() {
 
     const fieldsOrSectors =
       isField !== null && fieldOrSectorOptions
-        ? encodeURIComponent(
-            fieldOrSectorOptions
-              .map((c) => c?.value)
-              .filter((c) => c)
-              .join(',')
-          )
+        ? fieldOrSectorOptions
+            .map((c) => c?.value)
+            .filter((c) => c)
+            .join(',')
         : null
 
     let searchResultPage = `/center/${yearFrom}/${yearTo}/${isField}/${fieldsOrSectors}/${count}`
 
     if (officeNameOptions !== null) {
-      const officeNameValue = encodeURIComponent(
-        officeNameOptions
-          .map((c) => c?.value)
-          .filter((c) => c)
-          .join(',')
-      )
+      const officeNameValue = officeNameOptions
+        .map((c) => c?.value)
+        .filter((c) => c)
+        .join(',')
       searchResultPage += `/${officeNameValue}`
     }
 
