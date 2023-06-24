@@ -44,6 +44,9 @@ export default async function Page({ params }: PageProps) {
   const lofin = await getLofin(params)
 
   const [dateFrom, dateTo, localCodes, fieldCodes, count] = params.lofinForm
+  const isManyYears = dateFrom.slice(0, 4) !== dateTo.slice(0, 4)
+  const isManyLocalCodes = decodeURIComponent(localCodes).split(',').length > 1
+  const isManyFieldCodes = decodeURIComponent(fieldCodes).split(',').length > 1
 
   return fieldCodes === '0' ? (
     <>
@@ -132,15 +135,21 @@ export default async function Page({ params }: PageProps) {
               <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
                 순위
               </th>
-              <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                지자체
-              </th>
-              <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                년도
-              </th>
-              <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                분야
-              </th>
+              {isManyLocalCodes && (
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                  지자체
+                </th>
+              )}
+              {isManyYears && (
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                  년도
+                </th>
+              )}
+              {isManyFieldCodes && (
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                  분야
+                </th>
+              )}
               <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
                 사업명
               </th>
@@ -176,9 +185,11 @@ export default async function Page({ params }: PageProps) {
               <Link key={a.id} href={`/business/false/${a.id}/0`} legacyBehavior>
                 <tr className="cursor-pointer hover:bg-slate-100">
                   <td className="p-2 text-center">{i + 1}</td>
-                  <td className="p-2 text-center">{a.sfrnd_nm}</td>
-                  <td className="p-2 text-center">{new Date(a.excut_de).getFullYear()}</td>
-                  <td className="p-2 text-center">{a.field}</td>
+                  {isManyLocalCodes && <td className="p-2 text-center">{a.sfrnd_nm}</td>}
+                  {isManyYears && (
+                    <td className="p-2 text-center">{new Date(a.excut_de).getFullYear()}</td>
+                  )}
+                  {isManyFieldCodes && <td className="p-2 text-center">{a.field}</td>}
                   <td className="p-2">{a.detailBusinessName}</td>
                   <td className="p-2 text-right">{formatRatio(+a.nxndrSum, +a.budgetSum)}</td>
                   <td className="p-2 text-right">{formatPrice(+a.budgetSum)}원</td>
