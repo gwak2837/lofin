@@ -23,7 +23,7 @@ import {
   localSectorOptions,
 } from '../../../common/lofin'
 import { getOption } from '../../../common/utils'
-import { calendarTypeOptions } from '../../local/LocalExpenditureForm'
+import { calendarTypeOptions } from '../../local/LofinForm'
 
 const DateRangePicker = dynamic(() => import('../../../components/DateRangePicker'), {
   ssr: false,

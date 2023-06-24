@@ -6,7 +6,7 @@
       "import Image from 'next/image'",
       "import Link from 'next/link'",
       "",
-      "export default async function $1Page() {",
+      "export default async function Page() {",
       "  return (",
       "    <div className=\"\">",
       "      <pre className=\"overflow-x-scroll\">{JSON.stringify({}, null, 2)}</pre>",
@@ -48,7 +48,7 @@
       "  children: ReactNode",
       "}",
       "",
-      "export default function $1Layout({ children }: Props) {",
+      "export default function Layout({ children }: Props) {",
       "  return <main>{children}</main>",
       "}",
       ""

@@ -20,7 +20,7 @@ import ReactQuery from '../components/ReactQuery'
 import Recoil from '../components/Recoil'
 
 export const metadata: Metadata = {
-  title: '중앙위원회 정책참여시스템',
+  title: '지키다 - 공약·예산 지키미',
   description: '지자체 세부사업별 예산안 평가, 지역별 정책 공약 · 실천 방안 · 실천 개선안 마련',
   // description: '우리나라 예산이 정확하고 효율적으로 쓰이는지 확인해보세요',
 }

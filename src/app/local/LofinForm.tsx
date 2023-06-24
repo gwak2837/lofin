@@ -2,11 +2,17 @@
 
 import dynamic from 'next/dynamic'
 import { usePathname, useRouter } from 'next/navigation'
-import { FormEvent, useEffect, useRef, useState } from 'react'
+import { FormEvent, useRef, useState } from 'react'
 import Select from 'react-select'
 import { CalendarType, DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
-import { localFieldOptions, localOptions } from '../../common/lofin'
+import {
+  getLocalFieldOption,
+  getLocalGovOption,
+  localFieldOptions,
+  localGovDefaultOption,
+  localOptions,
+} from '../../common/lofin'
 import { Option, getOption } from '../../common/utils'
 
 const DateRangePicker = dynamic(() => import('../../components/DateRangePicker'), {
@@ -32,28 +38,27 @@ const DateRangePicker = dynamic(() => import('../../components/DateRangePicker')
   ),
 })
 
-export default function LocalExpenditureForm() {
+export default function LofinForm() {
   // Pathname
   const params = usePathname()?.split('/') ?? []
   const dateFrom = params[2] ?? '2023-01-01'
   const dateTo = params[3] ?? '2023-12-31'
-  const localCodeParam = params[4] ? +params[4] : 1100000
-  const realmCodeParam = params[5] ? +params[5] : 0
+  const localCodesParam = params[4]
+    ? params[4].split(',').map((localCode) => getLocalGovOption(localCode))
+    : [localGovDefaultOption]
+  const fieldCodesParam = params[5]
+    ? params[5].split(',').map((fieldCode) => getLocalFieldOption(+fieldCode))
+    : [localFieldOptions[0]]
   const countParam = params[6] ? +params[6] : 20
 
   // Form
   const [calendarType, setCalendarType] = useState<CalendarType>('year')
   const dateRangePickerRef = useRef<TDateRangePicker>(null)
-  const [localCode, setLocalCode] = useState(localCodeParam)
-  const [realmCode, setFieldCode] = useState(realmCodeParam)
+  const [selectedLocalOptions, setSelectedLocalOptions] = useState(localCodesParam)
+  const [selectedFieldOptions, setSelectedFieldOptions] = useState(fieldCodesParam)
   const [count, setCount] = useState(countParam)
 
-  useEffect(() => {
-    setLocalCode(localCodeParam)
-    setFieldCode(realmCodeParam)
-    setCount(countParam)
-  }, [countParam, localCodeParam, realmCodeParam])
-
+  // Submit
   const router = useRouter()
 
   function search(e: FormEvent<HTMLFormElement>) {
@@ -81,11 +86,36 @@ export default function LocalExpenditureForm() {
       }
     })()
 
-    let searchResultPage = `/local/${dateFrom}/${dateTo}/${localCode}`
+    const localCodes = selectedLocalOptions
+      .map((option) => option?.value)
+      .filter((code) => code)
+      .join(',')
 
-    if (realmCode !== 0) searchResultPage += `/${realmCode}/${count}`
+    const fieldCodes = selectedFieldOptions.map((option) => option?.value).join(',')
+    const searchResultPage = `/local/${dateFrom}/${dateTo}/${localCodes}/${fieldCodes}/${count}`
 
     router.push(searchResultPage)
+  }
+
+  // Input handler
+  function handleLocalOptionsChange(newLocalOptions: any) {
+    if (selectedLocalOptions[0]?.value === 0)
+      return setSelectedLocalOptions(
+        newLocalOptions.filter((localOption: any) => localOption.value !== 0)
+      )
+    else if (newLocalOptions.find((localOption: any) => localOption.value === 0))
+      return setSelectedLocalOptions([localOptions[0].options[0]])
+    else setSelectedLocalOptions(newLocalOptions)
+  }
+
+  function handleFieldOptionsChange(newFieldOptions: any) {
+    if (selectedFieldOptions[0]?.value === 0)
+      return setSelectedFieldOptions(
+        newFieldOptions.filter((fieldOption: any) => fieldOption.value !== 0)
+      )
+    else if (newFieldOptions.find((fieldOption: any) => fieldOption.value === 0))
+      return setSelectedFieldOptions([localFieldOptions[0]])
+    else setSelectedFieldOptions(newFieldOptions)
   }
 
   return (
@@ -116,11 +146,12 @@ export default function LocalExpenditureForm() {
         <span>지자체</span>
         <div className="z-10">
           <Select
-            instanceId="localGovOptions"
-            onChange={(newLocalGov) => newLocalGov && setLocalCode(newLocalGov.value)}
+            instanceId="localOptions"
+            isMulti
+            onChange={handleLocalOptionsChange}
             options={localOptions}
             required
-            value={getLocalOption(localOptions, localCode)}
+            value={selectedLocalOptions}
           />
         </div>
 
@@ -128,14 +159,15 @@ export default function LocalExpenditureForm() {
         <div>
           <Select
             instanceId="projectCode"
-            onChange={(newProjectCode) => newProjectCode && setFieldCode(newProjectCode.value)}
-            options={localFieldOptions}
+            isMulti
+            onChange={handleFieldOptionsChange}
+            options={localFieldOptions as any}
             required
-            value={getOption(localFieldOptions as any, realmCode)}
+            value={selectedFieldOptions}
           />
         </div>
 
-        {realmCode !== 0 && (
+        {selectedFieldOptions[0]?.value !== 0 && (
           <>
             <span>개수</span>
             <input

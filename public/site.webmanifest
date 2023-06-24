@@ -1,7 +1,7 @@
 {
-  "id": "https://lofin.vercel.app",
-  "name": "중앙위원회 정책참여시스템",
-  "short_name": "정책참여시스템",
+  "id": "https://jikida.vercel.app",
+  "name": "지키다 - 공약·예산 지키미",
+  "short_name": "지키다",
   "theme_color": "#bae6fd",
   "background_color": "#ffffff",
   "display": "fullscreen",

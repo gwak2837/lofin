@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 
-import SemiCirclePieChart from '../../../../../components/SemiCirclePieChart'
-import SortedBarChart from '../../../../../components/SortedBarChart'
+import SemiCirclePieChart from '../../../components/SemiCirclePieChart'
+import SortedBarChart from '../../../components/SortedBarChart'
 
 type Props = {
   expenditures: Record<string, any>[]

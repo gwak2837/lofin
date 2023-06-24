@@ -8,7 +8,7 @@ import { CalendarType, DateRangePicker as TDateRangePicker } from 'tui-date-pick
 
 import { localOptions } from '../../../common/lofin'
 import { getNestedOption, getOption } from '../../../common/utils'
-import { calendarTypeOptions } from '../../local/LocalExpenditureForm'
+import { calendarTypeOptions } from '../../local/LofinForm'
 
 const DateRangePicker = dynamic(() => import('../../../components/DateRangePicker'), {
   ssr: false,
