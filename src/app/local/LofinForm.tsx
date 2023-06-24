@@ -58,7 +58,6 @@ export default function LofinForm() {
   const [selectedFieldOptions, setSelectedFieldOptions] = useState(fieldCodesParam)
   const [count, setCount] = useState(countParam)
 
-  // Submit
   const router = useRouter()
 
   function search(e: FormEvent<HTMLFormElement>) {
@@ -86,14 +85,9 @@ export default function LofinForm() {
       }
     })()
 
-    const localCodes = selectedLocalOptions
-      .map((option) => option?.value)
-      .filter((code) => code)
-      .join(',')
-
+    const localCodes = selectedLocalOptions.map((option) => option?.value).join(',')
     const fieldCodes = selectedFieldOptions.map((option) => option?.value).join(',')
     const searchResultPage = `/local/${dateFrom}/${dateTo}/${localCodes}/${fieldCodes}/${count}`
-
     router.push(searchResultPage)
   }
 
@@ -203,10 +197,3 @@ export const calendarTypeOptions: Option[] = [
     value: 'year',
   },
 ]
-
-function getLocalOption(groupedLocalGovs: Record<string, any>[], localCode: number) {
-  for (const localOption of groupedLocalGovs) {
-    const found = localOption.options?.find((localGov: Option) => localGov.value === localCode)
-    if (found) return found
-  }
-}
