@@ -8,12 +8,24 @@ import { formatPrice, formatRatio, formatVariationRatio } from '../../../../comm
 import StackedColumnChart from '../../../../components/StackedColumnChart'
 
 async function getFlowAnalytics(params: Record<string, string & string[]>) {
-  const [dateFrom, dateTo, cefinFieldsOrSectors, lofinFieldsOrSectors, isField, criteria] =
+  const [dateFrom, dateTo, criteria, isField, cefinFieldsOrSectors, lofinFieldsOrSectors] =
     params.flowForm
 
-  if (!dateFrom || !dateTo || !cefinFieldsOrSectors || !lofinFieldsOrSectors) return notFound()
+  if (
+    !dateFrom ||
+    !dateTo ||
+    !criteria ||
+    !isField ||
+    !cefinFieldsOrSectors ||
+    !lofinFieldsOrSectors
+  )
+    return notFound()
 
   const searchParams = new URLSearchParams(`dateFrom=${dateFrom}&dateTo=${dateTo}`)
+
+  if (isField !== 'false') {
+    searchParams.append('isField', isField)
+  }
 
   for (const cefinFieldOrSector of decodeURIComponent(cefinFieldsOrSectors).split(',')) {
     searchParams.append('centerFieldOrSector', cefinFieldOrSector)
@@ -23,30 +35,27 @@ async function getFlowAnalytics(params: Record<string, string & string[]>) {
     searchParams.append('localFieldOrSector', lofinFieldOrSector)
   }
 
-  if (isField !== 'false') {
-    searchParams.append('isField', isField)
-  }
-
   if (criteria !== 'sido') {
     searchParams.append('criteria', criteria)
   }
 
   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/analytics/flow?${searchParams}`)
-  if (!response.ok) throw new Error(await response.text())
+  if (response.status === 404) notFound()
+  else if (!response.ok) throw new Error(await response.text())
 
   return await response.json()
 }
 
-export default async function FlowAnalyticsPage({ params }: PageProps) {
-  const centerDateFrom = params.flowForm[0].slice(0, 4)
-  const centerDateTo = params.flowForm[1].slice(0, 4)
+export default async function Page({ params }: PageProps) {
+  const { amchart, analytics } = await getFlowAnalytics(params)
+
+  const centerYearFrom = params.flowForm[0].slice(0, 4)
+  const centerYearTo = params.flowForm[1].slice(0, 4)
   const localDateFrom = params.flowForm[0]
   const localDateTo = params.flowForm[1]
-  const centerField = params.flowForm[2]
-  const localField = params.flowForm[3]
-  const isField = params.flowForm[4]
-
-  const { amchart, analytics } = await getFlowAnalytics(params)
+  const isField = params.flowForm[3]
+  const centerFieldOrSectors = decodeURIComponent(params.flowForm[4])
+  const localFieldOrSectors = decodeURIComponent(params.flowForm[5])
 
   const cefinBullets = Object.keys(amchart[0]).filter((k) => k !== 'seriesName')
   const lofinBullets = Object.keys(amchart[1]).filter((k) => k !== 'seriesName')
@@ -90,7 +99,7 @@ export default async function FlowAnalyticsPage({ params }: PageProps) {
             {(analytics.cefin as any[]).map((a, i) => (
               <Link
                 key={i}
-                href={`/center/${centerDateFrom}/${centerDateTo}/${isField}/${centerField}/30/${a.offc_nm}/30`}
+                href={`/center/${centerYearFrom}/${centerYearTo}/${isField}/${centerFieldOrSectors}/${a.offc_nm}/30`}
                 legacyBehavior
               >
                 <tr className="cursor-pointer hover:bg-slate-100">
@@ -151,7 +160,7 @@ export default async function FlowAnalyticsPage({ params }: PageProps) {
             {(analytics.lofin as any[]).map((a, i) => (
               <Link
                 key={i}
-                href={`/local/${localDateFrom}/${localDateTo}/${a.sfrnd_code}/${localField}/20`}
+                href={`/local/${localDateFrom}/${localDateTo}/${a.sfrnd_code}/${localFieldOrSectors}/20`}
                 legacyBehavior
               >
                 <tr className="cursor-pointer hover:bg-slate-100">

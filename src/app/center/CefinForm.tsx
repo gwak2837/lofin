@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import { usePathname, useRouter } from 'next/navigation'
-import { FormEvent, useRef, useState } from 'react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
 import Select from 'react-select'
 import { DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
@@ -41,37 +41,45 @@ const DateRangePicker = dynamic(() => import('../../components/DateRangePicker')
 })
 
 export default function CefinForm() {
-  // Pathname
+  // Pathname: Call by value
   const params = usePathname()?.split('/') ?? []
   const yearFromParam = params[2] ?? '2023'
   const yearToParam = params[3] ?? '2023'
-  const isFieldParam = !params[4] || params[4] === 'null' ? null : params[4] === 'true'
+  const isFieldParam = params[4] ? Boolean(params[4]) : null
   const fieldsOrSectorsParam =
-    isFieldParam !== null && params[5] && params[5] !== 'null'
-      ? decodeURIComponent(params[5])
-          .split(',')
-          .map((fieldOrSector) =>
-            (isFieldParam ? getCefinFieldOption : getCefinSectorOption)(fieldOrSector)
-          )
-          .filter((c) => c)
-      : null
-  const countParam = params[6] ? +params[6] : 30
-  const officeNamesParam =
-    params[7] && params[7] !== 'null'
-      ? decodeURIComponent(params[7])
-          .split(',')
-          .map((fieldOrSector) => getCefinOfficeOption(fieldOrSector))
-          .filter((c) => c)
-      : null
+    params[5] && isFieldParam !== null ? decodeURIComponent(params[5]) : '전체'
+  const officeNamesParam = params[6] ? decodeURIComponent(params[6]) : '전체'
+  const countParam = params[7] ? +params[7] : 30
 
   // Form
   const dateRangePickerRef = useRef<TDateRangePicker>(null)
   const [isField, setIsField] = useState(isFieldParam)
-  const [fieldOrSectorOptions, setFieldOrSectorOptions] = useState(fieldsOrSectorsParam)
+  const [fieldOrSectorOptions, setFieldOrSectorOptions] = useState(
+    fieldsOrSectorsParam
+      .split(',')
+      .map((fieldOrSector) =>
+        (isFieldParam ? getCefinFieldOption : getCefinSectorOption)(fieldOrSector)
+      )
+  )
   const [count, setCount] = useState(countParam)
-  const [officeNameOptions, setOfficeNameOptions] = useState(officeNamesParam)
+  const [officeNameOptions, setOfficeNameOptions] = useState(
+    officeNamesParam.split(',').map((officeName) => getCefinOfficeOption(officeName))
+  )
 
-  // Search
+  // Route
+  useEffect(() => {
+    setFieldOrSectorOptions(
+      fieldsOrSectorsParam
+        .split(',')
+        .map((fieldOrSector) =>
+          (isFieldParam ? getCefinFieldOption : getCefinSectorOption)(fieldOrSector)
+        )
+    )
+    setOfficeNameOptions(
+      officeNamesParam.split(',').map((officeName) => getCefinOfficeOption(officeName))
+    )
+  }, [fieldsOrSectorsParam, isFieldParam, officeNamesParam])
+
   const router = useRouter()
 
   function search(e: FormEvent<HTMLFormElement>) {
@@ -82,27 +90,21 @@ export default function CefinForm() {
     const yearTo = dateRangePickerRef.current.getEndDate().getFullYear()
 
     const fieldsOrSectors =
-      isField !== null && fieldOrSectorOptions
+      isField !== null
         ? fieldOrSectorOptions
             .map((c) => c?.value)
-            .filter((c) => c)
+            .sort()
             .join(',')
-        : null
-
-    let searchResultPage = `/center/${yearFrom}/${yearTo}/${isField}/${fieldsOrSectors}/${count}`
-
-    if (officeNameOptions !== null) {
-      const officeNameValue = officeNameOptions
-        .map((c) => c?.value)
-        .filter((c) => c)
-        .join(',')
-      searchResultPage += `/${officeNameValue}`
-    }
-
+        : '전체'
+    const officeNameValue = officeNameOptions
+      .map((c) => c?.value)
+      .sort()
+      .join(',')
+    const searchResultPage = `/center/${yearFrom}/${yearTo}/${isField}/${fieldsOrSectors}/${officeNameValue}/${count}`
     router.push(searchResultPage)
   }
 
-  // Other
+  // Input handler
   function setIsField_setFieldOrSectorOptions(isField: boolean | null) {
     setIsField(isField)
 
@@ -110,7 +112,25 @@ export default function CefinForm() {
       setFieldOrSectorOptions([cefinFieldDefaultOption])
     } else if (isField === false) {
       setFieldOrSectorOptions([cefinSectorDefaultOption])
+    } else {
+      setFieldOrSectorOptions([{ value: '전체', label: '전체' }])
     }
+  }
+
+  function handleFieldOrSectorOptions(newOptions: any) {
+    if (fieldOrSectorOptions[0]?.value === '전체')
+      return setFieldOrSectorOptions(newOptions.filter((option: any) => option.value !== '전체'))
+    else if (newOptions.find((option: any) => option.value === '전체'))
+      return setFieldOrSectorOptions([{ value: '전체', label: '전체' }])
+    else setFieldOrSectorOptions(newOptions)
+  }
+
+  function handleOfficeNameOptions(newOptions: any) {
+    if (officeNameOptions[0]?.value === '전체')
+      return setOfficeNameOptions(newOptions.filter((option: any) => option.value !== '전체'))
+    else if (newOptions.find((option: any) => option.value === '전체'))
+      return setOfficeNameOptions([cefinOfficeOptions[0]])
+    else setOfficeNameOptions(newOptions)
   }
 
   return (
@@ -161,7 +181,7 @@ export default function CefinForm() {
             instanceId="fieldOrSectorOptions"
             isDisabled={isField === null}
             isMulti
-            onChange={(newOptions) => setFieldOrSectorOptions(newOptions as any)}
+            onChange={handleFieldOrSectorOptions}
             options={isField ? cefinFieldOptions : cefinSectorOptions}
             required
             value={fieldOrSectorOptions}
@@ -173,7 +193,7 @@ export default function CefinForm() {
           <Select
             instanceId="cefinOfficeOptions"
             isMulti
-            onChange={(newOfficeNames) => setOfficeNameOptions(newOfficeNames as any)}
+            onChange={handleOfficeNameOptions}
             options={cefinOfficeOptions}
             placeholder="전체"
             value={officeNameOptions}

@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import { usePathname, useRouter } from 'next/navigation'
-import { FormEvent, useRef, useState } from 'react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
 import Select from 'react-select'
 import { CalendarType, DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
@@ -10,7 +10,6 @@ import {
   getLocalFieldOption,
   getLocalGovOption,
   localFieldOptions,
-  localGovDefaultOption,
   localOptions,
 } from '../../common/lofin'
 import { Option, getOption } from '../../common/utils'
@@ -39,24 +38,34 @@ const DateRangePicker = dynamic(() => import('../../components/DateRangePicker')
 })
 
 export default function LofinForm() {
-  // Pathname
+  // Pathname: Call by value
   const params = usePathname()?.split('/') ?? []
   const dateFrom = params[2] ?? '2023-01-01'
   const dateTo = params[3] ?? '2023-12-31'
-  const localCodesParam = params[4]
-    ? params[4].split(',').map((localCode) => getLocalGovOption(localCode))
-    : [localGovDefaultOption]
-  const fieldCodesParam = params[5]
-    ? params[5].split(',').map((fieldCode) => getLocalFieldOption(+fieldCode))
-    : [localFieldOptions[0]]
+  const localCodesParam = params[4] ? decodeURIComponent(params[4]) : '1134000'
+  const fieldCodesParam = params[5] ? decodeURIComponent(params[5]) : '0'
   const countParam = params[6] ? +params[6] : 20
 
   // Form
   const [calendarType, setCalendarType] = useState<CalendarType>('year')
   const dateRangePickerRef = useRef<TDateRangePicker>(null)
-  const [selectedLocalOptions, setSelectedLocalOptions] = useState(localCodesParam)
-  const [selectedFieldOptions, setSelectedFieldOptions] = useState(fieldCodesParam)
+  const [selectedLocalOptions, setSelectedLocalOptions] = useState(
+    localCodesParam.split(',').map((localCode) => getLocalGovOption(+localCode))
+  )
+  const [selectedFieldOptions, setSelectedFieldOptions] = useState(
+    fieldCodesParam.split(',').map((fieldCode) => getLocalFieldOption(+fieldCode))
+  )
   const [count, setCount] = useState(countParam)
+
+  // Route
+  useEffect(() => {
+    setSelectedLocalOptions(
+      localCodesParam.split(',').map((localCode) => getLocalGovOption(+localCode))
+    )
+    setSelectedFieldOptions(
+      fieldCodesParam.split(',').map((fieldCode) => getLocalFieldOption(+fieldCode))
+    )
+  }, [fieldCodesParam, localCodesParam])
 
   const router = useRouter()
 
@@ -85,31 +94,33 @@ export default function LofinForm() {
       }
     })()
 
-    const localCodes = selectedLocalOptions.map((option) => option?.value).join(',')
-    const fieldCodes = selectedFieldOptions.map((option) => option?.value).join(',')
+    const localCodes = selectedLocalOptions
+      .map((option) => option?.value)
+      .sort()
+      .join(',')
+    const fieldCodes = selectedFieldOptions
+      .map((option) => option?.value)
+      .sort()
+      .join(',')
     const searchResultPage = `/local/${dateFrom}/${dateTo}/${localCodes}/${fieldCodes}/${count}`
     router.push(searchResultPage)
   }
 
   // Input handler
-  function handleLocalOptionsChange(newLocalOptions: any) {
+  function handleLocalOptionsChange(newOptions: any) {
     if (selectedLocalOptions[0]?.value === 0)
-      return setSelectedLocalOptions(
-        newLocalOptions.filter((localOption: any) => localOption.value !== 0)
-      )
-    else if (newLocalOptions.find((localOption: any) => localOption.value === 0))
+      return setSelectedLocalOptions(newOptions.filter((option: any) => option.value !== 0))
+    else if (newOptions.find((option: any) => option.value === 0))
       return setSelectedLocalOptions([localOptions[0].options[0]])
-    else setSelectedLocalOptions(newLocalOptions)
+    else setSelectedLocalOptions(newOptions)
   }
 
-  function handleFieldOptionsChange(newFieldOptions: any) {
+  function handleFieldOptionsChange(newOptions: any) {
     if (selectedFieldOptions[0]?.value === 0)
-      return setSelectedFieldOptions(
-        newFieldOptions.filter((fieldOption: any) => fieldOption.value !== 0)
-      )
-    else if (newFieldOptions.find((fieldOption: any) => fieldOption.value === 0))
+      return setSelectedFieldOptions(newOptions.filter((option: any) => option.value !== 0))
+    else if (newOptions.find((option: any) => option.value === 0))
       return setSelectedFieldOptions([localFieldOptions[0]])
-    else setSelectedFieldOptions(newFieldOptions)
+    else setSelectedFieldOptions(newOptions)
   }
 
   return (

@@ -13,19 +13,23 @@ type Response = {
 }
 
 async function getLofin(params: Record<string, string & string[]>) {
-  const [dateFrom, dateTo, localCodes, fieldCodes, count] = params.lofinForm
-  if (!dateFrom || !dateTo || !localCodes || !fieldCodes || !count) return notFound()
+  const [dateFrom, dateTo, rawLocalCodes, rawFieldCodes, count] = params.lofinForm
+
+  if (!dateFrom || !dateTo || !rawLocalCodes || !rawFieldCodes || !count) return notFound()
+
+  const localCodes = decodeURIComponent(rawLocalCodes)
+  const fieldCodes = decodeURIComponent(rawFieldCodes)
 
   const searchParams = new URLSearchParams(`dateFrom=${dateFrom}&dateTo=${dateTo}`)
 
   if (localCodes !== '0') {
-    for (const localCode of decodeURIComponent(localCodes).split(',')) {
+    for (const localCode of localCodes.split(',')) {
       searchParams.append('localCodes', localCode)
     }
   }
 
   if (fieldCodes !== '0') {
-    for (const fieldCode of decodeURIComponent(fieldCodes).split(',')) {
+    for (const fieldCode of fieldCodes.split(',')) {
       searchParams.append('fieldCodes', fieldCode)
     }
   }
@@ -35,7 +39,8 @@ async function getLofin(params: Record<string, string & string[]>) {
   }
 
   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/expenditure/local?${searchParams}`)
-  if (!response.ok) throw new Error(await response.text())
+  if (response.status === 404) notFound()
+  else if (!response.ok) throw new Error(await response.text())
 
   return (await response.json()) as Response
 }
@@ -95,9 +100,7 @@ export default async function Page({ params }: PageProps) {
             {lofin.expenditures.map((expenditure, i) => (
               <Link
                 key={i}
-                href={`/local/${dateFrom}/${dateTo}/${decodeURIComponent(localCodes)}/${
-                  expenditure.realm_code
-                }/${20}`}
+                href={`/local/${dateFrom}/${dateTo}/${localCodes}/${expenditure.realm_code}/${count}`}
                 legacyBehavior
               >
                 <tr className="cursor-pointer hover:bg-slate-100">

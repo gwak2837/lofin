@@ -1,4 +1,5 @@
 export const cefinOfficeOptions = [
+  { value: '전체', label: '전체' },
   { value: '국가청렴위원회', label: '국가청렴위원회' },
   { value: '국정홍보처', label: '국정홍보처' },
   { value: '대통령비서실', label: '대통령비서실' },
@@ -107,10 +108,11 @@ export const cefinOfficeOptions = [
 export const cefinOfficeDefaultOption = cefinOfficeOptions[0]
 
 export function getCefinOfficeOption(value: string) {
-  return cefinOfficeOptions.find((l) => l.value === value)
+  return cefinOfficeOptions.find((office) => office.value === value)
 }
 
 export const cefinFieldOptions = [
+  { value: '전체', label: '전체' },
   { value: '교육', label: '교육' },
   { value: '국방', label: '국방' },
   { value: '보건', label: '보건' },
@@ -136,13 +138,14 @@ export const cefinFieldOptions = [
   { value: '국토및지역개발', label: '국토및지역개발' },
 ] as const
 
-export const cefinFieldDefaultOption = cefinFieldOptions[13]
+export const cefinFieldDefaultOption = cefinFieldOptions[14]
 
 export function getCefinFieldOption(value: string) {
   return cefinFieldOptions.find((l) => l.value === value)
 }
 
 export const cefinSectorOptions = [
+  { value: '전체', label: '전체' },
   { value: '경찰', label: '경찰' },
   { value: '고용', label: '고용' },
   { value: '관광', label: '관광' },
@@ -234,7 +237,7 @@ export const cefinSectorOptions = [
   { value: '중소기업및소상공인육성', label: '중소기업및소상공인육성' },
 ] as const
 
-export const cefinSectorDefaultOption = cefinSectorOptions[68]
+export const cefinSectorDefaultOption = cefinSectorOptions[69]
 
 export function getCefinSectorOption(value: string) {
   return cefinSectorOptions.find((l) => l.value === value)

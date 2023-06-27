@@ -34,7 +34,7 @@ const DateRangePicker = dynamic(() => import('../../../components/DateRangePicke
 })
 
 export default function RatioForm() {
-  // Pathname
+  // Pathname: Call by value
   const params = usePathname()?.split('/') ?? []
   const dateFromParam = params[3] ?? '2023-01-01'
   const dateToParam = params[4] ?? '2023-12-31'
@@ -52,7 +52,6 @@ export default function RatioForm() {
 
   function search(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-
     if (!dateRangePickerRef.current) return
 
     const dateFrom = dateRangePickerRef.current.getStartDate().toISOString().slice(0, 10)

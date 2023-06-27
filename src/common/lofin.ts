@@ -395,12 +395,12 @@ export const localOptions = [
   },
 ] as const
 
-export const localGovDefaultOption = localOptions[1].options[25]
+export const localGovDefaultOptions = [localOptions[1].options[25]]
 
-export function getLocalGovOption(value: string) {
+export function getLocalGovOption(value: number) {
   for (const sidoGroup of localOptions) {
     for (const sigunguOption of sidoGroup.options) {
-      if (sigunguOption.value === +value) return sigunguOption
+      if (sigunguOption.value === value) return sigunguOption
     }
   }
   return null
@@ -424,13 +424,14 @@ export const localFieldOptions = [
   { value: 900, label: '기타' },
 ] as const
 
-export const localFieldDefaultOption = localFieldOptions[6]
+export const localFieldDefaultOptions = [localFieldOptions[6]]
 
 export function getLocalFieldOption(value: number) {
   return localFieldOptions.find((l) => l.value === value)
 }
 
 export const localSectorOptions = [
+  { value: 0, label: '전체' },
   { value: 11, label: '입법 및 선거관리' },
   { value: 13, label: '지방행정ㆍ재정지원' },
   { value: 14, label: '재정ㆍ금융' },
@@ -486,7 +487,7 @@ export const localSectorOptions = [
   { value: 901, label: '기타' },
 ] as const
 
-export const localSectorDefaultOption = localSectorOptions[21]
+export const localSectorDefaultOptions = [localSectorOptions[21]]
 
 export function getLocalSectorOption(value: number) {
   return localSectorOptions.find((l) => l.value === value)

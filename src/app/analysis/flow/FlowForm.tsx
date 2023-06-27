@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import { usePathname, useRouter } from 'next/navigation'
-import { FormEvent, useRef, useState } from 'react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
 import Select from 'react-select'
 import { CalendarType, DateRangePicker as TDateRangePicker } from 'tui-date-picker'
 
@@ -17,9 +17,9 @@ import {
 import {
   getLocalFieldOption,
   getLocalSectorOption,
-  localFieldDefaultOption,
+  localFieldDefaultOptions,
   localFieldOptions,
-  localSectorDefaultOption,
+  localSectorDefaultOptions,
   localSectorOptions,
 } from '../../../common/lofin'
 import { getOption } from '../../../common/utils'
@@ -49,58 +49,65 @@ const DateRangePicker = dynamic(() => import('../../../components/DateRangePicke
 })
 
 export default function FlowForm() {
-  // Pathname
+  // Pathname: Call by value
   const params = usePathname()?.split('/') ?? []
   const dateFromParam = params[3] ?? '2023-01-01'
   const dateToParam = params[4] ?? '2023-12-31'
-  const isFieldParam = params[7] !== 'false'
-  const centerFieldOrSectorOptionsParam = params[5]
-    ? decodeURIComponent(params[5])
-        .split(',')
-        .map((centerFieldOrSector) =>
-          (isFieldParam ? getCefinFieldOption : getCefinSectorOption)(centerFieldOrSector)
-        )
-    : [isFieldParam ? cefinFieldDefaultOption : cefinSectorDefaultOption]
-  const localFieldOrSectorOptionsParam = params[6]
-    ? params[6]
-        .split(',')
-        .map((localFieldOrSector) =>
-          (isFieldParam ? getLocalFieldOption : getLocalSectorOption)(+localFieldOrSector)
-        )
-        .filter((localFieldOrSector) => localFieldOrSector)
-    : [isFieldParam ? localFieldDefaultOption : localSectorDefaultOption]
-  const criteriaParam = params[8] ?? 'sido'
+  const criteriaParam = params[5] ?? 'sido'
+  const isFieldParam = params[6] !== 'false'
+  const centerFieldOrSectorsParam = params[7]
+    ? decodeURIComponent(params[7])
+    : isFieldParam
+    ? '사회복지'
+    : '기초생활보장'
+  const localFieldOrSectorsParam = params[8]
+    ? decodeURIComponent(params[8])
+    : isFieldParam
+    ? '80'
+    : '81'
 
   // Form
   const [calendarType, setCalendarType] = useState<CalendarType>('year')
   const dateRangePickerRef = useRef<TDateRangePicker>(null)
+  const [isField, setIsField] = useState(isFieldParam)
   const [centerFieldOrSectorOptions, setCenterFieldOrSectorOptions] = useState(
-    centerFieldOrSectorOptionsParam
+    centerFieldOrSectorsParam
+      .split(',')
+      .map((centerFieldOrSector) =>
+        (isFieldParam ? getCefinFieldOption : getCefinSectorOption)(centerFieldOrSector)
+      )
   )
   const [localFieldOrSectorOptions, setLocalFieldOrSectorOptions] = useState(
-    localFieldOrSectorOptionsParam
+    localFieldOrSectorsParam
+      .split(',')
+      .map((localFieldOrSector) =>
+        (isFieldParam ? getLocalFieldOption : getLocalSectorOption)(+localFieldOrSector)
+      )
   )
-  const [isField, setIsField] = useState(isFieldParam)
   const [criteria, setCriteria] = useState(criteriaParam)
 
-  function setIsField_setFieldOrSector(isField: boolean) {
-    setIsField(isField)
+  // Route
+  useEffect(() => {
+    setCenterFieldOrSectorOptions(
+      centerFieldOrSectorsParam
+        .split(',')
+        .map((centerFieldOrSector) =>
+          (isFieldParam ? getCefinFieldOption : getCefinSectorOption)(centerFieldOrSector)
+        )
+    )
+    setLocalFieldOrSectorOptions(
+      localFieldOrSectorsParam
+        .split(',')
+        .map((localFieldOrSector) =>
+          (isFieldParam ? getLocalFieldOption : getLocalSectorOption)(+localFieldOrSector)
+        )
+    )
+  }, [centerFieldOrSectorsParam, isFieldParam, localFieldOrSectorsParam])
 
-    if (isField) {
-      setCenterFieldOrSectorOptions([cefinFieldDefaultOption])
-      setLocalFieldOrSectorOptions([localFieldDefaultOption])
-    } else {
-      setCenterFieldOrSectorOptions([cefinSectorDefaultOption])
-      setLocalFieldOrSectorOptions([localSectorDefaultOption])
-    }
-  }
-
-  // Search
   const router = useRouter()
 
   function search(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-
     if (!dateRangePickerRef.current) return
 
     const dateFrom = dateRangePickerRef.current.getStartDate().toISOString().slice(0, 10)
@@ -123,18 +130,47 @@ export default function FlowForm() {
       }
     })()
 
-    const centerFieldOrSectors_ = encodeURIComponent(
-      centerFieldOrSectorOptions
-        .map((c) => c?.value)
-        .filter((c) => c)
-        .join(',')
-    )
-    const localFieldOrSectors_ = localFieldOrSectorOptions
-      .map((l) => l?.value)
-      .filter((l) => l)
+    const centerFieldOrSectors = centerFieldOrSectorOptions
+      .map((c) => c?.value)
+      .sort()
       .join(',')
-    let searchResultPage = `/analysis/flow/${dateFrom}/${dateTo}/${centerFieldOrSectors_}/${localFieldOrSectors_}/${isField}/${criteria}`
+    const localFieldOrSectors = localFieldOrSectorOptions
+      .map((l) => l?.value)
+      .sort()
+      .join(',')
+    let searchResultPage = `/analysis/flow/${dateFrom}/${dateTo}/${criteria}/${isField}/${centerFieldOrSectors}/${localFieldOrSectors}`
     router.push(searchResultPage)
+  }
+
+  // Input handler
+  function setIsField_setFieldOrSector(isField: boolean) {
+    setIsField(isField)
+
+    if (isField) {
+      setCenterFieldOrSectorOptions([cefinFieldDefaultOption])
+      setLocalFieldOrSectorOptions(localFieldDefaultOptions)
+    } else {
+      setCenterFieldOrSectorOptions([cefinSectorDefaultOption])
+      setLocalFieldOrSectorOptions(localSectorDefaultOptions)
+    }
+  }
+
+  function handleCenterFieldOrSectorOptions(newOptions: any) {
+    if (centerFieldOrSectorOptions[0]?.value === '전체')
+      return setCenterFieldOrSectorOptions(
+        newOptions.filter((option: any) => option.value !== '전체')
+      )
+    else if (newOptions.find((option: any) => option.value === '전체'))
+      return setCenterFieldOrSectorOptions([{ value: '전체', label: '전체' }])
+    else setCenterFieldOrSectorOptions(newOptions)
+  }
+
+  function handleLocalFieldOrSectorOptions(newOptions: any) {
+    if (localFieldOrSectorOptions[0]?.value === 0)
+      return setLocalFieldOrSectorOptions(newOptions.filter((option: any) => option.value !== 0))
+    else if (newOptions.find((option: any) => option.value === 0))
+      return setLocalFieldOrSectorOptions([{ value: 0, label: '전체' }])
+    else setLocalFieldOrSectorOptions(newOptions)
   }
 
   return (
@@ -215,7 +251,7 @@ export default function FlowForm() {
           <Select
             instanceId="centerFieldOrSectors"
             isMulti
-            onChange={(newOptions) => setCenterFieldOrSectorOptions(newOptions as any)}
+            onChange={handleCenterFieldOrSectorOptions}
             options={isField ? cefinFieldOptions : cefinSectorOptions}
             required
             value={centerFieldOrSectorOptions}
@@ -227,7 +263,7 @@ export default function FlowForm() {
           <Select
             instanceId="localFieldOrSectorOptions"
             isMulti
-            onChange={(newOptions) => setLocalFieldOrSectorOptions(newOptions as any)}
+            onChange={handleLocalFieldOrSectorOptions}
             options={isField ? localFieldOptions : localSectorOptions}
             required
             value={localFieldOrSectorOptions}
