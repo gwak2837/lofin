@@ -24,7 +24,8 @@ async function getCommitments(params: Record<string, string & string[]>) {
   }
 
   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/commitment?${searchParams}`)
-  if (!response.ok) throw new Error(await response.text())
+  if (response.status === 404) notFound()
+  else if (!response.ok) throw new Error(await response.text())
 
   return (await response.json()) as Response | null
 }
