@@ -18,7 +18,7 @@ export default async function HomePage() {
       <div className="max-w-screen-md mx-auto my-2 grid gap-4 text-center">
         <Link href="/center">중앙정부 예산 도출</Link>
         <Link href="/local">지자체 예산 도출</Link>
-        <Link href="/analysis/flow">지역별 예산 흐름 분석</Link>
+        {/* <Link href="/analysis/flow">지역별 예산 흐름 분석</Link> */}
         <Link href="/analysis/ratio">중앙정부 · 지자체 예산 비율 분석</Link>
       </div>
 
@@ -30,6 +30,7 @@ export default async function HomePage() {
 
       <h2 className="text-2xl m-6 text-center">공약</h2>
       <div className="max-w-screen-md mx-auto my-2 grid gap-4 text-center">
+        <Link href="/commitment/local/2023-03-31/0/1135000">지자체장 공약</Link>
         <Link href="/commitment/candidate">후보자 공약</Link>
         <Link href="/commitment/president">대통령 공약</Link>
       </div>
