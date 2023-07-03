@@ -1,29 +1,13 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import Select from 'react-select/dist/declarations/src/Select'
 
-// const DateRangePicker = dynamic(() => import('../../components/DateRangePicker'), {
-//   ssr: false,
-//   loading: () => (
-//     <div className="grid grid-cols-[1fr_auto_1fr] gap-4 items-center">
-//       <input
-//         aria-label="Date"
-//         className="p-2 border disabled:cursor-not-allowed"
-//         disabled
-//         placeholder="YYYY-MM-DD"
-//         type="text"
-//       />
-//       <span>to</span>
-//       <input
-//         aria-label="Date"
-//         className="p-2 border disabled:cursor-not-allowed"
-//         disabled
-//         placeholder="YYYY-MM-DD"
-//         type="text"
-//       />
-//     </div>
-//   ),
-// })
+import { NEXT_PUBLIC_BACKEND_URL } from '../../../common/constants'
+import { localOptions } from '../../../common/lofin'
+import { getOption } from '../../../common/utils'
+import { calendarTypeOptions } from '../../local/LofinForm'
 
 export default function CommitmentForm() {
   // Pathname: Call by value
@@ -33,6 +17,13 @@ export default function CommitmentForm() {
   const localCodesParam = params[4] ? decodeURIComponent(params[4]) : '1134000'
 
   // Form
+  const [a, seta] = useState([])
+
+  useEffect(() => {
+    fetch(`${NEXT_PUBLIC_BACKEND_URL}/commitment/basis-date`)
+      .then((res) => res.json())
+      .then((result) => seta(result))
+  }, [])
   //   const [calendarType, setCalendarType] = useState<CalendarType>('year')
   //   const dateRangePickerRef = useRef<TDateRangePicker>(null)
   //   const [selectedLocalOptions, setSelectedLocalOptions] = useState(
@@ -99,68 +90,45 @@ export default function CommitmentForm() {
   //     else setSelectedFieldOptions(newOptions)
   //   }
   return (
-    <div />
+    <pre className="overflow-x-scroll">{JSON.stringify(a, null, 2)}</pre>
+
     // <form className="m-2 p-2 whitespace-nowrap max-w-screen-md mx-auto" onSubmit={search}>
-    //       <div className="grid grid-cols-[auto_1fr] items-center gap-4">
-    //         <span>구분</span>
-    //         <div className="z-30">
-    //           <Select
-    //             isDisabled={true}
-    //             instanceId="type"
-    //             onChange={(newType) => newType && setCalendarType(newType.value)}
-    //             options={calendarTypeOptions}
-    //             required
-    //             value={getOption(calendarTypeOptions, calendarType)}
-    //           />
-    //         </div>
-    //         <span>기간</span>
-    //         <div className="z-20">
-    //           <DateRangePicker
-    //             calendarType={calendarType}
-    //             defaultDateFrom={dateFrom}
-    //             defaultDateTo={dateTo}
-    //             forwardedRef={dateRangePickerRef}
-    //           />
-    //         </div>
-    //         <span>지자체</span>
-    //         <div className="z-10">
-    //           <Select
-    //             instanceId="localOptions"
-    //             isMulti
-    //             onChange={handleLocalOptionsChange}
-    //             options={localOptions}
-    //             required
-    //             value={selectedLocalOptions}
-    //           />
-    //         </div>
-    //         <span>분야</span>
-    //         <div>
-    //           <Select
-    //             instanceId="projectCode"
-    //             isMulti
-    //             onChange={handleFieldOptionsChange}
-    //             options={localFieldOptions as any}
-    //             required
-    //             value={selectedFieldOptions}
-    //           />
-    //         </div>
-    //         {selectedFieldOptions[0]?.value !== 0 && (
-    //           <>
-    //             <span>개수</span>
-    //             <input
-    //               className="p-2 border w-full"
-    //               min="1"
-    //               max="100"
-    //               onChange={(e) => setCount(+e.target.value)}
-    //               placeholder="20"
-    //               required
-    //               type="number"
-    //               value={count}
-    //             />
-    //           </>
-    //         )}
-    //       </div>
-    //       <button className="w-full p-4 my-4 rounded bg-sky-200 font-semibold">검색하기</button>
+    //   <div className="grid grid-cols-[auto_1fr] items-center gap-4">
+    //     <span>기준일</span>
+    //     <div className="z-30">
+    //       <Select
+    //         isDisabled={true}
+    //         instanceId="type"
+    //         onChange={(newType) => newType && setCalendarType(newType.value)}
+    //         options={calendarTypeOptions}
+    //         required
+    //         value={getOption(calendarTypeOptions, calendarType)}
+    //       />
+    //     </div>
+    //     <span>회계년도</span>
+    //     <div className="z-30">
+    //       <Select
+    //         isDisabled={true}
+    //         instanceId="type"
+    //         onChange={(newType) => newType && setCalendarType(newType.value)}
+    //         options={calendarTypeOptions}
+    //         required
+    //         value={getOption(calendarTypeOptions, calendarType)}
+    //       />
+    //     </div>
+    //     <span>지자체</span>
+    //     <div className="z-10">
+    //       <Select
+    //         instanceId="localOptions"
+    //         isMulti
+    //         onChange={handleLocalOptionsChange}
+    //         options={localOptions}
+    //         required
+    //         value={selectedLocalOptions}
+    //       />
+    //     </div>
+    //   </div>
+    //   <button className="w-full p-4 my-4 rounded bg-sky-200 font-semibold">검색하기</button>
     // </form>
   )
 }
