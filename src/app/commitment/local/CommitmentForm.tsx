@@ -17,7 +17,7 @@ export default function CommitmentForm({ options }: Props) {
   // Pathname: Call by value
   const params = usePathname()?.split('/') ?? []
   const basisDateParam = params[3] ?? '2023-03-31'
-  const fiscalYearsParam = params[4] ? decodeURIComponent(params[4]) : '2022,2023'
+  const fiscalYearsParam = params[4] ? decodeURIComponent(params[4]) : '2022'
   const localCodesParam = params[5] ? decodeURIComponent(params[5]) : '1135000'
 
   // Option

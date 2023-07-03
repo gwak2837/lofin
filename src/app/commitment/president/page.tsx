@@ -5,7 +5,7 @@ import presidents from './president.json' assert { type: 'json' }
 export default function PresidentPage() {
   return (
     <main>
-      <div className="max-w-screen-md mx-auto my-2 flex flex-wrap justify-center items-center">
+      <div className="max-w-screen-md mx-auto my-2 flex gap-3 flex-wrap justify-center items-center">
         <Link href="/">
           <Image
             src="/images/logo.webp"

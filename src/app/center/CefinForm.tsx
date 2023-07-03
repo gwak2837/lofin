@@ -45,7 +45,7 @@ export default function CefinForm() {
   const params = usePathname()?.split('/') ?? []
   const yearFromParam = params[2] ?? '2023'
   const yearToParam = params[3] ?? '2023'
-  const isFieldParam = params[4] ? Boolean(params[4]) : null
+  const isFieldParam = params[4] === 'true' ? true : params[4] === 'false' ? false : null
   const fieldsOrSectorsParam =
     params[5] && isFieldParam !== null ? decodeURIComponent(params[5]) : '전체'
   const officeNamesParam = params[6] ? decodeURIComponent(params[6]) : '전체'
@@ -196,6 +196,7 @@ export default function CefinForm() {
             onChange={handleOfficeNameOptions}
             options={cefinOfficeOptions}
             placeholder="전체"
+            required
             value={officeNameOptions}
           />
         </div>

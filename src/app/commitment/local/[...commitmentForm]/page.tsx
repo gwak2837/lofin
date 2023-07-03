@@ -20,7 +20,7 @@ async function getCommitments(params: Record<string, string & string[]>) {
     searchParams.append('basisDate', basisDate)
   }
 
-  if (fiscalYears !== '2022,2023') {
+  if (fiscalYears !== '2022') {
     for (const fiscalYear of fiscalYears.split(',')) {
       searchParams.append('fiscalYears', fiscalYear)
     }
