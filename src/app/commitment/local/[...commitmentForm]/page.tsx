@@ -46,6 +46,8 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <div className="">
+      {/* 전체 예산집행비율 */}
+      {/* 분야별 예산집행비율 */}
       <h3 className="text-xl m-6 text-center">공약별 상세 재정현황</h3>
       <div className="overflow-x-auto h-[100vh]">
         <table className="w-full whitespace-nowrap relative">
