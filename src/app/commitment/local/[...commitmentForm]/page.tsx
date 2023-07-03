@@ -55,12 +55,18 @@ export default async function Page({ params }: PageProps) {
             <tr>
               <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
                 <div className="flex gap-2 justify-center items-center">
-                  순위
+                  번호
                   <Image src="/images/down-arrow.png" alt="Down Arrow" width="12" height="12" />
                 </div>
               </th>
               <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
                 제목
+              </th>
+              <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                분야
+              </th>
+              <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                부문
               </th>
               <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
                 우선순위
@@ -120,6 +126,8 @@ export default async function Page({ params }: PageProps) {
                 <tr className="cursor-pointer hover:bg-slate-100">
                   <td className="p-2 text-center">{i + 1}</td>
                   <td className="p-2">{commitment.title}</td>
+                  <td className="p-2 text-center">{commitment.field}</td>
+                  <td className="p-2 text-center">{commitment.sector}</td>
                   <td className="p-2 text-center">{commitment.priority}</td>
                   <td className="p-2 text-right">
                     {formatRatio((100 * commitment.totalExecution) / commitment.totalExpenditure)}
