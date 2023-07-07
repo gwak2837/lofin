@@ -8,8 +8,10 @@ import CommitmentForm from './CommitmentForm'
 
 async function getCommitmentFormOptions() {
   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/commitment/edu/option`)
-  if (response.status === 404) notFound()
-  else if (!response.ok) throw new Error(await response.text())
+  if (response.status === 404) {
+    console.log('👀 ~ await response.text():', await response.text())
+    notFound()
+  } else if (!response.ok) throw new Error(await response.text())
 
   return await response.json()
 }
