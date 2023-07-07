@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../common/constants'
 import { applyLineBreak } from '../../../common/react'
 import { PageProps } from '../../../common/types'
+import EvaluationForm from './EvaluationForm'
 
 export const revalidate = 86400
 
@@ -24,15 +25,12 @@ async function getBusinessAnalysis(params: Record<string, string & string[]>) {
 }
 
 export default async function Page({ params }: PageProps) {
-  const { nationalTask, business, bard, naver, youtube, google } = await getBusinessAnalysis(params)
+  const { nationalTask, business, naver, youtube, google } = await getBusinessAnalysis(params)
 
   return (
     <div className="p-2">
       <h2 className="text-2xl m-6 text-center">구글 바드</h2>
-      <h3 className="text-xl my-2">연관성 있음</h3>
-      {applyLineBreak(bard[0])}
-      <h3 className="text-xl my-2">연관성 없음</h3>
-      {applyLineBreak(bard[1])}
+      <div className="text-center text-slate-400">예정</div>
 
       <h2 className="text-2xl m-6 text-center">Chat GPT</h2>
       <div className="text-center text-slate-400">예정</div>
@@ -57,7 +55,7 @@ export default async function Page({ params }: PageProps) {
           <li key={i} className="border rounded p-2">
             <a href={n.link} target="__blank">
               <h3 className="text-xl my-2" dangerouslySetInnerHTML={{ __html: n.title }} />
-              <div dangerouslySetInnerHTML={{ __html: n.description }} />
+              <div className="text-black" dangerouslySetInnerHTML={{ __html: n.description }} />
             </a>
           </li>
         ))}
@@ -69,7 +67,7 @@ export default async function Page({ params }: PageProps) {
           <li key={i} className="border rounded p-2">
             <a href={n.link} target="__blank">
               <h3 className="text-xl my-2" dangerouslySetInnerHTML={{ __html: n.htmlTitle }} />
-              <div dangerouslySetInnerHTML={{ __html: n.htmlSnippet }} />
+              <div className="text-black" dangerouslySetInnerHTML={{ __html: n.htmlSnippet }} />
             </a>
           </li>
         ))}
@@ -77,7 +75,12 @@ export default async function Page({ params }: PageProps) {
 
       <div className="border w-full my-20" />
 
-      <h2 className="text-2xl m-6 text-center">입력</h2>
+      <h2 className="text-2xl m-6 text-center">SMART PLUS 평가</h2>
+      <EvaluationForm />
+
+      <div className="border w-full my-20" />
+
+      <h2 className="text-2xl m-6 text-center">디버깅용</h2>
       <h3 className="text-xl my-2">국정과제</h3>
       {applyLineBreak(nationalTask)}
 

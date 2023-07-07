@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../common/constants'
 import { PageProps } from '../../../common/types'
 import { formatPrice, formatRatio } from '../../../common/utils'
+import EvaluationForm from '../../business/[...businessForm]/EvaluationForm'
 import Charts from './Charts'
 import StackedBarChart from './StackedBarChart'
 

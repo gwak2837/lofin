@@ -31,6 +31,7 @@ export default async function HomePage() {
       <h2 className="text-2xl m-6 text-center">공약</h2>
       <div className="max-w-screen-md mx-auto my-2 grid gap-4 text-center">
         <Link href="/commitment/local">지자체장 공약</Link>
+        <Link href="/commitment/edu">교육감 공약</Link>
         <Link href="/commitment/candidate">후보자 공약</Link>
         <Link href="/commitment/president">대통령 공약</Link>
       </div>

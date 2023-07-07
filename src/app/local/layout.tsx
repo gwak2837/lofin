@@ -22,7 +22,7 @@ export default function Layout({ children }: Props) {
           />
         </Link>
         <Link href="/local" className="hover:no-underline focus:no-underline">
-          <h2 className="text-2xl whitespace-nowrap text-black ">지자체 예산 도출</h2>
+          <h1 className="text-3xl whitespace-nowrap text-black ">지자체 예산 도출</h1>
         </Link>
       </div>
 

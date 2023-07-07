@@ -7,7 +7,7 @@ import { NEXT_PUBLIC_BACKEND_URL } from '../../../common/constants'
 import CommitmentForm from './CommitmentForm'
 
 async function getCommitmentFormOptions() {
-  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/commitment/option`)
+  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/commitment/edu/option`)
   if (response.status === 404) notFound()
   else if (!response.ok) throw new Error(await response.text())
 
@@ -33,8 +33,8 @@ export default async function Layout({ children }: Props) {
             height="108"
           />
         </Link>
-        <Link href="/commitment/local" className="hover:no-underline focus:no-underline">
-          <h1 className="text-3xl whitespace-nowrap text-black ">지자체장 공약 예산</h1>
+        <Link href="/commitment/edu" className="hover:no-underline focus:no-underline">
+          <h1 className="text-3xl whitespace-nowrap text-black ">교육감 공약 예산</h1>
         </Link>
       </div>
 

@@ -22,7 +22,7 @@ export default function BusinessLayout({ children }: Props) {
           />
         </Link>
         <Link href="/center" className="hover:no-underline focus:no-underline">
-          <h2 className="text-2xl whitespace-nowrap text-black ">사업 분석</h2>
+          <h1 className="text-3xl whitespace-nowrap text-black ">사업 분석</h1>
         </Link>
       </div>
 
