@@ -186,7 +186,7 @@ export default async function Page({ params }: PageProps) {
           </thead>
           <tbody>
             {(lofin.expenditures as any[]).map((a, i) => (
-              <Link key={a.id} href={`/business/false/${a.id}/0`} legacyBehavior>
+              <Link key={a.id} href={`/business/1/${a.id}`} legacyBehavior>
                 <tr className="cursor-pointer hover:bg-slate-100">
                   <td className="p-2 text-center">{i + 1}</td>
                   {isManyLocalCodes && <td className="p-2 text-center">{a.sfrnd_nm}</td>}

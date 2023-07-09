@@ -1,3 +1,5 @@
+import { NEXT_PUBLIC_BACKEND_URL } from './constants'
+
 export function formatKoreanNumber(inputNumber: number) {
   if (inputNumber <= 0) return String(inputNumber)
 
@@ -68,4 +70,13 @@ export function formatVariationRatio(child: number, parent: number, fractionDigi
 
 export function formatRatio(a: number, b: number, fractionDigits = 0) {
   return a === 0 ? '-' : ((100 * a) / b).toFixed(fractionDigits) + '%'
+}
+
+type Fetch = Parameters<typeof fetch>
+
+export async function fetchCatching(input: Fetch[0], init?: Fetch[1]) {
+  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}${input}`, init)
+  if (!response.ok) throw new Error(await response.text())
+  const result = await response.json()
+  return result
 }

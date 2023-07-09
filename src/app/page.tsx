@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+import GoogleBard from './business/[...businessForm]/GoogleBard'
+
 export default async function HomePage() {
   return (
     <main>

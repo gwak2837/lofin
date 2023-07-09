@@ -1,21 +1,17 @@
 import { notFound } from 'next/navigation'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../common/constants'
-import { applyLineBreak } from '../../../common/react'
 import { PageProps } from '../../../common/types'
 import EvaluationForm from './EvaluationForm'
+import GoogleBard from './GoogleBard'
 
 export const revalidate = 86400
 
 async function getBusinessAnalysis(params: Record<string, string & string[]>) {
-  const [isCefin, id, nationalTaskId] = params.businessForm
-  if (!isCefin || !id || !nationalTaskId) return notFound()
+  const [category, businessId] = params.businessForm
+  if (!category || !businessId) return notFound()
 
-  const searchParams = new URLSearchParams(`id=${id}&nationalTaskId=${nationalTaskId}`)
-
-  if (isCefin === 'true') {
-    searchParams.append('isCefin', isCefin)
-  }
+  const searchParams = new URLSearchParams(`category=${category}&id=${businessId}`)
 
   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/analytics/business?${searchParams}`)
   if (response.status === 404) notFound()
@@ -25,12 +21,14 @@ async function getBusinessAnalysis(params: Record<string, string & string[]>) {
 }
 
 export default async function Page({ params }: PageProps) {
-  const { nationalTask, business, naver, youtube, google } = await getBusinessAnalysis(params)
+  const { naver, youtube, google } = await getBusinessAnalysis(params)
+
+  const [category, businessId] = params.businessForm
 
   return (
     <div className="p-2">
       <h2 className="text-2xl m-6 text-center">구글 바드</h2>
-      <div className="text-center text-slate-400">예정</div>
+      <GoogleBard category={category} businessId={businessId} />
 
       <h2 className="text-2xl m-6 text-center">Chat GPT</h2>
       <div className="text-center text-slate-400">예정</div>
@@ -77,15 +75,6 @@ export default async function Page({ params }: PageProps) {
 
       <h2 className="text-2xl m-6 text-center">SMART PLUS 평가</h2>
       <EvaluationForm />
-
-      <div className="border w-full my-20" />
-
-      <h2 className="text-2xl m-6 text-center">디버깅용</h2>
-      <h3 className="text-xl my-2">국정과제</h3>
-      {applyLineBreak(nationalTask)}
-
-      <h3 className="text-xl my-2">지자체 사업</h3>
-      <pre className="overflow-x-scroll">{JSON.stringify(business, null, 2)}</pre>
     </div>
   )
 }

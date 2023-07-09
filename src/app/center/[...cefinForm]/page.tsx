@@ -181,7 +181,7 @@ export default async function CenterExpenditurePage({ params }: PageProps) {
           </thead>
           <tbody>
             {(cefin as any[]).map((a, i) => (
-              <Link key={a.id} href={`/business/true/${a.id}/0`} legacyBehavior>
+              <Link key={a.id} href={`/business/0/${a.id}`} legacyBehavior>
                 <tr className="cursor-pointer hover:bg-slate-100">
                   <td className="p-2 text-center">{i + 1}</td>
                   <td className="p-2">{a.sactv_nm}</td>

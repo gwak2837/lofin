@@ -118,11 +118,7 @@ export default async function Page({ params }: PageProps) {
           </thead>
           <tbody>
             {(commitments as any[]).map((commitment, i) => (
-              <Link
-                key={i}
-                href={`/commitmemt/local/${basisDate}/${rawFiscalYears}/${rawLocalCodes}`}
-                legacyBehavior
-              >
+              <Link key={i} href={`/business/3/${commitment.id}`} legacyBehavior>
                 <tr className="cursor-pointer hover:bg-slate-100">
                   <td className="p-2 text-center">{i + 1}</td>
                   <td className="p-2">{commitment.title}</td>
