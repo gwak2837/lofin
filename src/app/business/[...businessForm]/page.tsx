@@ -23,7 +23,7 @@ async function getBusinessAnalysis(params: Record<string, string & string[]>) {
 
 export default async function Page({ params }: PageProps) {
   const { business, naver, youtube, google } = await getBusinessAnalysis(params)
-  const finance = business.finance as any[]
+  const finances = business.finances as any[]
 
   const [category, businessId] = params.businessForm
 
@@ -39,12 +39,12 @@ export default async function Page({ params }: PageProps) {
 
       {applyLineBreak(business.content)}
 
-      {finance && (
+      {finances && (
         <>
           <h3 className="text-xl text-center">세부과제</h3>
 
           <ul className="">
-            {finance.map((f, i) => (
+            {finances.map((f, i) => (
               <li className="m-2" key={i}>
                 <pre>{JSON.stringify(f, null, 2)}</pre>
               </li>
