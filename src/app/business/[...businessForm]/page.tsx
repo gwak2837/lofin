@@ -39,15 +39,19 @@ export default async function Page({ params }: PageProps) {
 
       {applyLineBreak(business.content)}
 
-      <h3 className="text-xl text-center">세부과제</h3>
+      {finance && (
+        <>
+          <h3 className="text-xl text-center">세부과제</h3>
 
-      <ul className="">
-        {finance?.map((f, i) => (
-          <li className="m-2" key={i}>
-            <pre>{JSON.stringify(f, null, 2)}</pre>
-          </li>
-        ))}
-      </ul>
+          <ul className="">
+            {finance?.map((f, i) => (
+              <li className="m-2" key={i}>
+                <pre>{JSON.stringify(f, null, 2)}</pre>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
 
       <div className="border w-full my-10" />
 
