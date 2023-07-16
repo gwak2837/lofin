@@ -24,9 +24,8 @@ async function getBusinessAnalysis(params: Record<string, string & string[]>) {
 
 export default async function Page({ params }: PageProps) {
   const { business, naver, youtube, google } = await getBusinessAnalysis(params)
-  console.log('👀 ~ google:', google)
-  const finances = business.finances as any[]
 
+  const finances = business.finances as any[]
   const [category, businessId] = params.businessForm
 
   return (
@@ -281,8 +280,8 @@ export default async function Page({ params }: PageProps) {
         {(google as any[]).map((g, i) => (
           <li key={i} className="border rounded p-2">
             <a href={g.link} target="__blank">
-              {/* <h3 className="text-xl my-2" dangerouslySetInnerHTML={{ __html: g.htmlTitle }} /> */}
-              {/* <div className="text-black" dangerouslySetInnerHTML={{ __html: g.htmlSnippet }} /> */}
+              <h3 className="text-xl my-2" dangerouslySetInnerHTML={{ __html: g.htmlTitle }} />
+              <div className="text-black" dangerouslySetInnerHTML={{ __html: g.htmlSnippet }} />
             </a>
           </li>
         ))}
