@@ -83,5 +83,5 @@ export async function fetchCatching(input: Fetch[0], init?: Fetch[1]) {
 
 export function formatDate(date: string) {
   const d = new Date(date)
-  return `${d.getFullYear()}년 ${d.getMonth()}월 ${d.getDate()}일`
+  return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일`
 }

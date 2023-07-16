@@ -24,6 +24,7 @@ async function getBusinessAnalysis(params: Record<string, string & string[]>) {
 
 export default async function Page({ params }: PageProps) {
   const { business, naver, youtube, google } = await getBusinessAnalysis(params)
+  console.log('👀 ~ google:', google)
   const finances = business.finances as any[]
 
   const [category, businessId] = params.businessForm
@@ -43,7 +44,7 @@ export default async function Page({ params }: PageProps) {
       <h3 className="text-xl text-center">세부 재정상황</h3>
 
       <div className="overflow-x-auto">
-        {category === 0 ? (
+        {category === '0' ? (
           <table className="w-full my-2 whitespace-nowrap">
             <thead>
               <tr>
@@ -80,7 +81,54 @@ export default async function Page({ params }: PageProps) {
               ))}
             </tbody>
           </table>
-        ) : (
+        ) : category === '1' ? (
+          <table className="w-full my-2 whitespace-nowrap">
+            <thead>
+              <tr>
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                  번호
+                </th>
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                  총액
+                </th>
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                  국비
+                </th>
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold ">
+                  시도비
+                </th>
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                  시군구비
+                </th>
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                  기타
+                </th>
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                  편성액
+                </th>
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                  집행액
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {(finances as any[]).map((finance, i) => (
+                <tr key={finance.id}>
+                  <td className="p-2 text-center">{i + 1}</td>
+                  <td className="p-2 text-center">
+                    {formatPrice(+finance.gov + +finance.sido + +finance.sigungu + +finance.etc)}원
+                  </td>
+                  <td className="p-2 text-center">{formatPrice(finance.gov)}원</td>
+                  <td className="p-2 text-center">{formatPrice(finance.sido)}원</td>
+                  <td className="p-2 text-center">{formatPrice(finance.sigungu)}원</td>
+                  <td className="p-2 text-center">{formatPrice(finance.etc)}원</td>
+                  <td className="p-2 text-center">{formatPrice(finance.expndtram)}원</td>
+                  <td className="p-2 text-center">{formatPrice(finance.orgnztnam)}원</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : category === '2' ? (
           <table className="w-full my-2 whitespace-nowrap">
             <thead>
               <tr>
@@ -94,6 +142,64 @@ export default async function Page({ params }: PageProps) {
                 )}
                 <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
                   기준일
+                </th>
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                  종류
+                </th>
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                  회계년도
+                </th>
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                  총액
+                </th>
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                  국비
+                </th>
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold ">
+                  시도비
+                </th>
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                  {category === 3 ? '자체' : '시군구비'}
+                </th>
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                  기타
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {(finances as any[]).map((finance, i) => (
+                <tr key={finance.id}>
+                  <td className="p-2 text-center">{i + 1}</td>
+                  {finance.title && <td className="p-2 text-center">{finance.title}</td>}
+                  <td className="p-2 text-center">{formatDate(finance.basis_date)}</td>
+                  <td className="p-2 text-center">{finance.category}</td>
+                  <td className="p-2 text-center">{finance.fiscal_year}년</td>
+                  <td className="p-2 text-center">
+                    {formatPrice(+finance.gov + +finance.sido + +finance.sigungu + +finance.etc)}원
+                  </td>
+                  <td className="p-2 text-center">{formatPrice(finance.gov)}원</td>
+                  <td className="p-2 text-center">{formatPrice(finance.sido)}원</td>
+                  <td className="p-2 text-center">{formatPrice(finance.sigungu)}원</td>
+                  <td className="p-2 text-center">{formatPrice(finance.etc)}원</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <table className="w-full my-2 whitespace-nowrap">
+            <thead>
+              <tr>
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                  번호
+                </th>
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                  사업명
+                </th>
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                  기준일
+                </th>
+                <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
+                  종류
                 </th>
                 <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
                   회계년도
@@ -118,7 +224,8 @@ export default async function Page({ params }: PageProps) {
                   <td className="p-2 text-center">{i + 1}</td>
                   {finance.title && <td className="p-2 text-center">{finance.title}</td>}
                   <td className="p-2 text-center">{formatDate(finance.basis_date)}</td>
-                  <td className="p-2 text-center">{finance.fiscal_year}</td>
+                  <td className="p-2 text-center">{finance.category}</td>
+                  <td className="p-2 text-center">{finance.fiscal_year}년</td>
                   <td className="p-2 text-center">{formatPrice(finance.gov)}원</td>
                   <td className="p-2 text-center">{formatPrice(finance.sido)}원</td>
                   <td className="p-2 text-center">{formatPrice(finance.sigungu)}원</td>
@@ -171,11 +278,11 @@ export default async function Page({ params }: PageProps) {
 
       <h2 className="text-2xl m-6 text-center">구글 검색</h2>
       <ul className="grid grid-cols-[repeat(auto-fit,minmax(512px,1fr))] gap-2 overflow-x-auto">
-        {(google as any[]).map((n, i) => (
+        {(google as any[]).map((g, i) => (
           <li key={i} className="border rounded p-2">
-            <a href={n.link} target="__blank">
-              <h3 className="text-xl my-2" dangerouslySetInnerHTML={{ __html: n.htmlTitle }} />
-              <div className="text-black" dangerouslySetInnerHTML={{ __html: n.htmlSnippet }} />
+            <a href={g.link} target="__blank">
+              {/* <h3 className="text-xl my-2" dangerouslySetInnerHTML={{ __html: g.htmlTitle }} /> */}
+              {/* <div className="text-black" dangerouslySetInnerHTML={{ __html: g.htmlSnippet }} /> */}
             </a>
           </li>
         ))}
