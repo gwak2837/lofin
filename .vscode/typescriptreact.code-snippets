@@ -72,5 +72,10 @@
       "}",
       ""
     ]
+  },
+  "pre": {
+    "prefix": "pre",
+    "description": "pre",
+    "body": ["<pre>{JSON.stringify($1, null, 2)}</pre>"]
   }
 }

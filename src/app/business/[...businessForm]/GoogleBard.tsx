@@ -19,10 +19,30 @@ export default function GoogleBard({ category, businessId }: Props) {
       ),
   })
 
+  const bard = data?.bard
+
   return (
-    <div className="text-center my-10">
-      {isLoading ? <div>Loading...</div> : applyLineBreak(data)}
-      {isError && <pre>{JSON.stringify(error, null, 2)}</pre>}
+    <div>
+      <h3 className="text-xl m-6 text-center">연관성 있음</h3>
+      {isLoading ? (
+        <div className="w-full h-20 bg-slate-200 rounded animate-pulse" />
+      ) : (
+        applyLineBreak(bard?.positive.content)
+      )}
+
+      <h3 className="text-xl m-6 text-center">연관성 없음</h3>
+      {isLoading ? (
+        <div className="w-full h-20 bg-slate-200 rounded animate-pulse" />
+      ) : (
+        applyLineBreak(bard?.negative.content)
+      )}
+
+      {isError && (
+        <>
+          <h3 className="text-xl m-6 text-center">오류</h3>
+          <pre>{JSON.stringify(error, null, 2)}</pre>
+        </>
+      )}
     </div>
   )
 }
