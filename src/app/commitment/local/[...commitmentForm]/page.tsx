@@ -14,7 +14,7 @@ async function getCommitments(params: Record<string, string & string[]>) {
   const fiscalYears = decodeURIComponent(rawFiscalYears)
   const localCodes = decodeURIComponent(rawLocalCodes)
 
-  const searchParams = new URLSearchParams()
+  const searchParams = new URLSearchParams('electionCategory=0')
 
   if (basisDate !== '2023-03-31') {
     searchParams.append('basisDate', basisDate)

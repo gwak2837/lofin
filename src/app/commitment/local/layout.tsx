@@ -9,7 +9,7 @@ import CommitmentForm from './CommitmentForm'
 export const revalidate = 10_000
 
 async function getCommitmentFormOptions() {
-  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/commitment/option`)
+  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/commitment/local/option`)
   if (response.status === 404) notFound()
   else if (!response.ok) throw new Error(await response.text())
 

@@ -14,7 +14,7 @@ async function getCommitments(params: Record<string, string & string[]>) {
   const fiscalYears = decodeURIComponent(rawFiscalYears)
   const localCodes = decodeURIComponent(rawLocalCodes)
 
-  const searchParams = new URLSearchParams()
+  const searchParams = new URLSearchParams('electionCategory=1')
 
   if (basisDate !== '2023-02-22') {
     searchParams.append('basisDate', basisDate)
@@ -32,7 +32,7 @@ async function getCommitments(params: Record<string, string & string[]>) {
     }
   }
 
-  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/commitment/edu?${searchParams}`)
+  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/commitment?${searchParams}`)
   if (response.status === 404) notFound()
   else if (!response.ok) throw new Error(await response.text())
 
@@ -118,7 +118,7 @@ export default async function Page({ params }: PageProps) {
           </thead>
           <tbody>
             {(commitments as any[]).map((commitment, i) => (
-              <Link key={i} href={`/business/3/${commitment.id}`} legacyBehavior>
+              <Link key={i} href={`/business/2/${commitment.id}`} legacyBehavior>
                 <tr className="cursor-pointer hover:bg-slate-100">
                   <td className="p-2 text-center">{i + 1}</td>
                   <td className="p-2">{commitment.title}</td>
