@@ -31,7 +31,7 @@ export default function CommitmentForm({ options }: Props) {
     value: year,
   }))
 
-  const localGovOptions = options.localGovCodes.map((code) => ({
+  const localGovOptions = options.localCodes.map((code) => ({
     label: getLocalGovOption(code)?.label ?? code,
     value: code,
   }))
