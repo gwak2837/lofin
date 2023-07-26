@@ -7,7 +7,7 @@ import { NEXT_PUBLIC_BACKEND_URL } from '../../../common/constants'
 import CommitmentForm from './CommitmentForm'
 
 async function getCommitmentFormOptions() {
-  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/commitment/edu/option`)
+  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/commitment/option?electionCategory=1`)
   if (response.status === 404) notFound()
   else if (!response.ok) throw new Error(await response.text())
 
