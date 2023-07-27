@@ -28,12 +28,12 @@ export default function CommitmentForm({ options }: Props) {
 
   const fiscalYearOptions = options.fiscalYears.map((year) => ({
     label: year,
-    value: year,
+    value: +year,
   }))
 
   const localGovOptions = options.localCodes.map((code) => ({
     label: getLocalGovOption(code)?.label ?? code,
-    value: code,
+    value: +code,
   }))
 
   // Form
@@ -43,13 +43,13 @@ export default function CommitmentForm({ options }: Props) {
   const [selectedFiscalYears, setSelectedFiscalYears] = useState(
     fiscalYearsParam.split(',').map((year) => ({
       label: year,
-      value: year,
+      value: +year,
     }))
   )
   const [selectedLocalGovs, setSelectedLocalGovs] = useState(
     localCodesParam.split(',').map((code) => ({
       label: getLocalGovOption(+code)?.label ?? code,
-      value: code,
+      value: +code,
     }))
   )
 
@@ -58,13 +58,13 @@ export default function CommitmentForm({ options }: Props) {
     setSelectedFiscalYears(
       fiscalYearsParam.split(',').map((year) => ({
         label: year,
-        value: year,
+        value: +year,
       }))
     )
     setSelectedLocalGovs(
       localCodesParam.split(',').map((code) => ({
         label: getLocalGovOption(+code)?.label ?? code,
-        value: code,
+        value: +code,
       }))
     )
   }, [fiscalYearsParam, localCodesParam])

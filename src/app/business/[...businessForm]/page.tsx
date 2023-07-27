@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../common/constants'
+import { decodeFinanceCategory } from '../../../common/lofin'
 import { applyLineBreak } from '../../../common/react'
 import { PageProps } from '../../../common/types'
 import { formatDate, formatPrice } from '../../../common/utils'
@@ -22,8 +23,19 @@ async function getBusinessAnalysis(params: Record<string, string & string[]>) {
   return await response.json()
 }
 
+async function getEvaluation() {
+  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/smartplus/question`)
+  if (response.status === 404) notFound()
+  else if (!response.ok) throw new Error(await response.text())
+
+  return await response.json()
+}
+
 export default async function Page({ params }: PageProps) {
-  const { business, naver, youtube, google } = await getBusinessAnalysis(params)
+  const [{ business, naver, youtube, google }, evaluation] = await Promise.all([
+    getBusinessAnalysis(params),
+    getEvaluation(),
+  ])
 
   const finances = business.finances as any[]
   const [category, businessId] = params.businessForm
@@ -68,14 +80,12 @@ export default async function Page({ params }: PageProps) {
               {(finances as any[]).map((finance, i) => (
                 <tr key={finance.id}>
                   <td className="p-2 text-center">{i + 1}</td>
-                  <td className="p-2 text-center">
+                  <td className="p-2 text-right">
                     {formatPrice(finance.y_yy_dfn_medi_kcur_amt)}원
                   </td>
-                  <td className="p-2 text-center">{formatPrice(finance.y_yy_medi_kcur_amt)}원</td>
-                  <td className="p-2 text-center">{formatPrice(finance.y_prey_fnl_frc_amt)}원</td>
-                  <td className="p-2 text-center">
-                    {formatPrice(finance.y_prey_first_kcur_amt)}원
-                  </td>
+                  <td className="p-2 text-right">{formatPrice(finance.y_yy_medi_kcur_amt)}원</td>
+                  <td className="p-2 text-right">{formatPrice(finance.y_prey_fnl_frc_amt)}원</td>
+                  <td className="p-2 text-right">{formatPrice(finance.y_prey_first_kcur_amt)}원</td>
                 </tr>
               ))}
             </tbody>
@@ -114,15 +124,15 @@ export default async function Page({ params }: PageProps) {
               {(finances as any[]).map((finance, i) => (
                 <tr key={finance.id}>
                   <td className="p-2 text-center">{i + 1}</td>
-                  <td className="p-2 text-center">
+                  <td className="p-2 text-right">
                     {formatPrice(+finance.gov + +finance.sido + +finance.sigungu + +finance.etc)}원
                   </td>
-                  <td className="p-2 text-center">{formatPrice(finance.gov)}원</td>
-                  <td className="p-2 text-center">{formatPrice(finance.sido)}원</td>
-                  <td className="p-2 text-center">{formatPrice(finance.sigungu)}원</td>
-                  <td className="p-2 text-center">{formatPrice(finance.etc)}원</td>
-                  <td className="p-2 text-center">{formatPrice(finance.expndtram)}원</td>
-                  <td className="p-2 text-center">{formatPrice(finance.orgnztnam)}원</td>
+                  <td className="p-2 text-right">{formatPrice(finance.gov)}원</td>
+                  <td className="p-2 text-right">{formatPrice(finance.sido)}원</td>
+                  <td className="p-2 text-right">{formatPrice(finance.sigungu)}원</td>
+                  <td className="p-2 text-right">{formatPrice(finance.etc)}원</td>
+                  <td className="p-2 text-right">{formatPrice(finance.expndtram)}원</td>
+                  <td className="p-2 text-right">{formatPrice(finance.orgnztnam)}원</td>
                 </tr>
               ))}
             </tbody>
@@ -171,15 +181,15 @@ export default async function Page({ params }: PageProps) {
                   <td className="p-2 text-center">{i + 1}</td>
                   {finance.title && <td className="p-2 text-center">{finance.title}</td>}
                   <td className="p-2 text-center">{formatDate(finance.basis_date)}</td>
-                  <td className="p-2 text-center">{finance.category}</td>
+                  <td className="p-2 text-center">{decodeFinanceCategory(+finance.category)}</td>
                   <td className="p-2 text-center">{finance.fiscal_year}년</td>
-                  <td className="p-2 text-center">
+                  <td className="p-2 text-right">
                     {formatPrice(+finance.gov + +finance.sido + +finance.sigungu + +finance.etc)}원
                   </td>
-                  <td className="p-2 text-center">{formatPrice(finance.gov)}원</td>
-                  <td className="p-2 text-center">{formatPrice(finance.sido)}원</td>
-                  <td className="p-2 text-center">{formatPrice(finance.sigungu)}원</td>
-                  <td className="p-2 text-center">{formatPrice(finance.etc)}원</td>
+                  <td className="p-2 text-right">{formatPrice(finance.gov)}원</td>
+                  <td className="p-2 text-right">{formatPrice(finance.sido)}원</td>
+                  <td className="p-2 text-right">{formatPrice(finance.sigungu)}원</td>
+                  <td className="p-2 text-right">{formatPrice(finance.etc)}원</td>
                 </tr>
               ))}
             </tbody>
@@ -223,12 +233,12 @@ export default async function Page({ params }: PageProps) {
                   <td className="p-2 text-center">{i + 1}</td>
                   {finance.title && <td className="p-2 text-center">{finance.title}</td>}
                   <td className="p-2 text-center">{formatDate(finance.basis_date)}</td>
-                  <td className="p-2 text-center">{finance.category}</td>
+                  <td className="p-2 text-center">{decodeFinanceCategory(+finance.category)}</td>
                   <td className="p-2 text-center">{finance.fiscal_year}년</td>
-                  <td className="p-2 text-center">{formatPrice(finance.gov)}원</td>
-                  <td className="p-2 text-center">{formatPrice(finance.sido)}원</td>
-                  <td className="p-2 text-center">{formatPrice(finance.sigungu)}원</td>
-                  <td className="p-2 text-center">{formatPrice(finance.etc)}원</td>
+                  <td className="p-2 text-right">{formatPrice(finance.gov)}원</td>
+                  <td className="p-2 text-right">{formatPrice(finance.sido)}원</td>
+                  <td className="p-2 text-right">{formatPrice(finance.sigungu)}원</td>
+                  <td className="p-2 text-right">{formatPrice(finance.etc)}원</td>
                 </tr>
               ))}
             </tbody>
@@ -290,7 +300,7 @@ export default async function Page({ params }: PageProps) {
       <div className="border w-full my-20" />
 
       <h2 className="text-2xl m-6 text-center">SMART PLUS 평가</h2>
-      <EvaluationForm />
+      <EvaluationForm evaluation={evaluation} />
     </div>
   )
 }

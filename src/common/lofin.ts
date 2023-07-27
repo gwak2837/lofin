@@ -466,3 +466,18 @@ export const localSectorDefaultOptions = [localSectorOptions[21]]
 export function getLocalSectorOption(value: number) {
   return localSectorOptions.find((l) => l.value === value)
 }
+
+export function decodeFinanceCategory(category: number) {
+  switch (category) {
+    case 0:
+      return '비예산'
+    case 1:
+      return '예산'
+    case 2:
+      return '집행'
+    case 3:
+      return '미정'
+    default:
+      return 'Invalid value'
+  }
+}

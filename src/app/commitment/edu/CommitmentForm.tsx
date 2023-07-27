@@ -4,10 +4,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
 import Select from 'react-select'
 
-import { NEXT_PUBLIC_BACKEND_URL } from '../../../common/constants'
-import { getLocalGovOption, localOptions } from '../../../common/lofin'
-import { getOption } from '../../../common/utils'
-import { calendarTypeOptions } from '../../local/LofinForm'
+import { getLocalGovOption } from '../../../common/lofin'
 
 type Props = {
   options: Record<string, any[]>
@@ -18,7 +15,7 @@ export default function CommitmentForm({ options }: Props) {
   const params = usePathname()?.split('/') ?? []
   const basisDateParam = params[3] ?? '2023-03-31'
   const fiscalYearsParam = params[4] ? decodeURIComponent(params[4]) : '2022'
-  const localCodesParam = params[5] ? decodeURIComponent(params[5]) : '4100000'
+  const localCodesParam = params[5] ? decodeURIComponent(params[5]) : '41'
 
   // Option
   const basisDateOptions = options.basisDates.map((date) => ({
@@ -33,7 +30,7 @@ export default function CommitmentForm({ options }: Props) {
 
   const localOptions = options.localCodes.map((code) => ({
     label: getLocalGovOption(code)?.label ?? code,
-    value: code,
+    value: +code,
   }))
 
   // Form
@@ -43,13 +40,13 @@ export default function CommitmentForm({ options }: Props) {
   const [selectedFiscalYears, setSelectedFiscalYears] = useState(
     fiscalYearsParam.split(',').map((year) => ({
       label: year,
-      value: year,
+      value: +year,
     }))
   )
   const [selectedLocalGovs, setSelectedLocalGovs] = useState(
     localCodesParam.split(',').map((code) => ({
       label: getLocalGovOption(+code)?.label ?? code,
-      value: code,
+      value: +code,
     }))
   )
 
@@ -58,13 +55,13 @@ export default function CommitmentForm({ options }: Props) {
     setSelectedFiscalYears(
       fiscalYearsParam.split(',').map((year) => ({
         label: year,
-        value: year,
+        value: +year,
       }))
     )
     setSelectedLocalGovs(
       localCodesParam.split(',').map((code) => ({
         label: getLocalGovOption(+code)?.label ?? code,
-        value: code,
+        value: +code,
       }))
     )
   }, [fiscalYearsParam, localCodesParam])
