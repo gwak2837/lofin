@@ -64,13 +64,13 @@ export default function EvaluationForm({ businessCategory, businessId, evaluatio
       <div className="overflow-x-auto overflow-y-hidden">
         {Object.entries(evaluation.questions).map(([category, questions], i) => (
           <div key={i}>
-            <h3 className="text-xl my-6 text-center">{category}</h3>
+            <h3 className="text-xl my-8 text-center">{category}</h3>
             {questions.map((question: any) => (
-              <div key={question.id}>
+              <div key={question.id} className="my-6">
                 <div className="my-3 whitespace-nowrap text-center">{question.content}</div>
-                <div className="text-center">
+                <div className="w-fit mx-auto overflow-hidden rounded border border-sky-400">
                   {[0, 1, 2, 3, 4, 5].map((answer) => (
-                    <button key={answer} className="rounded min-h-[2rem]" type="button">
+                    <button key={answer} className="rounded min-h-[3rem]" type="button">
                       <input
                         id={`smartplus-${i}-${question.id}-${answer}`}
                         checked={answers[question.id] === answer}
@@ -81,10 +81,7 @@ export default function EvaluationForm({ businessCategory, businessId, evaluatio
                         }
                         type="radio"
                       />
-                      <label
-                        className="px-4 py-2 bg-sky-100"
-                        htmlFor={`smartplus-${i}-${question.id}-${answer}`}
-                      >
+                      <label className="p-4" htmlFor={`smartplus-${i}-${question.id}-${answer}`}>
                         {answer === 0 ? '모르겠음' : answer}
                       </label>
                     </button>

@@ -6,8 +6,6 @@ import { ReactNode } from 'react'
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../common/constants'
 import CommitmentForm from './CommitmentForm'
 
-export const revalidate = 10_000
-
 async function getCommitmentFormOptions() {
   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/commitment/option?electionCategory=0`)
   if (!response.ok) throw new Error(await response.text())

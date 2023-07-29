@@ -54,8 +54,8 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <div className="p-2">
-      <h2 className="text-2xl m-6 text-center">사업 상세</h2>
-      <h3 className="text-xl my-2 text-center">{business.title}</h3>
+      <h2 className="my-6 text-2xl text-center">사업 상세</h2>
+      <h3 className="my-3 text-xl text-center">{business.title}</h3>
 
       <h5 className="text-sm mt-2 text-center">{business.when} 기준</h5>
       <h5 className="text-sm mb-2 text-center">
@@ -64,7 +64,7 @@ export default async function Page({ params }: PageProps) {
 
       {applyLineBreak(business.content)}
 
-      <h3 className="text-xl text-center">세부 재정상황</h3>
+      <h3 className="my-3 text-xl text-center">세부 재정상황</h3>
 
       <div className="overflow-x-auto">
         {category === '0' ? (
