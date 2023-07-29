@@ -6,6 +6,7 @@ import { FormEvent, useState } from 'react'
 import { toast } from 'react-hot-toast'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../common/constants'
+import LoadingSpinner from '../../../components/LoadingSpinner'
 
 type Props = {
   businessCategory: string
@@ -94,7 +95,11 @@ export default function EvaluationForm({ businessCategory, businessId, evaluatio
           </div>
         ))}
       </div>
-      <button className="w-full my-4 p-4 bottom-0 sticky rounded bg-sky-200/90 backdrop-blur-sm">
+      <button
+        className="w-full my-4 p-4 bottom-0 sticky flex justify-center items-center gap-2 rounded bg-sky-200/90 backdrop-blur-sm"
+        disabled={loading}
+      >
+        {loading && <LoadingSpinner />}
         제출
       </button>
     </form>
