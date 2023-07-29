@@ -5,7 +5,7 @@ import GoogleBard from './business/[...businessForm]/GoogleBard'
 
 export default async function HomePage() {
   return (
-    <main>
+    <main className="p-2">
       <Link href="/" className="cursor-pointer">
         <Image
           src="/images/logo.webp"
@@ -17,11 +17,17 @@ export default async function HomePage() {
       </Link>
 
       <h2 className="text-2xl m-6 text-center">예산 데이터랩</h2>
-      <div className="max-w-screen-md mx-auto my-2 grid gap-4 text-center">
-        <Link href="/center">중앙정부 예산 도출</Link>
-        <Link href="/local">지자체 예산 도출</Link>
+      <div className="max-w-screen-md mx-auto my-2 grid grid-cols-[repeat(auto-fit,minmax(256px,1fr))] gap-2 text-center">
+        <Link href="/center" className="border p-8  hover:bg-sky-100">
+          중앙정부 예산 도출
+        </Link>
+        <Link href="/local" className="border p-8 hover:bg-sky-100">
+          지자체 예산 도출
+        </Link>
         {/* <Link href="/analysis/flow">지역별 예산 흐름 분석</Link> */}
-        <Link href="/analysis/ratio">중앙정부 · 지자체 예산 비율 분석</Link>
+        <Link href="/analysis/ratio" className="border p-8  hover:bg-sky-100">
+          중앙정부 · 지자체 예산 비율 분석
+        </Link>
       </div>
 
       {/* <h2 className="text-2xl m-6 text-center">전문가 그룹 평가</h2>
@@ -31,11 +37,19 @@ export default async function HomePage() {
       </div> */}
 
       <h2 className="text-2xl m-6 text-center">공약</h2>
-      <div className="max-w-screen-md mx-auto my-2 grid gap-4 text-center">
-        <Link href="/commitment/local">지자체장 공약</Link>
-        <Link href="/commitment/edu">교육감 공약</Link>
-        <Link href="/commitment/candidate">후보자 공약</Link>
-        <Link href="/commitment/president">대통령 공약</Link>
+      <div className="max-w-screen-md mx-auto my-2 grid grid-cols-[repeat(auto-fit,minmax(256px,1fr))] gap-2 text-center">
+        <Link href="/commitment/local" className="border p-8  hover:bg-sky-100">
+          지자체장 공약
+        </Link>
+        <Link href="/commitment/edu" className="border p-8  hover:bg-sky-100">
+          교육감 공약
+        </Link>
+        <Link href="/commitment/candidate" className="border p-8  hover:bg-sky-100">
+          후보자 공약
+        </Link>
+        <Link href="/commitment/president" className="border p-8  hover:bg-sky-100">
+          대통령 공약
+        </Link>
       </div>
     </main>
   )
