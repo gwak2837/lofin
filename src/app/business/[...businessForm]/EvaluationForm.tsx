@@ -3,30 +3,56 @@
 import './EvaluationForm.css'
 
 import { FormEvent, useState } from 'react'
+import { toast } from 'react-hot-toast'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../common/constants'
 
 type Props = {
-  evaluation: Record<string, string[]>
+  businessCategory: string
+  businessId: string
+  evaluation: Record<string, Record<string, any>[]>
 }
 
-export default function EvaluationForm({ evaluation }: Props) {
-  const [answers, setAnswers] = useState(Array(Object.values(evaluation).flat()))
+export default function EvaluationForm({ businessCategory, businessId, evaluation }: Props) {
+  const [answers, setAnswers] = useState<any>(evaluation.answers)
 
-  function submit(e: FormEvent<HTMLFormElement>) {
+  const [loading, setLoading] = useState(false)
+
+  async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-    const checked = Object.values(e.target)
-      .filter((t) => t.checked)
-      .map((t) => t.id)
+    setLoading(true)
 
-    console.log('👀 ~ checked:', checked)
+    const body: any = {
+      answers: [],
+      businessIds: [],
+      businessCategories: [],
+      questionIds: [],
+    }
 
-    // fetch(`${NEXT_PUBLIC_BACKEND_URL}/smartplus/answers?${searchParams}`)
+    for (const questionId in answers) {
+      body.answers.push(answers[questionId])
+      body.businessIds.push(businessId)
+      body.businessCategories.push(businessCategory)
+      body.questionIds.push(questionId)
+    }
+
+    const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/smartplus/answer`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    })
+
+    setLoading(false)
+
+    if (response.ok) toast.success('성공')
+    else toast.error('실패')
   }
 
   return (
-    <form className="m-2 whitespace-nowrap max-w-screen-md mx-auto" onSubmit={submit}>
+    <form className="m-2 whitespace-nowrap max-w-screen-md mx-auto relative" onSubmit={submit}>
       <div className="flex justify-center items-center text-sm gap-5">
         <div>1:그렇지않다</div>
         <div></div>
@@ -34,27 +60,31 @@ export default function EvaluationForm({ evaluation }: Props) {
         <div></div>
         <div>5:그렇다</div>
       </div>
-      <div className="overflow-x-auto">
-        {Object.entries(evaluation).map(([category, questions], i) => (
+      <div className="overflow-x-auto overflow-y-hidden">
+        {Object.entries(evaluation.questions).map(([category, questions], i) => (
           <div key={i}>
-            <h3 className="text-xl my-3">{category}</h3>
-            {questions.map((question, j) => (
-              <div key={j} className="grid grid-cols-[1fr_auto] gap-2 items-center h-10">
-                <div className="whitespace-nowrap">{question}</div>
-                <div>
-                  {[1, 2, 3, 4, 5].map((answer) => (
-                    <button key={answer} className="rounded" type="button">
+            <h3 className="text-xl my-6 text-center">{category}</h3>
+            {questions.map((question: any) => (
+              <div key={question.id}>
+                <div className="my-3 whitespace-nowrap text-center">{question.content}</div>
+                <div className="text-center">
+                  {[0, 1, 2, 3, 4, 5].map((answer) => (
+                    <button key={answer} className="rounded min-h-[2rem]" type="button">
                       <input
+                        id={`smartplus-${i}-${question.id}-${answer}`}
+                        checked={answers[question.id] === answer}
                         className="hidden"
+                        name={`smartplus-${i}-${question.id}`}
+                        onChange={() =>
+                          setAnswers((prev: any) => ({ ...prev, [question.id]: answer }))
+                        }
                         type="radio"
-                        id={`smartplus-${i}-${j}-${answer}`}
-                        name={`smartplus-${i}-${j}`}
                       />
                       <label
                         className="px-4 py-2 bg-sky-100"
-                        htmlFor={`smartplus-${i}-${j}-${answer}`}
+                        htmlFor={`smartplus-${i}-${question.id}-${answer}`}
                       >
-                        {answer}
+                        {answer === 0 ? '모르겠음' : answer}
                       </label>
                     </button>
                   ))}
@@ -64,7 +94,9 @@ export default function EvaluationForm({ evaluation }: Props) {
           </div>
         ))}
       </div>
-      <button className="w-full rounded  p-4 bg-sky-100 my-4">제출</button>
+      <button className="w-full my-4 p-4 bottom-0 sticky rounded bg-sky-200/90 backdrop-blur-sm">
+        제출
+      </button>
     </form>
   )
 }

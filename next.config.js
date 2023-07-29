@@ -20,7 +20,6 @@ const nextConfig = {
       { protocol: 'https', hostname: '**.coupangcdn.com' },
     ],
   },
-  output: 'standalone',
   poweredByHeader: false,
   reactStrictMode: true,
 }

@@ -10,6 +10,13 @@ import GoogleBard from './GoogleBard'
 
 export const revalidate = 86400
 
+type BusinessAnalysis = {
+  business: Record<string, any>
+  naver?: Record<string, any>[]
+  youtube?: Record<string, any>[]
+  google?: Record<string, any>[]
+}
+
 async function getBusinessAnalysis(params: Record<string, string & string[]>) {
   const [category, businessId] = params.businessForm
   if (!category || !businessId) return notFound()
@@ -17,16 +24,21 @@ async function getBusinessAnalysis(params: Record<string, string & string[]>) {
   const searchParams = new URLSearchParams(`category=${category}&id=${businessId}`)
 
   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/analytics/business?${searchParams}`)
-  if (response.status === 404) notFound()
-  else if (!response.ok) throw new Error(await response.text())
+  if (!response.ok) throw new Error(await response.text())
 
-  return await response.json()
+  return (await response.json()) as BusinessAnalysis
 }
 
-async function getEvaluation() {
-  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/smartplus/question`)
-  if (response.status === 404) notFound()
-  else if (!response.ok) throw new Error(await response.text())
+async function getEvaluation(params: Record<string, string & string[]>) {
+  const [category, businessId] = params.businessForm
+  if (!category || !businessId) return notFound()
+
+  const searchParams = new URLSearchParams(`businessId=${businessId}&businessCategory=${category}`)
+
+  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/smartplus/question?${searchParams}`, {
+    cache: 'no-store',
+  })
+  if (!response.ok) throw new Error(await response.text())
 
   return await response.json()
 }
@@ -34,7 +46,7 @@ async function getEvaluation() {
 export default async function Page({ params }: PageProps) {
   const [{ business, naver, youtube, google }, evaluation] = await Promise.all([
     getBusinessAnalysis(params),
-    getEvaluation(),
+    getEvaluation(params),
   ])
 
   const finances = business.finances as any[]
@@ -77,7 +89,7 @@ export default async function Page({ params }: PageProps) {
               </tr>
             </thead>
             <tbody>
-              {(finances as any[]).map((finance, i) => (
+              {finances.map((finance, i) => (
                 <tr key={finance.id}>
                   <td className="p-2 text-center">{i + 1}</td>
                   <td className="p-2 text-right">
@@ -121,7 +133,7 @@ export default async function Page({ params }: PageProps) {
               </tr>
             </thead>
             <tbody>
-              {(finances as any[]).map((finance, i) => (
+              {finances.map((finance, i) => (
                 <tr key={finance.id}>
                   <td className="p-2 text-center">{i + 1}</td>
                   <td className="p-2 text-right">
@@ -176,7 +188,7 @@ export default async function Page({ params }: PageProps) {
               </tr>
             </thead>
             <tbody>
-              {(finances as any[]).map((finance, i) => (
+              {finances.map((finance, i) => (
                 <tr key={finance.id}>
                   <td className="p-2 text-center">{i + 1}</td>
                   {finance.title && <td className="p-2 text-center">{finance.title}</td>}
@@ -228,7 +240,7 @@ export default async function Page({ params }: PageProps) {
               </tr>
             </thead>
             <tbody>
-              {(finances as any[]).map((finance, i) => (
+              {finances.map((finance, i) => (
                 <tr key={finance.id}>
                   <td className="p-2 text-center">{i + 1}</td>
                   {finance.title && <td className="p-2 text-center">{finance.title}</td>}
@@ -257,7 +269,7 @@ export default async function Page({ params }: PageProps) {
 
       <h2 className="text-2xl m-6 text-center">유튜브 검색</h2>
       <ul className="grid grid-cols-[repeat(auto-fit,minmax(512px,1fr))] gap-2 overflow-x-auto">
-        {(youtube as any[]).map((y, i) => (
+        {youtube?.map((y, i) => (
           <li key={i} className="rounded overflow-hidden">
             <iframe
               id={`ytplayer-${y.id.videoId}`}
@@ -273,11 +285,11 @@ export default async function Page({ params }: PageProps) {
 
       <h2 className="text-2xl m-6 text-center">네이버 검색</h2>
       <ul className="grid grid-cols-[repeat(auto-fit,minmax(512px,1fr))] gap-2 overflow-x-auto">
-        {(naver as any[]).map((n, i) => (
+        {naver?.map((n, i) => (
           <li key={i} className="border rounded p-2">
             <a href={n.link} target="__blank">
               <h3 className="text-xl my-2" dangerouslySetInnerHTML={{ __html: n.title }} />
-              <div className="text-black" dangerouslySetInnerHTML={{ __html: n.description }} />
+              <div className="text-black" dangerouslySetInnerHTML={{ __html: n.content }} />
             </a>
           </li>
         ))}
@@ -287,11 +299,11 @@ export default async function Page({ params }: PageProps) {
 
       <h2 className="text-2xl m-6 text-center">구글 검색</h2>
       <ul className="grid grid-cols-[repeat(auto-fit,minmax(512px,1fr))] gap-2 overflow-x-auto">
-        {(google as any[]).map((g, i) => (
+        {google?.map((g, i) => (
           <li key={i} className="border rounded p-2">
             <a href={g.link} target="__blank">
-              <h3 className="text-xl my-2" dangerouslySetInnerHTML={{ __html: g.htmlTitle }} />
-              <div className="text-black" dangerouslySetInnerHTML={{ __html: g.htmlSnippet }} />
+              <h3 className="text-xl my-2" dangerouslySetInnerHTML={{ __html: g.title }} />
+              <div className="text-black" dangerouslySetInnerHTML={{ __html: g.content }} />
             </a>
           </li>
         ))}
@@ -300,7 +312,7 @@ export default async function Page({ params }: PageProps) {
       <div className="border w-full my-20" />
 
       <h2 className="text-2xl m-6 text-center">SMART PLUS 평가</h2>
-      <EvaluationForm evaluation={evaluation} />
+      <EvaluationForm businessCategory={category} businessId={businessId} evaluation={evaluation} />
     </div>
   )
 }
