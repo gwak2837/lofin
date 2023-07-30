@@ -31,13 +31,13 @@ export default function GoogleBard({ businessId, businessCategory, relatedCommit
 
       <h2 className="text-2xl my-6 text-center">구글 바드</h2>
 
-      <h3 className="my-3 text-xl text-center">공약</h3>
+      <h3 className="my-3 text-xl text-center">다른 공약과 연관성 분석하기</h3>
 
       <ul className="flex gap-2 overflow-x-auto">
         {relatedCommitments.map((commitment: any) => (
           <li
             key={commitment.id}
-            className="p-2 max-w-screen-sm flex flex-col justify-between gap-2 rounded border hover:bg-slate-100"
+            className="p-2 max-w-screen-sm flex flex-col justify-between gap-2 rounded border hover:bg-slate-100 hover:cursor-pointer"
             onClick={() => setCommitmentId(commitment.id)}
           >
             <h4 className="font-semibold break-keep">{commitment.title}</h4>
