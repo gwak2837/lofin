@@ -16,14 +16,14 @@ type Props = {
 export default function CommitmentForm({ options }: Props) {
   // Pathname: Call by value
   const params = usePathname()?.split('/') ?? []
-  const basisDateParam = params[3] ?? '2023-03-31'
+  const basisDateParam = params[3] ?? '2022-11-01'
   const fiscalYearsParam = params[4] ? decodeURIComponent(params[4]) : '2022'
-  const localCodesParam = params[5] ? decodeURIComponent(params[5]) : '1135000'
+  const localCodesParam = params[5] ? decodeURIComponent(params[5]) : '1100000'
 
   // Option
   const basisDateOptions = options.basisDates.map((date) => ({
-    label: date.slice(0, 10),
-    value: date.slice(0, 10),
+    label: date,
+    value: date,
   }))
 
   const fiscalYearOptions = options.fiscalYears.map((year) => ({

@@ -12,6 +12,7 @@ export const revalidate = 86400
 
 type BusinessAnalysis = {
   business: Record<string, any>
+  relatedCommitments: Record<string, any>[]
   naver?: Record<string, any>[]
   youtube?: Record<string, any>[]
   google?: Record<string, any>[]
@@ -35,22 +36,20 @@ async function getEvaluation(params: Record<string, string & string[]>) {
 
   const searchParams = new URLSearchParams(`businessId=${businessId}&businessCategory=${category}`)
 
-  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/smartplus/question?${searchParams}`, {
-    cache: 'no-store',
-  })
+  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/smartplus/question?${searchParams}`)
   if (!response.ok) throw new Error(await response.text())
 
   return await response.json()
 }
 
 export default async function Page({ params }: PageProps) {
-  const [{ business, naver, youtube, google }, evaluation] = await Promise.all([
+  const [{ business, relatedCommitments, naver, youtube, google }, evaluation] = await Promise.all([
     getBusinessAnalysis(params),
     getEvaluation(params),
   ])
 
   const finances = business.finances as any[]
-  const [category, businessId] = params.businessForm
+  const [businessCategory, businessId] = params.businessForm
 
   return (
     <div className="p-2">
@@ -67,7 +66,7 @@ export default async function Page({ params }: PageProps) {
       <h3 className="my-3 text-xl text-center">세부 재정상황</h3>
 
       <div className="overflow-x-auto">
-        {category === '0' ? (
+        {businessCategory === '0' ? (
           <table className="w-full my-2 whitespace-nowrap">
             <thead>
               <tr>
@@ -102,7 +101,7 @@ export default async function Page({ params }: PageProps) {
               ))}
             </tbody>
           </table>
-        ) : category === '1' ? (
+        ) : businessCategory === '1' ? (
           <table className="w-full my-2 whitespace-nowrap">
             <thead>
               <tr>
@@ -149,7 +148,7 @@ export default async function Page({ params }: PageProps) {
               ))}
             </tbody>
           </table>
-        ) : category === '2' ? (
+        ) : businessCategory === '2' ? (
           <table className="w-full my-2 whitespace-nowrap">
             <thead>
               <tr>
@@ -180,7 +179,7 @@ export default async function Page({ params }: PageProps) {
                   시도비
                 </th>
                 <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                  {category === 3 ? '자체' : '시군구비'}
+                  {businessCategory === 3 ? '자체' : '시군구비'}
                 </th>
                 <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
                   기타
@@ -193,15 +192,22 @@ export default async function Page({ params }: PageProps) {
                   <td className="p-2 text-center">{i + 1}</td>
                   {finance.title && <td className="p-2 text-center">{finance.title}</td>}
                   <td className="p-2 text-center">{formatDate(finance.basis_date)}</td>
-                  <td className="p-2 text-center">{decodeFinanceCategory(+finance.category)}</td>
-                  <td className="p-2 text-center">{finance.fiscal_year}년</td>
-                  <td className="p-2 text-right">
-                    {formatPrice(+finance.gov + +finance.sido + +finance.sigungu + +finance.etc)}원
-                  </td>
-                  <td className="p-2 text-right">{formatPrice(finance.gov)}원</td>
-                  <td className="p-2 text-right">{formatPrice(finance.sido)}원</td>
-                  <td className="p-2 text-right">{formatPrice(finance.sigungu)}원</td>
-                  <td className="p-2 text-right">{formatPrice(finance.etc)}원</td>
+                  <td className="p-2 text-center">{decodeFinanceCategory(finance.category)}</td>
+                  {finance.category !== 0 && (
+                    <>
+                      <td className="p-2 text-center">{finance.fiscal_year}년</td>
+                      <td className="p-2 text-right">
+                        {formatPrice(
+                          +finance.gov + +finance.sido + +finance.sigungu + +finance.etc
+                        )}
+                        원
+                      </td>
+                      <td className="p-2 text-right">{formatPrice(finance.gov)}원</td>
+                      <td className="p-2 text-right">{formatPrice(finance.sido)}원</td>
+                      <td className="p-2 text-right">{formatPrice(finance.sigungu)}원</td>
+                      <td className="p-2 text-right">{formatPrice(finance.etc)}원</td>
+                    </>
+                  )}
                 </tr>
               ))}
             </tbody>
@@ -232,7 +238,7 @@ export default async function Page({ params }: PageProps) {
                   시도비
                 </th>
                 <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
-                  {category === 3 ? '자체' : '시군구비'}
+                  {businessCategory === 3 ? '자체' : '시군구비'}
                 </th>
                 <th className="p-4 top-0 sticky text-center bg-sky-200/90 backdrop-blur-sm font-semibold">
                   기타
@@ -245,12 +251,16 @@ export default async function Page({ params }: PageProps) {
                   <td className="p-2 text-center">{i + 1}</td>
                   {finance.title && <td className="p-2 text-center">{finance.title}</td>}
                   <td className="p-2 text-center">{formatDate(finance.basis_date)}</td>
-                  <td className="p-2 text-center">{decodeFinanceCategory(+finance.category)}</td>
-                  <td className="p-2 text-center">{finance.fiscal_year}년</td>
-                  <td className="p-2 text-right">{formatPrice(finance.gov)}원</td>
-                  <td className="p-2 text-right">{formatPrice(finance.sido)}원</td>
-                  <td className="p-2 text-right">{formatPrice(finance.sigungu)}원</td>
-                  <td className="p-2 text-right">{formatPrice(finance.etc)}원</td>
+                  <td className="p-2 text-center">{decodeFinanceCategory(finance.category)}</td>
+                  {finance.category !== 0 && (
+                    <>
+                      <td className="p-2 text-center">{finance.fiscal_year}년</td>
+                      <td className="p-2 text-right">{formatPrice(finance.gov)}원</td>
+                      <td className="p-2 text-right">{formatPrice(finance.sido)}원</td>
+                      <td className="p-2 text-right">{formatPrice(finance.sigungu)}원</td>
+                      <td className="p-2 text-right">{formatPrice(finance.etc)}원</td>
+                    </>
+                  )}
                 </tr>
               ))}
             </tbody>
@@ -258,7 +268,11 @@ export default async function Page({ params }: PageProps) {
         )}
       </div>
 
-      <GoogleBard category={category} businessId={businessId} />
+      <GoogleBard
+        businessId={businessId}
+        businessCategory={businessCategory}
+        relatedCommitments={relatedCommitments}
+      />
 
       {/* <div className="border w-full my-10" />
 
@@ -312,7 +326,11 @@ export default async function Page({ params }: PageProps) {
       <div className="border w-full my-20" />
 
       <h2 className="text-2xl m-6 text-center">SMART PLUS 평가</h2>
-      <EvaluationForm businessCategory={category} businessId={businessId} evaluation={evaluation} />
+      <EvaluationForm
+        businessCategory={businessCategory}
+        businessId={businessId}
+        evaluation={evaluation}
+      />
     </div>
   )
 }

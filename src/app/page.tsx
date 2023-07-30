@@ -16,7 +16,7 @@ export default async function HomePage() {
         />
       </Link>
 
-      <h2 className="text-2xl m-6 text-center">예산 데이터랩</h2>
+      <h2 className="text-2xl m-6 text-center">예산 지키기</h2>
       <div className="max-w-screen-md mx-auto my-2 grid grid-cols-[repeat(auto-fit,minmax(256px,1fr))] gap-2 text-center">
         <Link href="/center" className="border p-8  hover:bg-sky-100">
           중앙정부 예산 도출
@@ -36,7 +36,7 @@ export default async function HomePage() {
         <Link href="/">전문가 정량 평가</Link>
       </div> */}
 
-      <h2 className="text-2xl m-6 text-center">공약</h2>
+      <h2 className="text-2xl m-6 text-center">공약 지키기</h2>
       <div className="max-w-screen-md mx-auto my-2 grid grid-cols-[repeat(auto-fit,minmax(256px,1fr))] gap-2 text-center">
         <Link href="/commitment/local" className="border p-8  hover:bg-sky-100">
           지자체장 공약

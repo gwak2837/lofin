@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
 import { ReactNode } from 'react'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../common/constants'

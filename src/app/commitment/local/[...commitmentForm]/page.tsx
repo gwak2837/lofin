@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation'
 
 import { NEXT_PUBLIC_BACKEND_URL } from '../../../../common/constants'
 import { PageProps } from '../../../../common/types'
-import { formatPrice } from '../../../../common/utils'
 
 async function getCommitments(params: Record<string, string & string[]>) {
   const [basisDate, rawFiscalYears, rawLocalCodes] = params.commitmentForm
@@ -14,11 +13,7 @@ async function getCommitments(params: Record<string, string & string[]>) {
   const fiscalYears = decodeURIComponent(rawFiscalYears)
   const localCodes = decodeURIComponent(rawLocalCodes)
 
-  const searchParams = new URLSearchParams('electionCategory=0')
-
-  if (basisDate !== '2023-03-31') {
-    searchParams.append('basisDate', basisDate)
-  }
+  const searchParams = new URLSearchParams(`electionCategory=0&basisDate=${basisDate}`)
 
   if (fiscalYears !== '2022') {
     for (const fiscalYear of fiscalYears.split(',')) {

@@ -70,7 +70,11 @@ export default function EvaluationForm({ businessCategory, businessId, evaluatio
                 <div className="my-3 whitespace-nowrap text-center">{question.content}</div>
                 <div className="w-fit mx-auto overflow-hidden rounded border border-sky-400">
                   {[0, 1, 2, 3, 4, 5].map((answer) => (
-                    <button key={answer} className="rounded min-h-[3rem]" type="button">
+                    <button
+                      key={answer}
+                      className="min-h-[3rem] rounded hover:bg-slate-100"
+                      type="button"
+                    >
                       <input
                         id={`smartplus-${i}-${question.id}-${answer}`}
                         checked={answers[question.id] === answer}
