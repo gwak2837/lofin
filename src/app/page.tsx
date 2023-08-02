@@ -45,7 +45,7 @@ export default async function HomePage() {
           교육감 공약
         </Link>
         <Link href="/commitment/candidate" className="border p-8  hover:bg-sky-100">
-          후보자 공약
+          국회의원 공약
         </Link>
         <Link href="/commitment/president" className="border p-8  hover:bg-sky-100">
           대통령 공약
