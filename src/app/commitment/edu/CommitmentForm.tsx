@@ -19,10 +19,9 @@ export default function CommitmentForm({ options }: Props) {
 
   // Option
   const basisDateOptions = options.basisDates.map((date) => ({
-    label: date,
-    value: date,
+    label: date.slice(0, 10),
+    value: date.slice(0, 10),
   }))
-  console.log('👀 ~ basisDateOptions:', basisDateOptions)
 
   const fiscalYearOptions = options.fiscalYears.map((year) => ({
     label: year,

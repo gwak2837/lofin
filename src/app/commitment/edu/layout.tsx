@@ -18,6 +18,7 @@ type Props = {
 
 export default async function Layout({ children }: Props) {
   const commitmentOptions = await getCommitmentFormOptions()
+  console.log('👀 ~ commitmentOptions:', commitmentOptions)
 
   return (
     <main>
