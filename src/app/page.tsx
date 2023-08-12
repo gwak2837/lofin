@@ -47,9 +47,13 @@ export default async function HomePage() {
           </Link>
           <Link href="/commitment/candidate" className="border p-8  hover:bg-sky-100">
             국회의원 공약
+            <br />
+            (준비 중)
           </Link>
           <Link href="/commitment/president" className="border p-8  hover:bg-sky-100">
             대통령 공약
+            <br />
+            (준비 중)
           </Link>
         </div>
       </main>
